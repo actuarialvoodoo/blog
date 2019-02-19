@@ -1,0 +1,123 @@
+---
+title: Improving a Bad Visualization
+author: Ryan Thomas
+date: '2019-02-17'
+slug: improving-a-bad-visualization
+categories: []
+tags: []
+---
+
+
+I was recently working on a project at work and a stakeholder was really stoked about the
+"chart" they had come up. They were adamant that I add it to the analytics package I was working on.
+
+The original version was put together in Powerpoint. I have reproduced it below using
+ggplot. 
+
+
+Take a look and see if you can figure out what it's trying to communicate.
+
+```{r}
+suppressPackageStartupMessages({
+        library(tidyverse)
+        library(glue)
+        })
+
+d_raw <- tribble(
+  ~py, ~delta,
+  2018,  -256,
+  2019,  -190,
+  2020,  -125,
+  2021,   -56,
+  2022,   -15,
+  2023,    98,
+  2024,   210,
+  2025,   305,
+  2026,   400
+)
+
+d <- mutate(d_raw, 
+            scenario = as.factor(case_when(delta > 0 ~ "alternative", TRUE ~ "baseline")),
+            label = glue("${abs(delta)}")
+)
+d
+```
+
+```{r}
+ggplot(d, aes(x = py)) + 
+        geom_point(aes(y = 1, size = abs(delta), color = scenario)) +
+        scale_size(range = c(5, 22)) +
+        geom_text(aes(y = 1, label = label)) + 
+        scale_color_manual(values = c("#FF7F50", "#1E90FF")) +
+        geom_vline(xintercept = c(2022 + 2/3, 2025 + 2/3), linetype = "dashed") +
+        geom_label(aes(x = 2022, y = 1.45, label = "Breakeven 68\nmonths")) +
+        geom_label(aes(x = 2024.9, y = 1.45, label = "Realized gains\nbegin month 104")) +
+        geom_segment(aes(x = 2017.5, xend = 2022.5, y = 1.2, yend = 1.2), color = "blue") +
+        geom_text(aes(x = 2020, y = 1.27), label = "$647k in capital invesment in the first\n68  months needed to generate returns") +
+        scale_x_continuous(breaks = 2018:2026, name = "projected policy year") +
+        scale_y_continuous(limits = c(0.5, 1.5)) +
+        ggtitle("Project of Future TCOR: Baseline vs Alternative", "Size of circle represents annual TCOR delta between baseline scenario and alternative scenario") +
+        theme_classic() +
+        guides(size = FALSE) +
+        theme(legend.position = "bottom", 
+              axis.title.y = element_blank(), 
+              axis.text.y = element_blank())
+        
+```
+
+The goal of this visualization is to communicate to the client the trade-off between two scenarios. One scenario, which I've labeled "baseline", is a projection of cashflows if the current policy renames in place. The other scenario, which I've labeled "alternative" is a projection of cashflows if the client implements a new policy. The color indicates which scenario is the lowest cost scenario for a particular year. The values being plotted, both the values in the bubbles and the area of the bubbles themselves are value of substracting the alternative scenario cashflows from the baseline scenarios (i.e., negative values imply alternative scenario is more expensive.) Two important points are called out on the annotation of the plot: the breakeven month and the month where the cumulative cashflow differences becomes positive.
+
+When I first saw this visualization I don't recall whether my first reaction was "huh?" or "eww, not bubble charts". I was eventually able to decipher what it was trying to communicate after looking at it for a while and reading the accompanying explanatory notes. I think that's probably my biggest complaint with this visualization, that it increases the mental load of the viewer rather than reduces it. But a second order complaint is that we are trying to use the size of the bubbles to convey the relative sizes of the cashflow differences, but it's harder for us to reason about relative areas (2d) than relative lengths (1d). We have unnecessarily projected our one-dimensional data into two dimensions. For example, I know because of the value labels that the bubble for year 2025 is about 50% larger than the bubble for 2024, but I would not have guessed it from the size of the bubble.
+
+## So what would be better
+
+So how do we make this a better visualization? Well, obviously I'm not going to use a bubble chart =). First off, I noticed that two of the three annotations on the graph are calling out cumulative values of the policy year cashflow differnces. The third call out is pointing out when the incremental cashflows change signs.
+
+```{r}
+d_alt <- mutate(d_raw, 
+            scenario = as.factor(case_when(delta > 0 ~ "savings", TRUE ~ "cost")),
+            label = glue("${abs(delta)}"),
+            cumdelta = cumsum(delta),
+            start = cumdelta - delta
+)
+d_alt
+```
+
+```{r}
+ggplot(d_alt) +
+        geom_rect(aes(xmin = py - 0.2, 
+                  xmax = py + 0.2, 
+                  ymin = start, 
+                  ymax = cumdelta,
+                  fill = scenario)) +
+        geom_hline(yintercept = 0) +
+        geom_hline(yintercept = -675) +
+        scale_x_continuous(breaks = 2017:2027) +
+        ggtitle()
+        theme_classic()
+```
+
+## Potentially even better
+
+```{r}
+
+d_alt2 <- split(d, d$py) %>%
+        map_dfr( ~ tibble(py = .x$py, pm = 1:12, mdelta = .x$delta /12 * 1:12)) %>%
+        mutate(use_date = lubridate::ymd(glue::glue("{py}-{pm}-01")),
+               cumdelta = cumsum(mdelta), start = cumdelta - mdelta,
+               scenario = as.factor(case_when(mdelta > 0 ~ "savings", TRUE ~ "costs"))
+               )
+```
+
+
+```{r}
+ggplot(d_alt) + 
+        geom_rect(aes(xmin = use_date - 16, 
+                      xmax = use_date + 16, 
+                      ymin = start, 
+                      ymax = cumdelta,
+                      fill = scenario))
+          #scale_x_continuous(breaks = 2018:202, expand = c(0, 0),
+          #           sec.axis = sec_axis(~ 12*(. - 2017), name = "Months into Future", breaks = 12*(1:9))) 
+```
+

@@ -1,0 +1,25 @@
+baseurl = "https://www.example.org/"
+title = "Ryan Thomas"
+copyright = "Copyright &copy; 2019 - Ryan Thomas"
+canonifyurls = true
+theme = "hugo-kiera"
+
+paginate = 3
+
+summaryLength = 30
+enableEmoji = true
+pygmentsCodeFences = true
+
+[author]
+    name = "Ryan Thomas"
+    github = "actuarialvoodoo"
+    gitlab = ""
+    linkedin = "ryan-thomas-5387028"
+    facebook = ""
+    twitter = "ryebreadnyc"
+    instagram = ""
+
+[params]
+    tagline = "Actuary. Nerd. Data Scientist?"
+
+

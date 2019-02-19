@@ -1,0 +1,87 @@
+---
+title: Improving a Bad Visualization
+author: Ryan Thomas
+date: '2019-02-17'
+slug: improving-a-bad-visualization
+categories: []
+tags: []
+---
+
+
+I was recently working on a project at work and a stakeholder was really stoked about the
+"chart" they had come up. They were adamant that I add it to the analytics package I was working on.
+
+The original version was put together in Powerpoint. I have reproduced it below using
+ggplot. 
+
+
+Take a look and see if you can figure out what it's trying to communicate.
+
+```{r}
+suppressPackageStartupMessages({
+        library(tidyverse)
+        library(glue)
+        })
+
+d_raw <- tribble(
+  ~py, ~delta,
+  2018,  -256,
+  2019,  -190,
+  2020,  -125,
+  2021,   -56,
+  2022,   -15,
+  2023,    98,
+  2024,   210,
+  2025,   305,
+  2026,   400
+)
+
+d <- mutate(d_raw, 
+            scenario = as.factor(case_when(delta > 0 ~ "alternative", TRUE ~ "baseline")),
+            label = glue("${abs(delta)}")
+)
+d
+```
+
+```{r}
+ggplot(d, aes(x = py)) + 
+        geom_point(aes(y = 1, size = abs(delta), color = scenario)) +
+        scale_size(range = c(5, 22)) +
+        geom_text(aes(y = 1, label = label)) + 
+        scale_color_manual(values = c("#FF7F50", "#1E90FF")) +
+        geom_vline(xintercept = c(2022 + 2/3, 2025 + 2/3), linetype = "dashed") +
+        geom_label(aes(x = 2022, y = 1.45, label = "Breakeven 68\nmonths")) +
+        geom_label(aes(x = 2024.9, y = 1.45, label = "Realized gains\nbegin month 104")) +
+        geom_segment(aes(x = 2017.5, xend = 2022.5, y = 1.2, yend = 1.2), color = "blue") +
+        geom_text(aes(x = 2020, y = 1.27), label = "$647k in capital invesment in the first\n68  months needed to generate returns") +
+        scale_x_continuous(breaks = 2018:2026) +
+        scale_y_continuous(limits = c(0.5, 1.5)) + 
+        theme_bw() +
+        guides(size = FALSE) +
+        theme(legend.position = "bottom", axis.title.y = element_blank(), axis.text.y = element_blank())
+        
+```
+
+
+```{r}
+
+d_alt <- split(d, d$py) %>%
+        map_dfr( ~ tibble(py = .x$py, pm = 1:12, mdelta = .x$delta /12 * 1:12)) %>%
+        mutate(use_date = lubridate::ymd(glue::glue("{py}-{pm}-01")),
+               cumdelta = cumsum(mdelta), start = cumdelta - mdelta,
+               scenario = as.factor(case_when(mdelta > 0 ~ "savings", TRUE ~ "costs"))
+               )
+```
+
+
+```{r}
+ggplot(d_alt) + 
+        geom_rect(aes(xmin = use_date - 16, 
+                      xmax = use_date + 16, 
+                      ymin = start, 
+                      ymax = cumdelta,
+                      fill = scenario))
+          #scale_x_continuous(breaks = 2018:202, expand = c(0, 0),
+          #           sec.axis = sec_axis(~ 12*(. - 2017), name = "Months into Future", breaks = 12*(1:9))) 
+```
+
