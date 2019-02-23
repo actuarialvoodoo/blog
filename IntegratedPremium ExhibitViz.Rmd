@@ -1,0 +1,125 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+## Data
+
+```{r}
+suppressPackageStartupMessages(library(tidyverse))
+
+d <- tribble(
+  ~py, ~chubb, ~xl,
+2018,	1581193 ,	1609252 ,
+2019,	1620481 ,	1726453 ,
+2020,	1684513 ,	1725152 ,
+2021,	1740140 ,	1764965 ,
+2022,	1791065 ,	1805788 ,
+2023,	1839707 ,	1847690 ,
+2024,	1880770 ,	1883757 ,
+2025,	1915907 ,	1914985 ,
+2026,	1947164 ,	1942946 ,
+2027,	1975806 ,	1968836 
+)
+
+d
+```
+
+## Tranformations
+
+```{r}
+d <- mutate(d, delta = xl - chubb, direction = factor(if_else(delta < 0, 'less', 'more')))
+```
+
+
+## Option 1
+
+```{r}
+ggplot(d, aes(x = py, y = delta, fill = direction)) + 
+  geom_bar(stat = "identity", width = 0.3) +
+  scale_x_continuous(breaks = 2018:2027)
+```
+
+```{r}
+d2 <- tribble(
+  ~py, ~delta,
+  2018, -256,
+  2019, -190,
+  2020, -125,
+  2021, -56,
+  2022, -15,
+  2023, 98,
+  2024, 210,
+  2025, 305,
+  2026, 400
+)
+
+d2 <- mutate(d2, direction = if_else(delta > 0, "pos", "neg"))
+
+ggplot(d2, aes(py, delta, fill = direction)) + 
+  geom_bar(stat = "identity", width = 0.3) +
+  geom_hline(yintercept = 0) +
+  annotate("segment", x = 2017.5, xend = 2022.5, y = 100, yend = 100, color = "blue") +
+  annotate("text", x = 2020, y = 175, label = "$647k in capital invesment in the first\n68  months needed to generate returns")+
+  annotate("text", x = 2024.5, y = -100, label = "TCOR breakeven at 68 momnths\nRealize gain after 104 months")+
+  scale_x_continuous(breaks = 2018:2026, expand = c(0, 0),
+                     sec.axis = sec_axis(~ 12*(. - 2017), name = "Months into Future", breaks = 12*(1:9))) +
+  theme_classic() + 
+  theme(legend.position = "none")+
+  ylab("TCOR Delta (in thousands)") + xlab("projection year")
+```
+
+```{r}
+ggplot(d2, aes(py, delta, fill = direction)) + 
+  geom_bar(stat = "identity", width = 0.3) +
+  geom_hline(yintercept = 0) +
+  annotate("segment", x = 2017.5, xend = 2022.5, y = 400, yend = 400, color = "#c111a0") +
+  annotate("text", x = 2020, y = 455, label = "$647k in capital invesment in the first\n68  months needed to generate returns") +
+  annotate("segment", x = 2022.5, xend = 2026.5, y = 400, yend = 400, color = "#30347d") +
+  annotate("text", x = 2024.5, y = 455, label = "TCOR breakeven at 68 momnths\nRealize gain after 104 months")+
+  scale_x_continuous(breaks = 2018:2026, expand = c(0, 0),
+                     sec.axis = sec_axis(~ 12*(. - 2017), name = "Months into Future", breaks = 12*(1:9))) +
+  scale_y_continuous(limits = c(-260, 475)) +
+  scale_fill_manual(values = c("#c111a0", "#30347d")) +
+  theme_classic() + 
+  theme(legend.position = "none")+
+  ylab("TCOR Delta (in thousands)") + xlab("projection year")
+```
+
+```{r}
+ggplot(d2, aes(py, delta, fill = direction)) + 
+  geom_bar(stat = "identity", width = 0.3) +
+  geom_hline(yintercept = 0) +
+  annotate("segment", x = 2017.5, xend = 2022.667, y = 415, yend = 415, color = "#c111a0") +
+  annotate("text", x = 2020, y = 466, label = "$647k in capital investment in the first\n68  months needed to generate returns") +
+  annotate("segment", x = 2022.667, xend = 2026.5, y = 415, yend = 415, color = "#ffb81c") +
+  annotate("text", x = 2024.5, y = 466, label = "TCOR breakeven at 68 momnths\nRealize gain after 104 months")+
+  scale_x_continuous(breaks = 2018:2026, expand = c(0, 0),
+                     sec.axis = sec_axis(~ 12*(. - 2017), name = "Months into Future", breaks = sort(c(12*(1:9), 68, 104)))) +
+  scale_y_continuous(limits = c(-260, 480)) +
+  scale_fill_manual(values = c("#c111a0", "#ffb81c")) +
+  theme_classic() + 
+  theme(legend.position = "none")+
+  ylab("TCOR Delta (in thousands)") + xlab("projection year")
+
+```
+
+
+```{r}
+d3 <- mutate(d2, cumdelta = cumsum(delta))
+
+ggplot(d3, aes(x = py)) + 
+    geom_col(aes(y = delta), width = 0.3) + 
+    geom_point(aes(y = cumdelta)) + geom_line(aes(y = cumdelta)) +
+    scale_x_continuous(breaks = 2018:2026, expand = c(0, 0),
+                     sec.axis = sec_axis(~ 12*(. - 2017), name = "Months into Future", breaks = sort(c(12*(1:9), 68, 104))))
+
+```
+
+```{r}
+d4 <- mutate(d3, start = cumdelta - delta)
+ggplot(d4) + geom_rect(aes(xmin = py - 0.2, xmax = py + 0.2, ymin = start, ymax = cumdelta, fill = direction)) + 
+    scale_x_continuous(breaks = 2018:2026, expand = c(0, 0),
+                     sec.axis = sec_axis(~ 12*(. - 2017), name = "Months into Future", breaks = sort(c(12*(1:9), 68, 104))))
+
+```

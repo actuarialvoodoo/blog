@@ -71,7 +71,94 @@ When I first saw this visualization I don't recall whether my first reaction was
 
 ## So what would be better
 
-So how do we make this a better visualization? Well, obviously I'm not going to use a bubble chart =). First off, I noticed that two of the three annotations on the graph are calling out cumulative values of the policy year cashflow differnces. The third call out is pointing out when the incremental cashflows change signs.
+Below I'm going to try to present the series of iterations I went through to get to what I think is a better visualization. I've seen examples in books by Tufte and others show how to improve a bad chart. Perhaps they can go straight from A to B, but I typically need to iterate. I thought it might be illustrative to record the steps I went through.
+
+### Step 1
+
+So my first thought was to get rid of the bubble charts and use a column chart. I also wanted to give some context to the months which are highlighted in the call outs so I added a second x-axis. Important to note, this secondary x-axis has exactly the same scale as the primary one -- as to not draw the ire of the plot gods.
+
+```{r}
+ggplot(d, aes(py, delta, fill = scenario)) + 
+  geom_bar(stat = "identity", width = 0.3) +
+  geom_hline(yintercept = 0) +
+  scale_fill_manual(values = c("#FF7F50", "#1E90FF")) +
+  annotate("segment", x = 2017.5, xend = 2022.5, y = 100, yend = 100, color = "blue") +
+  annotate("text", x = 2020, y = 175, label = "$647k in capital invesment in the first\n68  months needed to generate returns")+
+  annotate("text", x = 2024.5, y = -100, label = "TCOR breakeven at 68 momnths\nRealize gain after 104 months")+
+  scale_x_continuous(breaks = 2018:2026, expand = c(0, 0),
+                     sec.axis = sec_axis(~ 12*(. - 2017), name = "Months into Future", breaks = 12*(1:9))) +
+  theme_classic() + 
+  theme(legend.position = "none")+
+  ylab("TCOR Delta (in thousands)") + xlab("projection year")
+
+```
+
+
+I think this already much better. It now immediately obvious that about half way between 60 and 72 months the sign changes from a negative delta to a positive one.
+
+### Step 2
+
+Next, I thought it was sort of visually jarring to have the call out for the first half of the chart above the 0 line and the other below. I also thought it might be good to try to tie the call outs to the relate regions of the chart with color. 
+
+```{r}
+ggplot(d, aes(py, delta, fill = scenario)) + 
+  geom_bar(stat = "identity", width = 0.3) +
+  scale_fill_manual(values = c("#FF7F50", "#1E90FF")) +
+  geom_hline(yintercept = 0) +
+  annotate("segment", x = 2017.5, xend = 2022.5, y = 400, yend = 400, color = "#1E90FF") +
+  annotate("text", x = 2020, y = 455, label = "$647k in capital invesment in the first\n68  months needed to generate returns") +
+  annotate("segment", x = 2022.5, xend = 2026.5, y = 400, yend = 400, color = "#FF7F50") +
+  annotate("text", x = 2024.5, y = 455, label = "TCOR breakeven at 68 momnths\nRealize gain after 104 months")+
+  scale_x_continuous(breaks = 2018:2026, expand = c(0, 0),
+                     sec.axis = sec_axis(~ 12*(. - 2017), name = "Months into Future", breaks = c(12*(1:9), 68, 104))) +
+  scale_y_continuous(limits = c(-260, 475)) +
+  theme_classic() + 
+  theme(legend.position = "none")+
+  ylab("TCOR Delta (in thousands)") + xlab("projection year")
+```
+
+### Step 3
+
+I didn't make any additional improvements to this for a while. More pressing work needed 
+to be done. But prompted by the knowledge that someone pass planning to industrialize the 
+original visualtion I took another pass at it.
+
+There are two "critical points" that are called out on the chart. 68 months is the point at
+which the difference between the cashflows of the two scenarios flips from negative to 
+postive; 104 months is the point past which all of the postive differences in cashflows
+exceed all negative ones, but you reall can't see it on this chart. This led me to overlay 
+the cumulative cashflows.
+
+```{r}
+d_cumulative <- mutate(d, cumdelta = cumsum(delta))
+
+ggplot(d_cumulative, aes(x = py, fill = scenario)) + 
+    geom_col(aes(y = delta), width = 0.3) + 
+    scale_fill_manual(values = c("#FF7F50", "#1E90FF")) +
+    geom_point(aes(y = cumdelta)) + geom_line(aes(y = cumdelta), color = "black") +
+    scale_x_continuous(breaks = 2018:2026, expand = c(0, 0),
+                     sec.axis = sec_axis(~ 12*(. - 2017), name = "Months into Future", breaks = sort(c(12*(1:9), 68, 104)))) +
+    scale_y_continuous(breaks = c(-647, -500, -250, 0, 250, 500)) +
+    geom_hline(yintercept = 0) +         
+    theme_classic() + 
+    theme(legend.position = "none")+
+    ylab("TCOR Delta (in thousands)") + xlab("projection year")
+```
+
+Okay, now we're getting somewhere. The cumulative polot removed the need for any callouts 
+since we can see clearly the two critical points on the cumulative chart. The inflection 
+point, the part where the curve bottom's out is the point where the cashflows change from 
+negative to positive. And the place where the cumulative plot crosses the x-axis is
+visually near 104 months.
+
+### Step 4
+I want to emphasive both the incremenetal changes but also the cumulative values.
+
+
+So how do we make this a better visualization? Well, obviously I'm not going to use a 
+bubble chart =). First off, I noticed that two of the three annotations on the graph are 
+calling out cumulative values of the policy year cashflow differnces. The third call out 
+is pointing out when the incremental cashflows change signs.
 
 ```{r}
 d_alt <- mutate(d_raw, 
@@ -93,7 +180,7 @@ ggplot(d_alt) +
         geom_hline(yintercept = 0) +
         geom_hline(yintercept = -675) +
         scale_x_continuous(breaks = 2017:2027) +
-        ggtitle()
+#        ggtitle() +
         theme_classic()
 ```
 
