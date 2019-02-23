@@ -73,7 +73,7 @@ When I first saw this visualization I don't recall whether my first reaction was
 
 Below I'm going to try to present the series of iterations I went through to get to what I think is a better visualization. I've seen examples in books by Tufte and others show how to improve a bad chart. Perhaps they can go straight from A to B, but I typically need to iterate. I thought it might be illustrative to record the steps I went through.
 
-### Step 1
+### Iteration 1
 
 So my first thought was to get rid of the bubble charts and use a column chart. I also wanted to give some context to the months which are highlighted in the call outs so I added a second x-axis. Important to note, this secondary x-axis has exactly the same scale as the primary one -- as to not draw the ire of the plot gods.
 
@@ -96,7 +96,7 @@ ggplot(d, aes(py, delta, fill = scenario)) +
 
 I think this already much better. It now immediately obvious that about half way between 60 and 72 months the sign changes from a negative delta to a positive one.
 
-### Step 2
+### Iteration 2
 
 Next, I thought it was sort of visually jarring to have the call out for the first half of the chart above the 0 line and the other below. I also thought it might be good to try to tie the call outs to the relate regions of the chart with color. 
 
@@ -117,7 +117,7 @@ ggplot(d, aes(py, delta, fill = scenario)) +
   ylab("TCOR Delta (in thousands)") + xlab("projection year")
 ```
 
-### Step 3
+### Iteration 3
 
 I didn't make any additional improvements to this for a while. More pressing work needed 
 to be done. But prompted by the knowledge that someone pass planning to industrialize the 
@@ -130,7 +130,7 @@ exceed all negative ones, but you reall can't see it on this chart. This led me 
 the cumulative cashflows.
 
 ```{r}
-d_cumulative <- mutate(d, cumdelta = cumsum(delta))
+d_cumulative <- mutate(d, cumdelta = cumsum(delta), start = cumdelta - delta)
 
 ggplot(d_cumulative, aes(x = py, fill = scenario)) + 
     geom_col(aes(y = delta), width = 0.3) + 
@@ -151,39 +151,93 @@ point, the part where the curve bottom's out is the point where the cashflows ch
 negative to positive. And the place where the cumulative plot crosses the x-axis is
 visually near 104 months.
 
-### Step 4
-I want to emphasive both the incremenetal changes but also the cumulative values.
+### Iteration 4
+I want to emphacise both the incremenetal changes and the cumulative values. My first attempt
+to accomplish this is to use a waterfall chart. 
 
-
-So how do we make this a better visualization? Well, obviously I'm not going to use a 
-bubble chart =). First off, I noticed that two of the three annotations on the graph are 
-calling out cumulative values of the policy year cashflow differnces. The third call out 
-is pointing out when the incremental cashflows change signs.
 
 ```{r}
-d_alt <- mutate(d_raw, 
-            scenario = as.factor(case_when(delta > 0 ~ "savings", TRUE ~ "cost")),
-            label = glue("${abs(delta)}"),
-            cumdelta = cumsum(delta),
-            start = cumdelta - delta
-)
-d_alt
+ggplot(d_cumulative) +
+        geom_rect(aes(xmin = py - 0.2, 
+                  xmax = py + 0.2, 
+                  ymin = start, 
+                  ymax = cumdelta,
+                  fill = scenario)) +
+        scale_fill_manual(values = c("#FF7F50", "#1E90FF")) +
+        geom_hline(yintercept = 0) +
+        geom_hline(yintercept = -647) +
+        scale_x_continuous(breaks = 2018:2026, expand = c(0, 0),
+                     sec.axis = sec_axis(~ 12*(. - 2017), name = "Months into Future", breaks = sort(c(12*(1:9), 68, 104)))) +
+        scale_y_continuous(breaks = c(-647, -500, -250, 0, 250, 500)) +
+        theme_classic() + 
+        theme(legend.position = "none")+
+        ylab("TCOR Delta (in thousands)") + xlab("projection year")
 ```
+
+Now I can see how each incremental value accumulates to the cumulative value. The two 
+"critical points" jump out of the plot. So there are three things now that bother me about 
+this plot. 
+
+- Although if I read the chart left to right, I can easily follow the incremental
+movements, I find it a little confusing to understand the direction the waterfall is moving
+if I start by looking at the middle of the plot.
+
+- I wonder if there is a way to make what's happening here more grokable. The values being
+plotted show the incremental and cumulative cost savings between the alternative scenario 
+and the baseline scenario. Negative cost savings feels a little bit like a double negative.
+
+- Now that the main feature of the plot calls out both the inflection point and the point 
+at which the cumulative savings become positive, it's clear that the analysis was done 
+using more granular data then what we're showing. If we could plot quarterly cashflows we 
+could see the two critical points exactly.
+
+I don't actually have the quarterly data, so I will try to address the first two points 
+above using the annual data and then extrapolate the quarterly data.
+
+### Iteration 5
+
+I'm going to see if I can deal with the "grokablness" issue first. The baseline scenario 
+what will happen if the clien continues their current policy; the alternative involves a 
+change to that policy. I want to frame things in terms of costs and savings to the client 
+relative to the baseline scenario. 
+
+```{r}
+d_alt <- mutate(d_raw, delta = -delta) %>%
+        rename(amt = delta) %>%
+        mutate(direction = as.factor(case_when(amt >= 0 ~ "cost", TRUE ~ "savings")),
+               cumamt = cumsum(amt),
+               start = cumamt - amt)
+```
+
 
 ```{r}
 ggplot(d_alt) +
         geom_rect(aes(xmin = py - 0.2, 
                   xmax = py + 0.2, 
                   ymin = start, 
-                  ymax = cumdelta,
-                  fill = scenario)) +
+                  ymax = cumamt,
+                  fill = direction)) +
+        scale_fill_manual(values = c("#FF6A6A", "#00CD66")) + 
         geom_hline(yintercept = 0) +
-        geom_hline(yintercept = -675) +
-        scale_x_continuous(breaks = 2017:2027) +
-#        ggtitle() +
-        theme_classic()
+        scale_x_continuous(breaks = 2018:2026, expand = c(0, 0),
+                     sec.axis = sec_axis(~ 12*(. - 2017), name = "Months into Future", breaks = sort(c(12*(1:9), 68, 104)))) +
+        scale_y_continuous(breaks = c(-500, -250, 0, 250, 500, 647)) +
+        theme_classic() + 
+        theme(legend.position = "right", legend.justification = "top")+
+        ylab("Additional Cost/(Savings) (in thousands)") + 
+        xlab("projection year") +
+        ggtitle("Incremental and Aggregate Cost/(Savings) by Year", "Impact of changing to Alternative Scenario")
+
 ```
 
+So now, I think this gels with my intuition, the direction, labels, and color all point in 
+the same direction: increasing expense is an increase and is showing in red (bad); 
+decreasing expense is a decrease and is showing green (good). 
+
+
+## Iteration 6
+
+The choice of colors which indicate direction is helpful.
 ## Potentially even better
 
 ```{r}
@@ -208,3 +262,7 @@ ggplot(d_alt) +
           #           sec.axis = sec_axis(~ 12*(. - 2017), name = "Months into Future", breaks = 12*(1:9))) 
 ```
 
+So how do we make this a better visualization? Well, obviously I'm not going to use a 
+bubble chart =). First off, I noticed that two of the three annotations on the graph are 
+calling out cumulative values of the policy year cashflow differnces. The third call out 
+is pointing out when the incremental cashflows change signs.
