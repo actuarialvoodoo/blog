@@ -8,7 +8,8 @@ paginate = 3
 
 summaryLength = 30
 enableEmoji = true
-pygmentsCodeFences = true
+pygmentsCodeFences = false
+pygmentsUseClasses = false
 
 [author]
     name = "Ryan Thomas"
@@ -21,5 +22,11 @@ pygmentsCodeFences = true
 
 [params]
     tagline = "Actuary. Nerd. Data Scientist?"
+    
+    highlightjsVersion = "9.11.0"
+    highlightjsCDN = "//cdn.bootcss.com"
+    highlightjsLang = ["r", "yaml", "sql"]
+    highlightjsTheme = "hopscotch"
 
-
+    MathJaxCDN = "//cdn.bootcss.com"
+    MathJaxVersion = "2.7.1"

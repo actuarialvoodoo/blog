@@ -13,7 +13,10 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab|Ruda" />
   <link rel="stylesheet" type="text/css" href="/css/styles.css" />
-</head>
+  <link rel="stylesheet" href="/css/github.css" rel="stylesheet" id="theme-stylesheet">
+  <script src="/js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  </head>
 
 <body>
   <div id="container">
@@ -211,13 +214,15 @@
 <h1 id="monospace-preformatted">Monospace / Preformatted</h1>
 
 <p>Code block wrapped in &ldquo;pre&rdquo; and &ldquo;code&rdquo; tags:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#75715e">// Loop through Divs using Javascript.
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">divs</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">querySelectorAll</span>(<span style="color:#e6db74">&#39;div&#39;</span>), <span style="color:#a6e22e">i</span>;
 
-<span style="color:#66d9ef">for</span> (<span style="color:#a6e22e">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#a6e22e">divs</span>.<span style="color:#a6e22e">length</span>; <span style="color:#f92672">++</span><span style="color:#a6e22e">i</span>) {
-  <span style="color:#a6e22e">divs</span>[<span style="color:#a6e22e">i</span>].<span style="color:#a6e22e">style</span>.<span style="color:#a6e22e">color</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;green&#34;</span>;
+<pre><code class="language-javascript">// Loop through Divs using Javascript.
+var divs = document.querySelectorAll('div'), i;
+
+for (i = 0; i &lt; divs.length; ++i) {
+  divs[i].style.color = &quot;green&quot;;
 }
-</code></pre></div>
+</code></pre>
+
 <p>Monospace Text wrapped in &ldquo;pre&rdquo; tags:</p>
 
 <pre>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nullam dignissim convallis est. Quisque aliquam. Donec faucibus. Nunc iaculis suscipit dui. Nam sit amet sem. Aliquam libero nisi, imperdiet at, tincidunt nec, gravida vehicula, nisl.</pre>
@@ -326,6 +331,10 @@
             <a href="/posts/image-content/"><i class="fa fa-chevron-circle-left"></i> Image Style Guide</a>
         </li>
         
+        
+        <li>
+            <a href="/posts/improving-a-bad-visualization/">Improving a Bad Visualization <i class="fa fa-chevron-circle-right"></i> </a>
+        </li>
         
     </ul>
 </section>

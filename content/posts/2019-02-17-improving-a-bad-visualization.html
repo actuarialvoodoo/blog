@@ -1,94 +1,19 @@
-<!doctype html>
-
-<html lang="en">
-
-<head>
-  <title>Ryan Thomas</title>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="The HTML5 Herald" />
-  <meta name="author" content="Ryan Thomas" />
-  <meta name="generator" content="Hugo 0.53" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab|Ruda" />
-  <link rel="stylesheet" type="text/css" href="/css/styles.css" />
-</head>
-
-<body>
-  <div id="container">
-    <header>
-      <h1>
-                <a href="/">Ryan Thomas</a>
-            </h1>
-
-      <ul id="social-media">
-        
-        <li><a href="https://twitter.com/ryebreadnyc"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-         
-        <li><a href="https://www.linkedin.com/in/ryan-thomas-5387028"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-         
-        <li><a href="https://github.com/actuarialvoodoo"><i class="fa fa-github fa-lg" aria-hidden="true"></i></a></li>
-           
-      </ul>
-      
-      <p><em>Actuary. Nerd. Data Scientist?</em></p>
-      
-    </header>
-
-    
-<nav>
-    <ul>
-        
-        <li>
-            <a class="" href="/posts/">
-                <i class="fa-li fa  fa-lg"></i><span>Posts</span>
-            </a>
-        </li>
-        
-        <li>
-            <a class="" href="/about/">
-                <i class="fa-li fa  fa-lg"></i><span>About</span>
-            </a>
-        </li>
-        
-    </ul>
-</nav>
-
-    <main>
+---
+title: Improving a Bad Visualization
+author: Ryan Thomas
+date: '2019-02-17'
+slug: improving-a-bad-visualization
+categories: []
+tags: []
+---
 
 
 
-
-<article>
-
-    <h1>Improving a Bad Visualization</h1>
-
-    
-        <aside>
-    <ul>
-        <li>
-            <time class="post-date" datetime="2019-02-17T00:00:00Z">Feb 17, 2019</time>
-        </li>
-        
-        
-
-        
-
-        <li>14 min read</li>
-    </ul>
-</aside>
-    
-
-    
-
-
-<p>I was recently working on a project at work and a stakeholder was really stoked about the “chart” they had come up. They were adamant that I add it to the analytics package I was working on.</p>
-<p>The original version was put together in Powerpoint. I have reproduced it below using ggplot.</p>
-<p>Take a look and see if you can figure out what it’s trying to communicate.</p>
+<p>A few months ago I was presented with a visualization at work by a stakeholder who was very excited about it. They were adamant that I add it to the analytics package I was working on. I was sent a mockup that was created in Powerpoint; I have reproduced it below using ggplot.</p>
 <pre class="r"><code>suppressPackageStartupMessages({
         library(tidyverse)
         library(glue)
+        library(gt)
         })
 
 d_raw &lt;- tribble(
@@ -105,41 +30,337 @@ d_raw &lt;- tribble(
 )
 
 d &lt;- mutate(d_raw, 
-            scenario = as.factor(case_when(delta &gt; 0 ~ &quot;alternative&quot;, TRUE ~ &quot;baseline&quot;)),
+            scenario = as.factor(case_when(delta &gt; 0 ~ &quot;alternative&quot;, 
+                                           TRUE ~ &quot;baseline&quot;)),
             label = glue(&quot;${abs(delta)}&quot;)
 )
-d</code></pre>
-<pre><code>## # A tibble: 9 x 4
-##      py delta scenario    label     
-##   &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt;       &lt;S3: glue&gt;
-## 1  2018  -256 baseline    $256      
-## 2  2019  -190 baseline    $190      
-## 3  2020  -125 baseline    $125      
-## 4  2021   -56 baseline    $56       
-## 5  2022   -15 baseline    $15       
-## 6  2023    98 alternative $98       
-## 7  2024   210 alternative $210      
-## 8  2025   305 alternative $305      
-## 9  2026   400 alternative $400</code></pre>
+gt(d)</code></pre>
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#dcysagendn .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #000000;
+  font-size: 16px;
+  background-color: #FFFFFF;
+  /* table.background.color */
+  width: auto;
+  /* table.width */
+  border-top-style: solid;
+  /* table.border.top.style */
+  border-top-width: 2px;
+  /* table.border.top.width */
+  border-top-color: #A8A8A8;
+  /* table.border.top.color */
+}
+
+#dcysagendn .gt_heading {
+  background-color: #FFFFFF;
+  /* heading.background.color */
+  border-bottom-color: #FFFFFF;
+}
+
+#dcysagendn .gt_title {
+  color: #000000;
+  font-size: 125%;
+  /* heading.title.font.size */
+  padding-top: 4px;
+  /* heading.top.padding */
+  padding-bottom: 1px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#dcysagendn .gt_subtitle {
+  color: #000000;
+  font-size: 85%;
+  /* heading.subtitle.font.size */
+  padding-top: 1px;
+  padding-bottom: 4px;
+  /* heading.bottom.padding */
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#dcysagendn .gt_bottom_border {
+  border-bottom-style: solid;
+  /* heading.border.bottom.style */
+  border-bottom-width: 2px;
+  /* heading.border.bottom.width */
+  border-bottom-color: #A8A8A8;
+  /* heading.border.bottom.color */
+}
+
+#dcysagendn .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#dcysagendn .gt_col_heading {
+  color: #000000;
+  background-color: #FFFFFF;
+  /* column_labels.background.color */
+  font-size: 16px;
+  /* column_labels.font.size */
+  font-weight: initial;
+  /* column_labels.font.weight */
+  vertical-align: middle;
+  padding: 10px;
+  margin: 10px;
+}
+
+#dcysagendn .gt_sep_right {
+  border-right: 5px solid #FFFFFF;
+}
+
+#dcysagendn .gt_group_heading {
+  padding: 8px;
+  color: #000000;
+  background-color: #FFFFFF;
+  /* stub_group.background.color */
+  font-size: 16px;
+  /* stub_group.font.size */
+  font-weight: initial;
+  /* stub_group.font.weight */
+  border-top-style: solid;
+  /* stub_group.border.top.style */
+  border-top-width: 2px;
+  /* stub_group.border.top.width */
+  border-top-color: #A8A8A8;
+  /* stub_group.border.top.color */
+  border-bottom-style: solid;
+  /* stub_group.border.bottom.style */
+  border-bottom-width: 2px;
+  /* stub_group.border.bottom.width */
+  border-bottom-color: #A8A8A8;
+  /* stub_group.border.bottom.color */
+  vertical-align: middle;
+}
+
+#dcysagendn .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #000000;
+  background-color: #FFFFFF;
+  /* stub_group.background.color */
+  font-size: 16px;
+  /* stub_group.font.size */
+  font-weight: initial;
+  /* stub_group.font.weight */
+  border-top-style: solid;
+  /* stub_group.border.top.style */
+  border-top-width: 2px;
+  /* stub_group.border.top.width */
+  border-top-color: #A8A8A8;
+  /* stub_group.border.top.color */
+  border-bottom-style: solid;
+  /* stub_group.border.bottom.style */
+  border-bottom-width: 2px;
+  /* stub_group.border.bottom.width */
+  border-bottom-color: #A8A8A8;
+  /* stub_group.border.bottom.color */
+  vertical-align: middle;
+}
+
+#dcysagendn .gt_striped {
+  background-color: #f2f2f2;
+}
+
+#dcysagendn .gt_row {
+  padding: 10px;
+  /* row.padding */
+  margin: 10px;
+  vertical-align: middle;
+}
+
+#dcysagendn .gt_stub {
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #A8A8A8;
+  padding-left: 12px;
+}
+
+#dcysagendn .gt_stub.gt_row {
+  background-color: #FFFFFF;
+}
+
+#dcysagendn .gt_summary_row {
+  background-color: #FFFFFF;
+  /* summary_row.background.color */
+  padding: 6px;
+  /* summary_row.padding */
+  text-transform: inherit;
+  /* summary_row.text_transform */
+}
+
+#dcysagendn .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+}
+
+#dcysagendn .gt_table_body {
+  border-top-style: solid;
+  /* field.border.top.style */
+  border-top-width: 2px;
+  /* field.border.top.width */
+  border-top-color: #A8A8A8;
+  /* field.border.top.color */
+  border-bottom-style: solid;
+  /* field.border.bottom.style */
+  border-bottom-width: 2px;
+  /* field.border.bottom.width */
+  border-bottom-color: #A8A8A8;
+  /* field.border.bottom.color */
+}
+
+#dcysagendn .gt_footnote {
+  font-size: 90%;
+  /* footnote.font.size */
+  padding: 4px;
+  /* footnote.padding */
+}
+
+#dcysagendn .gt_sourcenote {
+  font-size: 90%;
+  /* sourcenote.font.size */
+  padding: 4px;
+  /* sourcenote.padding */
+}
+
+#dcysagendn .gt_center {
+  text-align: center;
+}
+
+#dcysagendn .gt_left {
+  text-align: left;
+}
+
+#dcysagendn .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#dcysagendn .gt_font_normal {
+  font-weight: normal;
+}
+
+#dcysagendn .gt_font_bold {
+  font-weight: bold;
+}
+
+#dcysagendn .gt_font_italic {
+  font-style: italic;
+}
+
+#dcysagendn .gt_super {
+  font-size: 65%;
+}
+
+#dcysagendn .gt_footnote_glyph {
+  font-style: italic;
+  font-size: 65%;
+}
+</style>
+<div id="dcysagendn" style="overflow-x:auto;"><!--gt table start-->
+<table class='gt_table'>
+<tr>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>py</th>
+<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>delta</th>
+<th class='gt_col_heading gt_center' rowspan='1' colspan='1'>scenario</th>
+<th class='gt_col_heading gt_center' rowspan='1' colspan='1'>label</th>
+</tr>
+<tbody class='gt_table_body'>
+<tr>
+<td class='gt_row gt_right'>2018</td>
+<td class='gt_row gt_right'>-256</td>
+<td class='gt_row gt_center'>baseline</td>
+<td class='gt_row gt_center'>$256</td>
+</tr>
+<tr>
+<td class='gt_row gt_right gt_striped'>2019</td>
+<td class='gt_row gt_right gt_striped'>-190</td>
+<td class='gt_row gt_center gt_striped'>baseline</td>
+<td class='gt_row gt_center gt_striped'>$190</td>
+</tr>
+<tr>
+<td class='gt_row gt_right'>2020</td>
+<td class='gt_row gt_right'>-125</td>
+<td class='gt_row gt_center'>baseline</td>
+<td class='gt_row gt_center'>$125</td>
+</tr>
+<tr>
+<td class='gt_row gt_right gt_striped'>2021</td>
+<td class='gt_row gt_right gt_striped'>-56</td>
+<td class='gt_row gt_center gt_striped'>baseline</td>
+<td class='gt_row gt_center gt_striped'>$56</td>
+</tr>
+<tr>
+<td class='gt_row gt_right'>2022</td>
+<td class='gt_row gt_right'>-15</td>
+<td class='gt_row gt_center'>baseline</td>
+<td class='gt_row gt_center'>$15</td>
+</tr>
+<tr>
+<td class='gt_row gt_right gt_striped'>2023</td>
+<td class='gt_row gt_right gt_striped'>98</td>
+<td class='gt_row gt_center gt_striped'>alternative</td>
+<td class='gt_row gt_center gt_striped'>$98</td>
+</tr>
+<tr>
+<td class='gt_row gt_right'>2024</td>
+<td class='gt_row gt_right'>210</td>
+<td class='gt_row gt_center'>alternative</td>
+<td class='gt_row gt_center'>$210</td>
+</tr>
+<tr>
+<td class='gt_row gt_right gt_striped'>2025</td>
+<td class='gt_row gt_right gt_striped'>305</td>
+<td class='gt_row gt_center gt_striped'>alternative</td>
+<td class='gt_row gt_center gt_striped'>$305</td>
+</tr>
+<tr>
+<td class='gt_row gt_right'>2026</td>
+<td class='gt_row gt_right'>400</td>
+<td class='gt_row gt_center'>alternative</td>
+<td class='gt_row gt_center'>$400</td>
+</tr>
+</tbody>
+</table>
+<!--gt table end-->
+</div>
 <pre class="r"><code>ggplot(d, aes(x = py)) + 
         geom_point(aes(y = 1, size = abs(delta), color = scenario)) +
         scale_size(range = c(5, 22)) +
         geom_text(aes(y = 1, label = label)) + 
-        scale_color_manual(values = c(&quot;#FF7F50&quot;, &quot;#1E90FF&quot;)) +
-        geom_vline(xintercept = c(2022 + 2/3, 2025 + 2/3), linetype = &quot;dashed&quot;) +
+        scale_color_manual(values = c(c(&quot;#8EE5EE&quot;, &quot;#AB82FF&quot;))) +
+        geom_vline(xintercept = c(2022 + 2/3, 2025 + 2/3), 
+                   linetype = &quot;dashed&quot;) +
         geom_label(aes(x = 2022, y = 1.45, label = &quot;Breakeven 68\nmonths&quot;)) +
-        geom_label(aes(x = 2024.9, y = 1.45, label = &quot;Realized gains\nbegin month 104&quot;)) +
-        geom_segment(aes(x = 2017.5, xend = 2022.5, y = 1.2, yend = 1.2), color = &quot;blue&quot;) +
-        geom_text(aes(x = 2020, y = 1.27), label = &quot;$647k in capital invesment in the first\n68  months needed to generate returns&quot;) +
+        geom_label(aes(x = 2024.9, y = 1.45, 
+                       label = &quot;Realized gains\nbegin month 104&quot;)) +
+        geom_segment(aes(x = 2017.5, xend = 2022.5, y = 1.2, yend = 1.2), 
+                     color = &quot;blue&quot;) +
+        geom_text(aes(x = 2020, y = 1.27), 
+                  label = paste0(&quot;$647k in capital invesment in the first\n&quot;, 
+                                 &quot;68  months needed to generate returns&quot;)) +
         scale_x_continuous(breaks = 2018:2026, name = &quot;projected policy year&quot;) +
         scale_y_continuous(limits = c(0.5, 1.5)) +
-        ggtitle(&quot;Project of Future TCOR: Baseline vs Alternative&quot;, &quot;Size of circle represents annual TCOR delta between baseline scenario and alternative scenario&quot;) +
+        ggtitle(&quot;Projection of Future Cost: Baseline vs Alternative&quot;, 
+                paste0(&quot;Annual difference in cost between &quot;, 
+                       &quot;baseline scenario and alternative scenario&quot;)) +
         theme_classic() +
         guides(size = FALSE) +
         theme(legend.position = &quot;bottom&quot;, 
               axis.title.y = element_blank(), 
               axis.text.y = element_blank())</code></pre>
-<p><img src="/post/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p><img src="/posts/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <p>The goal of this visualization is to communicate to the client the trade-off between two scenarios. One scenario, which I’ve labeled “baseline”, is a projection of cashflows if the current policy renames in place. The other scenario, which I’ve labeled “alternative” is a projection of cashflows if the client implements a new policy. The color indicates which scenario is the lowest cost scenario for a particular year. The values being plotted, both the values in the bubbles and the area of the bubbles themselves are value of substracting the alternative scenario cashflows from the baseline scenarios (i.e., negative values imply alternative scenario is more expensive.) Two important points are called out on the annotation of the plot: the breakeven month and the month where the cumulative cashflow differences becomes positive.</p>
 <p>When I first saw this visualization I don’t recall whether my first reaction was “huh?” or “eww, not bubble charts”. I was eventually able to decipher what it was trying to communicate after looking at it for a while and reading the accompanying explanatory notes. I think that’s probably my biggest complaint with this visualization, that it increases the mental load of the viewer rather than reduces it. But a second order complaint is that we are trying to use the size of the bubbles to convey the relative sizes of the cashflow differences, but it’s harder for us to reason about relative areas (2d) than relative lengths (1d). We have unnecessarily projected our one-dimensional data into two dimensions. For example, I know because of the value labels that the bubble for year 2025 is about 50% larger than the bubble for 2024, but I would not have guessed it from the size of the bubble.</p>
 <div id="so-what-would-be-better" class="section level2">
@@ -160,7 +381,7 @@ d</code></pre>
   theme_classic() + 
   theme(legend.position = &quot;none&quot;)+
   ylab(&quot;TCOR Delta (in thousands)&quot;) + xlab(&quot;projection year&quot;)</code></pre>
-<p><img src="/post/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p><img src="/posts/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <p>I think this already much better. It now immediately obvious that about half way between 60 and 72 months the sign changes from a negative delta to a positive one.</p>
 </div>
 <div id="iteration-2" class="section level3">
@@ -180,7 +401,7 @@ d</code></pre>
   theme_classic() + 
   theme(legend.position = &quot;none&quot;)+
   ylab(&quot;TCOR Delta (in thousands)&quot;) + xlab(&quot;projection year&quot;)</code></pre>
-<p><img src="/post/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p><img src="/posts/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 </div>
 <div id="iteration-3" class="section level3">
 <h3>Iteration 3</h3>
@@ -199,7 +420,7 @@ ggplot(d_cumulative, aes(x = py, fill = scenario)) +
     theme_classic() + 
     theme(legend.position = &quot;none&quot;)+
     ylab(&quot;TCOR Delta (in thousands)&quot;) + xlab(&quot;projection year&quot;)</code></pre>
-<p><img src="/post/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="/posts/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>Okay, now we’re getting somewhere. The cumulative polot removed the need for any callouts since we can see clearly the two critical points on the cumulative chart. The inflection point, the part where the curve bottom’s out is the point where the cashflows change from negative to positive. And the place where the cumulative plot crosses the x-axis is visually near 104 months.</p>
 </div>
 <div id="iteration-4" class="section level3">
@@ -220,7 +441,7 @@ ggplot(d_cumulative, aes(x = py, fill = scenario)) +
         theme_classic() + 
         theme(legend.position = &quot;none&quot;)+
         ylab(&quot;TCOR Delta (in thousands)&quot;) + xlab(&quot;projection year&quot;)</code></pre>
-<p><img src="/post/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="/posts/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <p>Now I can see how each incremental value accumulates to the cumulative value. The two “critical points” jump out of the plot. So there are three things now that bother me about this plot.</p>
 <ul>
 <li><p>Although if I read the chart left to right, I can easily follow the incremental movements, I find it a little confusing to understand the direction the waterfall is moving if I start by looking at the middle of the plot.</p></li>
@@ -253,7 +474,7 @@ ggplot(d_cumulative, aes(x = py, fill = scenario)) +
         ylab(&quot;Additional Cost/(Savings) (in thousands)&quot;) + 
         xlab(&quot;projection year&quot;) +
         ggtitle(&quot;Incremental and Aggregate Cost/(Savings) by Year&quot;, &quot;Impact of changing to Alternative Scenario&quot;)</code></pre>
-<p><img src="/post/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="/posts/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <p>So now, I think this gels with my intuition, the direction, labels, and color all point in the same direction: increasing expense is an increase and is showing in red (bad); decreasing expense is a decrease and is showing green (good).</p>
 </div>
 </div>
@@ -278,7 +499,7 @@ ggplot(d_cumulative, aes(x = py, fill = scenario)) +
         ylab(&quot;Additional Cost/(Savings) (in thousands)&quot;) + 
         xlab(&quot;projection year&quot;) +
         ggtitle(&quot;Incremental and Aggregate Cost/(Savings) by Year&quot;, &quot;Impact of changing to Alternative Scenario&quot;)</code></pre>
-<p><img src="/post/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="/posts/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 <p>An alternative, would be to use something inheriantly directional like an arrow.</p>
 <pre class="r"><code>ggplot(d_alt) +
         geom_segment(aes(x = py, 
@@ -297,13 +518,13 @@ ggplot(d_cumulative, aes(x = py, fill = scenario)) +
         ylab(&quot;Additional Cost/(Savings) (in thousands)&quot;) + 
         xlab(&quot;projection year&quot;) +
         ggtitle(&quot;Incremental and Aggregate Cost/(Savings) by Year&quot;, &quot;Impact of changing to Alternative Scenario&quot;)</code></pre>
-<p><img src="/post/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p><img src="/posts/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <p>Okay, I like that even better than I thought I would. I decided I don’t need the legend with this version.</p>
 <div id="iteration-8---extrapolating-the-quarterly-data" class="section level3">
 <h3>Iteration 8 - Extrapolating the quarterly data</h3>
 <p>If we take a look at the annual cumulative data again, I think it’s clear we can get a pretty good fit with a quadratic or cubic fit.</p>
 <pre class="r"><code>ggplot(d_alt, aes(x = py, y = cumamt)) + geom_point()</code></pre>
-<p><img src="/post/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="/posts/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 <pre class="r"><code>d_model &lt;- select(d_alt, py, cumamt) %&gt;%
         mutate(py = py + 1) %&gt;%
         bind_rows(tibble(py = 2018, cumamt = 0)) %&gt;%
@@ -317,7 +538,7 @@ predicted_data &lt;- data.frame(py = 2018:2027) %&gt;%
 ggplot(d_model, aes(x = py, y = cumamt)) + 
         geom_point() +
         geom_line(aes(x = py, y = amt), data = predicted_data, color = &quot;blue&quot;)</code></pre>
-<p><img src="/post/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-11-2.png" width="672" /></p>
+<p><img src="/posts/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-11-2.png" width="672" /></p>
 <p>So I’ll now use this model to create simulated quarterly data.</p>
 <pre class="r"><code>years &lt;- 2018:2026
 num_years &lt;- length(years)
@@ -394,39 +615,7 @@ d_qtr</code></pre>
         xlab(&quot;projection year&quot;) +
         ggtitle(&quot;Incremental and Aggregate Cost/(Savings) by Year&quot;, &quot;Impact of changing to Alternative Scenario&quot;)</code></pre>
 <pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
-<p><img src="/post/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p><img src="/posts/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 <p>So how do we make this a better visualization? Well, obviously I’m not going to use a bubble chart =). First off, I noticed that two of the three annotations on the graph are calling out cumulative values of the policy year cashflow differnces. The third call out is pointing out when the incremental cashflows change signs.</p>
 </div>
 </div>
-
-
-</article>
-
-
-<section class="post-nav">
-    <ul>
-        
-        <li>
-            <a href="/post/2015-07-23-r-rmarkdown/"><i class="fa fa-chevron-circle-left"></i> Hello R Markdown</a>
-        </li>
-        
-        
-    </ul>
-</section>
-    
-
-
-
-
-
-</main>
-    <footer>
-        <h6>Copyright &copy; 2019 - Ryan Thomas | 
-            Rendered by <a href="https://gohugo.io" title="Hugo">Hugo</a> |
-            <a href="/index.xml">Subscribe</a></h6>
-    </footer>
-</div>
-<script src="/js/scripts.js"></script>
-</body>
-
-</html>

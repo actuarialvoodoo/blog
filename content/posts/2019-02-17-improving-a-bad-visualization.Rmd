@@ -8,19 +8,19 @@ tags: []
 ---
 
 
-I was recently working on a project at work and a stakeholder was really stoked about the
-"chart" they had come up. They were adamant that I add it to the analytics package I was working on.
+A few months ago I was presented with a visualization at work by a stakeholder 
+who was very excited about it. They were adamant that I add it to the analytics 
+package I was working on. I was sent a mockup that was created in Powerpoint; I 
+have reproduced it below using ggplot. 
 
-The original version was put together in Powerpoint. I have reproduced it below using
-ggplot. 
 
 
-Take a look and see if you can figure out what it's trying to communicate.
 
 ```{r}
 suppressPackageStartupMessages({
         library(tidyverse)
         library(glue)
+        library(gt)
         })
 
 d_raw <- tribble(
@@ -37,26 +37,35 @@ d_raw <- tribble(
 )
 
 d <- mutate(d_raw, 
-            scenario = as.factor(case_when(delta > 0 ~ "alternative", TRUE ~ "baseline")),
+            scenario = as.factor(case_when(delta > 0 ~ "alternative", 
+                                           TRUE ~ "baseline")),
             label = glue("${abs(delta)}")
 )
-d
+gt(d)
 ```
 
 ```{r}
+
 ggplot(d, aes(x = py)) + 
         geom_point(aes(y = 1, size = abs(delta), color = scenario)) +
         scale_size(range = c(5, 22)) +
         geom_text(aes(y = 1, label = label)) + 
-        scale_color_manual(values = c("#FF7F50", "#1E90FF")) +
-        geom_vline(xintercept = c(2022 + 2/3, 2025 + 2/3), linetype = "dashed") +
+        scale_color_manual(values = c(c("#8EE5EE", "#AB82FF"))) +
+        geom_vline(xintercept = c(2022 + 2/3, 2025 + 2/3), 
+                   linetype = "dashed") +
         geom_label(aes(x = 2022, y = 1.45, label = "Breakeven 68\nmonths")) +
-        geom_label(aes(x = 2024.9, y = 1.45, label = "Realized gains\nbegin month 104")) +
-        geom_segment(aes(x = 2017.5, xend = 2022.5, y = 1.2, yend = 1.2), color = "blue") +
-        geom_text(aes(x = 2020, y = 1.27), label = "$647k in capital invesment in the first\n68  months needed to generate returns") +
+        geom_label(aes(x = 2024.9, y = 1.45, 
+                       label = "Realized gains\nbegin month 104")) +
+        geom_segment(aes(x = 2017.5, xend = 2022.5, y = 1.2, yend = 1.2), 
+                     color = "blue") +
+        geom_text(aes(x = 2020, y = 1.27), 
+                  label = paste0("$647k in capital invesment in the first\n", 
+                                 "68  months needed to generate returns")) +
         scale_x_continuous(breaks = 2018:2026, name = "projected policy year") +
         scale_y_continuous(limits = c(0.5, 1.5)) +
-        ggtitle("Project of Future TCOR: Baseline vs Alternative", "Size of circle represents annual TCOR delta between baseline scenario and alternative scenario") +
+        ggtitle("Projection of Future Cost: Baseline vs Alternative", 
+                paste0("Annual difference in cost between ", 
+                       "baseline scenario and alternative scenario")) +
         theme_classic() +
         guides(size = FALSE) +
         theme(legend.position = "bottom", 
@@ -237,30 +246,126 @@ decreasing expense is a decrease and is showing green (good).
 
 ## Iteration 6
 
-The choice of colors which indicate direction is helpful.
-## Potentially even better
+The choice of colors which indicate direction is helpful, but it doesn't completly address
+my concern with being able to easily see the direction.
+
+One, idea is to make the width of each column wider and add data labels.
+```{r}
+ggplot(d_alt) +
+        geom_rect(aes(xmin = py - 0.35, 
+                  xmax = py + 0.35, 
+                  ymin = start, 
+                  ymax = cumamt,
+                  fill = direction)) +
+        scale_fill_manual(values = c("#FF6A6A", "#00CD66")) +
+        geom_text(aes(x = py, y = cumamt - sign(amt) * 25, label = ifelse(abs(amt) < 50, "", amt))) +
+        geom_hline(yintercept = 0) +
+        scale_x_continuous(breaks = 2018:2026, expand = c(0, 0),
+                     sec.axis = sec_axis(~ 12*(. - 2017), name = "Months into Future", breaks = sort(c(12*(1:9), 68, 104)))) +
+        scale_y_continuous(breaks = c(-500, -250, 0, 250, 500, 647)) +
+        theme_classic() + 
+        theme(legend.position = "right", legend.justification = "top")+
+        ylab("Additional Cost/(Savings) (in thousands)") + 
+        xlab("projection year") +
+        ggtitle("Incremental and Aggregate Cost/(Savings) by Year", "Impact of changing to Alternative Scenario")
+
+```
+
+An alternative, would be to use something inheriantly directional like an arrow.
+```{r}
+ggplot(d_alt) +
+        geom_segment(aes(x = py, 
+                  xend = py, 
+                  y = start, 
+                  yend = cumamt,
+                  color = direction), arrow = arrow(length = unit(0.25, "cm"), type = "closed")) +
+        scale_color_manual(values = c("#FF6A6A", "#00CD66")) +
+        geom_text(aes(x = py - 0.28, y = (start + cumamt)/2, label = ifelse(abs(amt) < 50, "", amt))) +
+        geom_hline(yintercept = 0) +
+        scale_x_continuous(breaks = 2018:2026,
+                     sec.axis = sec_axis(~ 12*(. - 2017), name = "Months into Future", breaks = sort(c(12*(1:9), 68, 104)))) +
+        scale_y_continuous(breaks = c(-500, -250, 0, 250, 500, 647)) +
+        theme_classic() + 
+        theme(legend.position = "none") +
+        ylab("Additional Cost/(Savings) (in thousands)") + 
+        xlab("projection year") +
+        ggtitle("Incremental and Aggregate Cost/(Savings) by Year", "Impact of changing to Alternative Scenario")
+
+```
+
+Okay, I like that even better than I thought I would. I decided I don't need the legend with
+this version.
+
+### Iteration 8 - Extrapolating the quarterly data
+
+If we take a look at the annual cumulative data again, I think it's clear we can get a pretty
+good fit with a quadratic or cubic fit.
 
 ```{r}
+ggplot(d_alt, aes(x = py, y = cumamt)) + geom_point()
 
-d_alt2 <- split(d, d$py) %>%
-        map_dfr( ~ tibble(py = .x$py, pm = 1:12, mdelta = .x$delta /12 * 1:12)) %>%
-        mutate(use_date = lubridate::ymd(glue::glue("{py}-{pm}-01")),
-               cumdelta = cumsum(mdelta), start = cumdelta - mdelta,
-               scenario = as.factor(case_when(mdelta > 0 ~ "savings", TRUE ~ "costs"))
-               )
+d_model <- select(d_alt, py, cumamt) %>%
+        mutate(py = py + 1) %>%
+        bind_rows(tibble(py = 2018, cumamt = 0)) %>%
+        arrange(py)
+
+model <- lm( cumamt ~ poly(py, 3), data = d_model)
+
+predicted_data <- data.frame(py = 2018:2027) %>%
+        mutate(amt = predict(model, .))
+
+ggplot(d_model, aes(x = py, y = cumamt)) + 
+        geom_point() +
+        geom_line(aes(x = py, y = amt), data = predicted_data, color = "blue")
+```
+
+
+So I'll now use this model to create simulated quarterly data.
+
+```{r}
+years <- 2018:2026
+num_years <- length(years)
+d_qtr <- data.frame(py = c(rep(years, 4), 2027), 
+                    qtr = c(rep(0, num_years), 
+                            rep(0.25, num_years), 
+                            rep(0.5, num_years), 
+                            rep(0.75, num_years), 0)) %>%
+        mutate(py = py + qtr) %>%
+        select(py) %>% 
+        arrange(py) %>%
+        mutate(cumamt = predict(model, .), month = 4 * row_number())
+
+d_qtr$cumamt[1] <- 0
+d_qtr <- mutate(d_qtr, 
+                amt = cumamt - lag(cumamt),
+                direction = as.factor(case_when(amt >= 0 ~ "cost", TRUE ~ "savings")),
+                start = cumamt - amt)
+
+d_qtr
 ```
 
 
 ```{r}
-ggplot(d_alt) + 
-        geom_rect(aes(xmin = use_date - 16, 
-                      xmax = use_date + 16, 
-                      ymin = start, 
-                      ymax = cumdelta,
-                      fill = scenario))
-          #scale_x_continuous(breaks = 2018:202, expand = c(0, 0),
-          #           sec.axis = sec_axis(~ 12*(. - 2017), name = "Months into Future", breaks = 12*(1:9))) 
+ggplot(d_qtr) +
+        geom_segment(aes(x = py, 
+                  xend = py, 
+                  y = start, 
+                  yend = cumamt,
+                  color = direction), arrow = arrow(length = unit(0.15, "cm"), type = "closed")) +
+        scale_color_manual(values = c("#FF6A6A", "#00CD66")) +
+        #geom_text(aes(x = py - 0.28, y = (start + cumamt)/2, label = ifelse(abs(amt) < 50, "", amt))) +
+        geom_hline(yintercept = 0) +
+        scale_x_continuous(breaks = 2018:2027,
+                     sec.axis = sec_axis(~ 12*(. - 2017), name = "Months into Future", breaks = sort(c(12*(1:10), 68, 104)))) +
+        scale_y_continuous(breaks = c(-500, -250, 0, 250, 500, 647)) +
+        theme_classic() + 
+        theme(legend.position = "none") +
+        ylab("Additional Cost/(Savings) (in thousands)") + 
+        xlab("projection year") +
+        ggtitle("Incremental and Aggregate Cost/(Savings) by Year", "Impact of changing to Alternative Scenario")
+
 ```
+
 
 So how do we make this a better visualization? Well, obviously I'm not going to use a 
 bubble chart =). First off, I noticed that two of the three annotations on the graph are 
