@@ -3,7 +3,7 @@ title = "Ryan Thomas"
 copyright = "Copyright &copy; 2019 - Ryan Thomas"
 canonifyurls = true
 theme = "hugo-kiera"
-
+ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 paginate = 3
 
 summaryLength = 30

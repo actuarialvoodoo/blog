@@ -1,20 +1,33 @@
 ---
-title: Improving a Bad Visualization
+title: Iterating to a Better Visualization
 author: Ryan Thomas
 date: '2019-02-17'
-slug: improving-a-bad-visualization
+slug: iterating-to-a-better-visualization
 categories: []
 tags: []
 ---
 
 
-A few months ago I was presented with a visualization at work by a stakeholder 
+A few months ago I was presented with a visualization at work by a colleague 
 who was very excited about it. They were adamant that I add it to the analytics 
-package I was working on. I was sent a mockup that was created in Powerpoint; I 
-have reproduced it below using ggplot. 
+package I was working on. I thought there several problems with the 
+visualization. In this post, I have recount the iterations I went through to
+create what I think is a better visulation. 
 
 
+## Where It All Began
 
+All of the visualizations are trying to communicate the tradeoffs 
+between two alternative set of projected cashflows. One, the baseline, is the 
+set of cashflows which will occur if the client continues with their current 
+policy unchanged. The alternative is thet set of cashflows which is projected to
+occur if the client implements a new policy. 
+
+In the d_raw table, the delta column is the difference in the aggregate 
+annual cashflows for alternative policy and the baseline policy. I'm starting 
+with the differences because that was the only data I had in the original 
+visualization. The data below is not the same as the original but is 
+analogous. 
 
 ```{r}
 suppressPackageStartupMessages({
@@ -25,15 +38,15 @@ suppressPackageStartupMessages({
 
 d_raw <- tribble(
   ~py, ~delta,
-  2018,  -256,
-  2019,  -190,
-  2020,  -125,
-  2021,   -56,
-  2022,   -15,
-  2023,    98,
-  2024,   210,
-  2025,   305,
-  2026,   400
+  2018,  -248,
+  2019,  -193,
+  2020,  -121,
+  2021,   -53,
+  2022,   -19,
+  2023,    75,
+  2024,   222,
+  2025,   310,
+  2026,   425
 )
 
 d <- mutate(d_raw, 
@@ -50,7 +63,7 @@ ggplot(d, aes(x = py)) +
         geom_point(aes(y = 1, size = abs(delta), color = scenario)) +
         scale_size(range = c(5, 22)) +
         geom_text(aes(y = 1, label = label)) + 
-        scale_color_manual(values = c(c("#8EE5EE", "#AB82FF"))) +
+        scale_color_manual(values = c("#8EE5EE", "#AB82FF")) +
         geom_vline(xintercept = c(2022 + 2/3, 2025 + 2/3), 
                    linetype = "dashed") +
         geom_label(aes(x = 2022, y = 1.45, label = "Breakeven 68\nmonths")) +
@@ -61,7 +74,7 @@ ggplot(d, aes(x = py)) +
         geom_text(aes(x = 2020, y = 1.27), 
                   label = paste0("$647k in capital invesment in the first\n", 
                                  "68  months needed to generate returns")) +
-        scale_x_continuous(breaks = 2018:2026, name = "projected policy year") +
+        scale_x_continuous(breaks = 2018:2026, name = "projection year") +
         scale_y_continuous(limits = c(0.5, 1.5)) +
         ggtitle("Projection of Future Cost: Baseline vs Alternative", 
                 paste0("Annual difference in cost between ", 
@@ -74,95 +87,164 @@ ggplot(d, aes(x = py)) +
         
 ```
 
-The goal of this visualization is to communicate to the client the trade-off between two scenarios. One scenario, which I've labeled "baseline", is a projection of cashflows if the current policy renames in place. The other scenario, which I've labeled "alternative" is a projection of cashflows if the client implements a new policy. The color indicates which scenario is the lowest cost scenario for a particular year. The values being plotted, both the values in the bubbles and the area of the bubbles themselves are value of substracting the alternative scenario cashflows from the baseline scenarios (i.e., negative values imply alternative scenario is more expensive.) Two important points are called out on the annotation of the plot: the breakeven month and the month where the cumulative cashflow differences becomes positive.
+The color indicates which scenario is the lowest cost scenario for a particular 
+year. The magnitudes of the difference between the two cashflows is represented 
+by the size of the bubble; negative values imply alternative scenario is more 
+expensive. It is also used as the label at the center of each bubble. Two 
+important points are called out on the annotation of the plot: the breakeven 
+month (68) and the month where the cumulative cashflow differences becomes 
+positive (104), that is when the the cumulative cashflows of the baseline policy
+exceed those of the alternative policy.
 
-When I first saw this visualization I don't recall whether my first reaction was "huh?" or "eww, not bubble charts". I was eventually able to decipher what it was trying to communicate after looking at it for a while and reading the accompanying explanatory notes. I think that's probably my biggest complaint with this visualization, that it increases the mental load of the viewer rather than reduces it. But a second order complaint is that we are trying to use the size of the bubbles to convey the relative sizes of the cashflow differences, but it's harder for us to reason about relative areas (2d) than relative lengths (1d). We have unnecessarily projected our one-dimensional data into two dimensions. For example, I know because of the value labels that the bubble for year 2025 is about 50% larger than the bubble for 2024, but I would not have guessed it from the size of the bubble.
+
+### Why I think this visualization is not effective
+
+When I first saw this visualization, it was not clear to me what information it 
+was trying to make it easier for me to understand. A good data visualization 
+should reduce the mental load of the viewer to gain understanding, not increase 
+it. I was eventually able to decipher what it was trying to communicate after 
+looking at it for a while and reading the accompanying explanatory notes. 
+
+Two more specific issues with the visualization are the use of bubbles and the 
+choice of colors. The area of the bubbles is used to convey the relative sizes 
+in the cashflow differences. However, it is harder for humans to reason about 
+relative areas (2d) than relative lengths (1d). The visualziation unnecessarily 
+projects one-dimensional data into two dimensions. For example, I know because 
+of the value labels that the bubble for year 2025 is about 50% larger than the 
+bubble for 2024, but I would not have guessed it from the size of the bubble.
+
+The color used in the visualization conveys important information. It's the only
+graphical element which tells the user the sign of the differences in the two
+sets of cashflows. As such, choosing colors that help the viwer understand the 
+direction of the cashflows would probably be better than choosing colors which 
+make it look pretty.
 
 ## So what would be better
 
-Below I'm going to try to present the series of iterations I went through to get to what I think is a better visualization. I've seen examples in books by Tufte and others show how to improve a bad chart. Perhaps they can go straight from A to B, but I typically need to iterate. I thought it might be illustrative to record the steps I went through.
+I've highlighted a few things I think are issues with the original visualization.
+Next, I will try to address these issues to create what I think is a better 
+visualization. I've seen examples in books by Tufte and others show how to 
+improve a bad chart. Perhaps they can go straight from A to B, but I typically 
+need to iterate. I thought it might be interesting or helpful to record the 
+steps I went through.
 
-### Iteration 1
+### Iteration 1 - Bursting the Bubbles
 
-So my first thought was to get rid of the bubble charts and use a column chart. I also wanted to give some context to the months which are highlighted in the call outs so I added a second x-axis. Important to note, this secondary x-axis has exactly the same scale as the primary one -- as to not draw the ire of the plot gods.
+So my first thought was to get rid of the bubble charts and use a column chart. 
+I also wanted to give some context to the months which are highlighted in the 
+call outs so I added a second x-axis. Important to note, this secondary x-axis 
+has exactly the same scale as the primary one.
 
 ```{r}
 ggplot(d, aes(py, delta, fill = scenario)) + 
   geom_bar(stat = "identity", width = 0.3) +
   geom_hline(yintercept = 0) +
-  scale_fill_manual(values = c("#FF7F50", "#1E90FF")) +
-  annotate("segment", x = 2017.5, xend = 2022.5, y = 100, yend = 100, color = "blue") +
-  annotate("text", x = 2020, y = 175, label = "$647k in capital invesment in the first\n68  months needed to generate returns")+
-  annotate("text", x = 2024.5, y = -100, label = "TCOR breakeven at 68 momnths\nRealize gain after 104 months")+
+  scale_fill_manual(values = c("#8EE5EE", "#AB82FF")) +
+  annotate("segment", x = 2017.5, xend = 2022.5, 
+           y = 100, yend = 100, 
+           color = "blue") +
+  annotate("text", x = 2020, y = 175, 
+           label = paste0("$647k in capital invesment in the first\n", 
+                          "68  months needed to generate returns")) +
+  annotate("text", x = 2024.5, y = -100, 
+           label = paste0("TCOR breakeven at 68 momnths\n", 
+                          "Realize gain after 104 months")) +
   scale_x_continuous(breaks = 2018:2026, expand = c(0, 0),
-                     sec.axis = sec_axis(~ 12*(. - 2017), name = "Months into Future", breaks = 12*(1:9))) +
+                     sec.axis = sec_axis(~ 12*(. - 2017), 
+                                         name = "Months into Future", 
+                                         breaks = 12*(1:9))) +
+  ggtitle("Projection of Future Cost: Baseline vs Alternative", 
+                paste0("Annual difference in cost between ", 
+                       "baseline scenario and alternative scenario")) +
   theme_classic() + 
   theme(legend.position = "none")+
-  ylab("TCOR Delta (in thousands)") + xlab("projection year")
+  ylab("Annual Cashflow Difference (in thousands)") + xlab("projection year")
 
 ```
 
 
-I think this already much better. It now immediately obvious that about half way between 60 and 72 months the sign changes from a negative delta to a positive one.
+I think this already much better. It now immediately obvious that about half way
+between 60 and 72 months the sign changes from a negative delta to a positive one.
 
-### Iteration 2
+### Iteration 2 - Clean up the Call Outs
 
-Next, I thought it was sort of visually jarring to have the call out for the first half of the chart above the 0 line and the other below. I also thought it might be good to try to tie the call outs to the relate regions of the chart with color. 
+Next, I thought it was sort of visually jarring to have the call out for the 
+first half of the chart above the 0 line and the other below. I also thought it 
+might be good to try to tie the call outs to the relate regions of the chart 
+with color. 
 
 ```{r}
 ggplot(d, aes(py, delta, fill = scenario)) + 
   geom_bar(stat = "identity", width = 0.3) +
-  scale_fill_manual(values = c("#FF7F50", "#1E90FF")) +
+  scale_fill_manual(values = c("#8EE5EE", "#AB82FF")) +
   geom_hline(yintercept = 0) +
-  annotate("segment", x = 2017.5, xend = 2022.5, y = 400, yend = 400, color = "#1E90FF") +
-  annotate("text", x = 2020, y = 455, label = "$647k in capital invesment in the first\n68  months needed to generate returns") +
-  annotate("segment", x = 2022.5, xend = 2026.5, y = 400, yend = 400, color = "#FF7F50") +
-  annotate("text", x = 2024.5, y = 455, label = "TCOR breakeven at 68 momnths\nRealize gain after 104 months")+
+  annotate("segment", x = 2017.5, xend = 2022.5, 
+           y = 400, yend = 400, 
+           color = "#AB82FF") +
+  annotate("text", x = 2020, y = 455, 
+           label = paste0("$647k in capital invesment in the first\n", 
+                          "68  months needed to generate returns")) +
+  annotate("segment", x = 2022.5, xend = 2026.5, 
+           y = 400, yend = 400, 
+           color = "#8EE5EE") +
+  annotate("text", x = 2024.5, y = 455, 
+           label = paste0("TCOR breakeven at 68 momnths\n", 
+                          "Realize gain after 104 months") )+
   scale_x_continuous(breaks = 2018:2026, expand = c(0, 0),
-                     sec.axis = sec_axis(~ 12*(. - 2017), name = "Months into Future", breaks = c(12*(1:9), 68, 104))) +
+                     sec.axis = sec_axis(~ 12*(. - 2017), 
+                                         name = "Months into Future", 
+                                         breaks = c(12*(1:9), 68, 104))) +
   scale_y_continuous(limits = c(-260, 475)) +
+  ggtitle("Projection of Future Cost: Baseline vs Alternative", 
+                paste0("Annual difference in cost between ", 
+                       "baseline scenario and alternative scenario")) +
   theme_classic() + 
   theme(legend.position = "none")+
-  ylab("TCOR Delta (in thousands)") + xlab("projection year")
+  ylab("Annual Cashflow Difference (in thousands)") + xlab("projection year")
 ```
 
-### Iteration 3
+### Iteration 3 - Concentrate on the Cumulative Cashflows
 
-I didn't make any additional improvements to this for a while. More pressing work needed 
-to be done. But prompted by the knowledge that someone pass planning to industrialize the 
-original visualtion I took another pass at it.
-
-There are two "critical points" that are called out on the chart. 68 months is the point at
-which the difference between the cashflows of the two scenarios flips from negative to 
-postive; 104 months is the point past which all of the postive differences in cashflows
-exceed all negative ones, but you reall can't see it on this chart. This led me to overlay 
-the cumulative cashflows.
+There are two "critical points" that are called out on the chart. 68 months is 
+the point at which the difference between the cashflows of the two scenarios 
+flips from negative to postive; 104 months is the point past which all of the 
+postive differences in cashflows exceed all negative ones, but that is not 
+something that can be seen in this version of the visualization. This led me to 
+overlay the cumulative cashflows.
 
 ```{r}
 d_cumulative <- mutate(d, cumdelta = cumsum(delta), start = cumdelta - delta)
 
 ggplot(d_cumulative, aes(x = py, fill = scenario)) + 
     geom_col(aes(y = delta), width = 0.3) + 
-    scale_fill_manual(values = c("#FF7F50", "#1E90FF")) +
-    geom_point(aes(y = cumdelta)) + geom_line(aes(y = cumdelta), color = "black") +
+    scale_fill_manual(values = c("#8EE5EE", "#AB82FF")) +
+    geom_point(aes(y = cumdelta)) + 
+        geom_line(aes(y = cumdelta), color = "black") +
     scale_x_continuous(breaks = 2018:2026, expand = c(0, 0),
-                     sec.axis = sec_axis(~ 12*(. - 2017), name = "Months into Future", breaks = sort(c(12*(1:9), 68, 104)))) +
+                     sec.axis = sec_axis(~ 12*(. - 2017), 
+                                         name = "Months into Future",
+                                         breaks = sort(c(12*(1:9), 68, 104)))) +
     scale_y_continuous(breaks = c(-647, -500, -250, 0, 250, 500)) +
     geom_hline(yintercept = 0) +         
     theme_classic() + 
-    theme(legend.position = "none")+
-    ylab("TCOR Delta (in thousands)") + xlab("projection year")
+  ggtitle("Projection of Future Cost: Baseline vs Alternative", 
+                paste0("Annual difference in cost between ", 
+                       "baseline scenario and alternative scenario")) +
+  theme_classic() + 
+  theme(legend.position = "none")+
+  ylab("Annual Cashflow Difference (in thousands)") + xlab("projection year")
 ```
 
-Okay, now we're getting somewhere. The cumulative polot removed the need for any callouts 
-since we can see clearly the two critical points on the cumulative chart. The inflection 
-point, the part where the curve bottom's out is the point where the cashflows change from 
-negative to positive. And the place where the cumulative plot crosses the x-axis is
-visually near 104 months.
+Okay, now we're getting somewhere. The cumulative polot removes the need for 
+any callouts since we can see clearly the two critical points in the 
+cumulative data. The inflection point, the part where the curve bottoms out is 
+the point where the cashflows change from negative to positive. And the place 
+where the cumulative plot crosses the x-axis is visually near 104 months.
 
-### Iteration 4
-I want to emphacise both the incremenetal changes and the cumulative values. My first attempt
-to accomplish this is to use a waterfall chart. 
+### Iteration 4 - What about a Waterfall?
+
+I want to emphacise both the incremenetal changes and the cumulative values. 
+My first attempt to accomplish this is to use a waterfall chart. 
 
 
 ```{r}
@@ -172,15 +254,21 @@ ggplot(d_cumulative) +
                   ymin = start, 
                   ymax = cumdelta,
                   fill = scenario)) +
-        scale_fill_manual(values = c("#FF7F50", "#1E90FF")) +
+        scale_fill_manual(values = c("#8EE5EE", "#AB82FF")) +
         geom_hline(yintercept = 0) +
         geom_hline(yintercept = -647) +
         scale_x_continuous(breaks = 2018:2026, expand = c(0, 0),
-                     sec.axis = sec_axis(~ 12*(. - 2017), name = "Months into Future", breaks = sort(c(12*(1:9), 68, 104)))) +
+                     sec.axis = sec_axis(~ 12*(. - 2017), 
+                                         name = "Months into Future", 
+                                         breaks = sort(c(12*(1:9), 68, 104)))) +
         scale_y_continuous(breaks = c(-647, -500, -250, 0, 250, 500)) +
         theme_classic() + 
-        theme(legend.position = "none")+
-        ylab("TCOR Delta (in thousands)") + xlab("projection year")
+        theme(legend.position = "none") +
+        ggtitle("Projection of Future Cost: Baseline vs Alternative", 
+                paste0("Annual difference in cost between ", 
+                       "baseline scenario and alternative scenario")) +
+        ylab("Annual Cashflow Difference (in thousands)") + 
+        xlab("projection year")
 ```
 
 Now I can see how each incremental value accumulates to the cumulative value. The two 
@@ -203,12 +291,13 @@ could see the two critical points exactly.
 I don't actually have the quarterly data, so I will try to address the first two points 
 above using the annual data and then extrapolate the quarterly data.
 
-### Iteration 5
+### Iteration 5 - Changing Direction and Color
 
-I'm going to see if I can deal with the "grokablness" issue first. The baseline scenario 
-what will happen if the clien continues their current policy; the alternative involves a 
-change to that policy. I want to frame things in terms of costs and savings to the client 
-relative to the baseline scenario. 
+I'm going to see if I can deal with the "grokablness" issue first. The baseline 
+scenario is what will happen if the client continues their current policy; the 
+alternative involves a change to that policy. I want to frame things in terms of
+costs and savings to the client relative to the baseline scenario. I'll start by
+refactoring the data slightly.
 
 ```{r}
 d_alt <- mutate(d_raw, delta = -delta) %>%
@@ -216,6 +305,7 @@ d_alt <- mutate(d_raw, delta = -delta) %>%
         mutate(direction = as.factor(case_when(amt >= 0 ~ "cost", TRUE ~ "savings")),
                cumamt = cumsum(amt),
                start = cumamt - amt)
+gt(d_alt)
 ```
 
 
@@ -229,13 +319,17 @@ ggplot(d_alt) +
         scale_fill_manual(values = c("#FF6A6A", "#00CD66")) + 
         geom_hline(yintercept = 0) +
         scale_x_continuous(breaks = 2018:2026, expand = c(0, 0),
-                     sec.axis = sec_axis(~ 12*(. - 2017), name = "Months into Future", breaks = sort(c(12*(1:9), 68, 104)))) +
+                     sec.axis = sec_axis(~ 12*(. - 2017), 
+                                         name = "Months into Future", 
+                                         breaks = sort(c(12*(1:9), 68, 104)))) +
         scale_y_continuous(breaks = c(-500, -250, 0, 250, 500, 647)) +
         theme_classic() + 
         theme(legend.position = "right", legend.justification = "top")+
         ylab("Additional Cost/(Savings) (in thousands)") + 
         xlab("projection year") +
-        ggtitle("Incremental and Aggregate Cost/(Savings) by Year", "Impact of changing to Alternative Scenario")
+        ggtitle("Projection of Future Cost: Baseline vs Alternative", 
+                paste0("Additional Annual Cost/(Savings) from switching ", 
+                       "from the baseline to alternative scenario")) 
 
 ```
 
@@ -244,12 +338,13 @@ the same direction: increasing expense is an increase and is showing in red (bad
 decreasing expense is a decrease and is showing green (good). 
 
 
-## Iteration 6
+### Iteration 6 - Clear Directions
 
 The choice of colors which indicate direction is helpful, but it doesn't completly address
-my concern with being able to easily see the direction.
+my concern with being able to easily see the direction of each incremental change.
 
-One, idea is to make the width of each column wider and add data labels.
+One idea is to make the width of each column wider and add data labels.
+
 ```{r}
 ggplot(d_alt) +
         geom_rect(aes(xmin = py - 0.35, 
@@ -258,51 +353,62 @@ ggplot(d_alt) +
                   ymax = cumamt,
                   fill = direction)) +
         scale_fill_manual(values = c("#FF6A6A", "#00CD66")) +
-        geom_text(aes(x = py, y = cumamt - sign(amt) * 25, label = ifelse(abs(amt) < 50, "", amt))) +
+        geom_text(aes(x = py, y = cumamt - sign(amt) * 25, 
+                      label = ifelse(abs(amt) < 50, "", amt))) +
         geom_hline(yintercept = 0) +
         scale_x_continuous(breaks = 2018:2026, expand = c(0, 0),
-                     sec.axis = sec_axis(~ 12*(. - 2017), name = "Months into Future", breaks = sort(c(12*(1:9), 68, 104)))) +
+                     sec.axis = sec_axis(~ 12*(. - 2017), 
+                                         name = "Months into Future", 
+                                         breaks = sort(c(12*(1:9), 68, 104)))) +
         scale_y_continuous(breaks = c(-500, -250, 0, 250, 500, 647)) +
         theme_classic() + 
-        theme(legend.position = "right", legend.justification = "top")+
+        theme(legend.position = "right", legend.justification = "top") +
         ylab("Additional Cost/(Savings) (in thousands)") + 
         xlab("projection year") +
-        ggtitle("Incremental and Aggregate Cost/(Savings) by Year", "Impact of changing to Alternative Scenario")
+        ggtitle("Projection of Future Cost: Baseline vs Alternative", 
+                paste0("Additional Annual Cost/(Savings) from switching ", 
+                       "from the baseline to alternative scenario")) 
 
 ```
 
-An alternative, would be to use something inheriantly directional like an arrow.
+An alternative would be to use something inheriantly directional like an arrow.
+
 ```{r}
 ggplot(d_alt) +
         geom_segment(aes(x = py, 
                   xend = py, 
                   y = start, 
                   yend = cumamt,
-                  color = direction), arrow = arrow(length = unit(0.25, "cm"), type = "closed")) +
+                  color = direction), 
+                  arrow = arrow(length = unit(0.25, "cm"), type = "closed")) +
         scale_color_manual(values = c("#FF6A6A", "#00CD66")) +
-        geom_text(aes(x = py - 0.28, y = (start + cumamt)/2, label = ifelse(abs(amt) < 50, "", amt))) +
+        geom_text(aes(x = py - 0.28, y = (start + cumamt)/2, 
+                      label = ifelse(abs(amt) < 50, "", amt))) +
         geom_hline(yintercept = 0) +
         scale_x_continuous(breaks = 2018:2026,
-                     sec.axis = sec_axis(~ 12*(. - 2017), name = "Months into Future", breaks = sort(c(12*(1:9), 68, 104)))) +
+                     sec.axis = sec_axis(~ 12*(. - 2017), 
+                                         name = "Months into Future", 
+                                         breaks = sort(c(12*(1:9), 68, 104)))) +
         scale_y_continuous(breaks = c(-500, -250, 0, 250, 500, 647)) +
         theme_classic() + 
         theme(legend.position = "none") +
         ylab("Additional Cost/(Savings) (in thousands)") + 
         xlab("projection year") +
-        ggtitle("Incremental and Aggregate Cost/(Savings) by Year", "Impact of changing to Alternative Scenario")
+        ggtitle("Projection of Future Cost: Baseline vs Alternative", 
+                paste0("Additional Annual Cost/(Savings) from switching ", 
+                       "from the baseline to alternative scenario")) 
 
 ```
 
-Okay, I like that even better than I thought I would. I decided I don't need the legend with
-this version.
+Okay, I like that even better than I thought I would. I don't think the legend 
+is necessary with this version.
 
-### Iteration 8 - Extrapolating the quarterly data
+### Iteration 7 - Extrapolating the quarterly data
 
 If we take a look at the annual cumulative data again, I think it's clear we can get a pretty
 good fit with a quadratic or cubic fit.
 
 ```{r}
-ggplot(d_alt, aes(x = py, y = cumamt)) + geom_point()
 
 d_model <- select(d_alt, py, cumamt) %>%
         mutate(py = py + 1) %>%
@@ -310,6 +416,8 @@ d_model <- select(d_alt, py, cumamt) %>%
         arrange(py)
 
 model <- lm( cumamt ~ poly(py, 3), data = d_model)
+
+summary(model)
 
 predicted_data <- data.frame(py = 2018:2027) %>%
         mutate(amt = predict(model, .))
@@ -338,10 +446,11 @@ d_qtr <- data.frame(py = c(rep(years, 4), 2027),
 d_qtr$cumamt[1] <- 0
 d_qtr <- mutate(d_qtr, 
                 amt = cumamt - lag(cumamt),
-                direction = as.factor(case_when(amt >= 0 ~ "cost", TRUE ~ "savings")),
+                direction = as.factor(case_when(amt >= 0 ~ "cost", 
+                                                TRUE ~ "savings")),
                 start = cumamt - amt)
 
-d_qtr
+gt(d_qtr)
 ```
 
 
@@ -351,23 +460,36 @@ ggplot(d_qtr) +
                   xend = py, 
                   y = start, 
                   yend = cumamt,
-                  color = direction), arrow = arrow(length = unit(0.15, "cm"), type = "closed")) +
+                  color = direction), 
+                  arrow = arrow(length = unit(0.15, "cm"), type = "closed")) +
         scale_color_manual(values = c("#FF6A6A", "#00CD66")) +
-        #geom_text(aes(x = py - 0.28, y = (start + cumamt)/2, label = ifelse(abs(amt) < 50, "", amt))) +
         geom_hline(yintercept = 0) +
         scale_x_continuous(breaks = 2018:2027,
-                     sec.axis = sec_axis(~ 12*(. - 2017), name = "Months into Future", breaks = sort(c(12*(1:10), 68, 104)))) +
+                     sec.axis = sec_axis(~ 12*(. - 2017),
+                                         name = "Months into Future", 
+                                         breaks = sort(c(12*(1:10), 68, 104)))) +
         scale_y_continuous(breaks = c(-500, -250, 0, 250, 500, 647)) +
         theme_classic() + 
         theme(legend.position = "none") +
         ylab("Additional Cost/(Savings) (in thousands)") + 
         xlab("projection year") +
-        ggtitle("Incremental and Aggregate Cost/(Savings) by Year", "Impact of changing to Alternative Scenario")
+        ggtitle("Projection of Future Cost: Baseline vs Alternative", 
+                paste0("Additional Quarterly Cost/(Savings) from switching ", 
+                       "from the baseline to alternative scenario")) 
 
 ```
 
 
-So how do we make this a better visualization? Well, obviously I'm not going to use a 
-bubble chart =). First off, I noticed that two of the three annotations on the graph are 
-calling out cumulative values of the policy year cashflow differnces. The third call out 
-is pointing out when the incremental cashflows change signs.
+Although the quarterly data doesn't line up exactly with the critical points, this
+is due to approximating the data.
+
+## Final Verdict
+
+After going through this process, I think the either of the alternatives from
+iteration 6 would be good choices for the final version of this visualization. I
+think the quarterly data version is inferior for two reasons. First, now that 
+there are so many points it really looks like a line graph, similiar to what I
+created to show the polynomial fit and it feels "crowded". Secondly, as I have 
+thought more about the cashflows we're describting in this visualization, and,
+more importantly, the consumers of the visualization, I think they might more
+natuarally think of these cashflows as annual.
