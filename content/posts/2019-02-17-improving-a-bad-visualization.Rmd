@@ -10,23 +10,23 @@ tags: []
 
 A few months ago I was presented with a visualization at work by a colleague 
 who was very excited about it. They were adamant that I add it to the analytics 
-package I was working on. I thought there several problems with the 
-visualization. In this post, I have recount the iterations I went through to
-create what I think is a better visulation. 
+package I was working on. I thought there were several problems with the 
+visualization. In this post, I recount the iterations I went through to
+create what I think is a better visualization. 
 
 
 ## Where It All Began
 
-All of the visualizations are trying to communicate the tradeoffs 
-between two alternative set of projected cashflows. One, the baseline, is the 
-set of cashflows which will occur if the client continues with their current 
-policy unchanged. The alternative is thet set of cashflows which is projected to
+All of the visualizations are trying to communicate the trade offs 
+between two alternative set of projected cash flows. One, the baseline, is the 
+set of cash flows which will occur if the client continues with their current 
+policy unchanged. The alternative is the set of cash flows which is projected to
 occur if the client implements a new policy. 
 
 In the d_raw table, the delta column is the difference in the aggregate 
-annual cashflows for alternative policy and the baseline policy. I'm starting 
+annual cash flows for the alternative policy and the baseline policy. I'm starting 
 with the differences because that was the only data I had in the original 
-visualization. The data below is not the same as the original but is 
+visualization. The data below are not the same as the original but are 
 analogous. 
 
 ```{r}
@@ -88,12 +88,12 @@ ggplot(d, aes(x = py)) +
 ```
 
 The color indicates which scenario is the lowest cost scenario for a particular 
-year. The magnitudes of the difference between the two cashflows is represented 
+year. The magnitudes of the difference between the two cash flows is represented 
 by the size of the bubble; negative values imply alternative scenario is more 
 expensive. It is also used as the label at the center of each bubble. Two 
-important points are called out on the annotation of the plot: the breakeven 
-month (68) and the month where the cumulative cashflow differences becomes 
-positive (104), that is when the the cumulative cashflows of the baseline policy
+important points are called out on the annotation of the plot: the break even 
+month (68) and the month where the cumulative cash flow differences becomes 
+positive (104), that is when the the cumulative cash flows of the baseline policy
 exceed those of the alternative policy.
 
 
@@ -101,36 +101,36 @@ exceed those of the alternative policy.
 
 When I first saw this visualization, it was not clear to me what information it 
 was trying to make it easier for me to understand. A good data visualization 
-should reduce the mental load of the viewer to gain understanding, not increase 
-it. I was eventually able to decipher what it was trying to communicate after 
+should reduce the mental load of the viewer to gain understanding. I was 
+eventually able to decipher what it was trying to communicate after 
 looking at it for a while and reading the accompanying explanatory notes. 
 
 Two more specific issues with the visualization are the use of bubbles and the 
 choice of colors. The area of the bubbles is used to convey the relative sizes 
-in the cashflow differences. However, it is harder for humans to reason about 
-relative areas (2d) than relative lengths (1d). The visualziation unnecessarily 
-projects one-dimensional data into two dimensions. For example, I know because 
-of the value labels that the bubble for year 2025 is about 50% larger than the 
+in the cash flow differences. However, it is harder for humans to reason about 
+relative areas (2d) than relative lengths (1d). The visualization unnecessarily 
+projects one-dimensional data into two dimensions. For example, I know, because 
+of the value labels, that the bubble for year 2025 is about 50% larger than the 
 bubble for 2024, but I would not have guessed it from the size of the bubble.
 
 The color used in the visualization conveys important information. It's the only
 graphical element which tells the user the sign of the differences in the two
-sets of cashflows. As such, choosing colors that help the viwer understand the 
-direction of the cashflows would probably be better than choosing colors which 
+sets of cash flows. As such, choosing colors that help the viewer understand the 
+direction of the cash flows would probably be better than choosing colors which 
 make it look pretty.
 
 ## So what would be better
 
 I've highlighted a few things I think are issues with the original visualization.
 Next, I will try to address these issues to create what I think is a better 
-visualization. I've seen examples in books by Tufte and others show how to 
-improve a bad chart. Perhaps they can go straight from A to B, but I typically 
-need to iterate. I thought it might be interesting or helpful to record the 
-steps I went through.
+visualization. I've seen Tufte and others compare visualizations found in the 
+"wild", with their own improved versions. Perhaps they can go straight from 
+A to B, but I typically need to iterate. I thought it might be interesting or 
+helpful to record the steps I went through.
 
 ### Iteration 1 - Bursting the Bubbles
 
-So my first thought was to get rid of the bubble charts and use a column chart. 
+So my first thought was to get rid of the bubbles and use a column chart. 
 I also wanted to give some context to the months which are highlighted in the 
 call outs so I added a second x-axis. Important to note, this secondary x-axis 
 has exactly the same scale as the primary one.
@@ -206,11 +206,11 @@ ggplot(d, aes(py, delta, fill = scenario)) +
 ### Iteration 3 - Concentrate on the Cumulative Cashflows
 
 There are two "critical points" that are called out on the chart. 68 months is 
-the point at which the difference between the cashflows of the two scenarios 
-flips from negative to postive; 104 months is the point past which all of the 
-postive differences in cashflows exceed all negative ones, but that is not 
+the point at which the difference between the cash flows of the two scenarios 
+flips from negative to positive; 104 months is the point past which all of the 
+positive differences in cash flows exceed all negative ones, but that is not 
 something that can be seen in this version of the visualization. This led me to 
-overlay the cumulative cashflows.
+overlay the cumulative cash flows.
 
 ```{r}
 d_cumulative <- mutate(d, cumdelta = cumsum(delta), start = cumdelta - delta)
@@ -235,16 +235,16 @@ ggplot(d_cumulative, aes(x = py, fill = scenario)) +
   ylab("Annual Cashflow Difference (in thousands)") + xlab("projection year")
 ```
 
-Okay, now we're getting somewhere. The cumulative polot removes the need for 
-any callouts since we can see clearly the two critical points in the 
+Okay, now we're getting somewhere. Plotting the cumulative data removes the need for 
+any call outs since we can see clearly the two critical points in the 
 cumulative data. The inflection point, the part where the curve bottoms out is 
-the point where the cashflows change from negative to positive. And the place 
+the point where the cash flows change from negative to positive. And the place 
 where the cumulative plot crosses the x-axis is visually near 104 months.
 
 ### Iteration 4 - What about a Waterfall?
 
-I want to emphacise both the incremenetal changes and the cumulative values. 
-My first attempt to accomplish this is to use a waterfall chart. 
+I want to emphasize both the incremental changes and the cumulative values. 
+I first attemptted to accomplish this by using a waterfall chart. 
 
 
 ```{r}
@@ -279,13 +279,13 @@ this plot.
 movements, I find it a little confusing to understand the direction the waterfall is moving
 if I start by looking at the middle of the plot.
 
-- I wonder if there is a way to make what's happening here more grokable. The values being
+- I wonder if there is a way to make what's happening here more "grok-able". The values being
 plotted show the incremental and cumulative cost savings between the alternative scenario 
 and the baseline scenario. Negative cost savings feels a little bit like a double negative.
 
 - Now that the main feature of the plot calls out both the inflection point and the point 
 at which the cumulative savings become positive, it's clear that the analysis was done 
-using more granular data then what we're showing. If we could plot quarterly cashflows we 
+using more granular data then what we're showing. If we could plot quarterly cash flows we 
 could see the two critical points exactly.
 
 I don't actually have the quarterly data, so I will try to address the first two points 
@@ -293,11 +293,11 @@ above using the annual data and then extrapolate the quarterly data.
 
 ### Iteration 5 - Changing Direction and Color
 
-I'm going to see if I can deal with the "grokablness" issue first. The baseline 
+I'm going to see if I can deal with the "grok-ableness" issue first. The baseline 
 scenario is what will happen if the client continues their current policy; the 
 alternative involves a change to that policy. I want to frame things in terms of
 costs and savings to the client relative to the baseline scenario. I'll start by
-refactoring the data slightly.
+re-factoring the data slightly.
 
 ```{r}
 d_alt <- mutate(d_raw, delta = -delta) %>%
@@ -340,7 +340,7 @@ decreasing expense is a decrease and is showing green (good).
 
 ### Iteration 6 - Clear Directions
 
-The choice of colors which indicate direction is helpful, but it doesn't completly address
+The choice of colors which indicate direction is helpful, but it doesn't completely address
 my concern with being able to easily see the direction of each incremental change.
 
 One idea is to make the width of each column wider and add data labels.
@@ -371,7 +371,7 @@ ggplot(d_alt) +
 
 ```
 
-An alternative would be to use something inheriantly directional like an arrow.
+Another option would be to use something inherently directional like an arrow.
 
 ```{r}
 ggplot(d_alt) +
@@ -488,8 +488,8 @@ is due to approximating the data.
 After going through this process, I think the either of the alternatives from
 iteration 6 would be good choices for the final version of this visualization. I
 think the quarterly data version is inferior for two reasons. First, now that 
-there are so many points it really looks like a line graph, similiar to what I
+there are so many points it really looks like a line graph, similar to what I
 created to show the polynomial fit and it feels "crowded". Secondly, as I have 
-thought more about the cashflows we're describting in this visualization, and,
+thought more about the cash flows we're describing in this visualization, and,
 more importantly, the consumers of the visualization, I think they might more
-natuarally think of these cashflows as annual.
+naturally think of these cash flows as annual.
