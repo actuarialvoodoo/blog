@@ -30,14 +30,5 @@ I love R and data. I&amp;rsquo;m interested in data science, theory of risk, rep
       <description>A few months ago I was presented with a visualization at work by a colleague who was very excited about it. They were adamant that I add it to the analytics package I was working on.</description>
     </item>
     
-    <item>
-      <title>Hello R Markdown</title>
-      <link>/post/2015-07-23-r-rmarkdown/</link>
-      <pubDate>Thu, 23 Jul 2015 21:13:14 -0500</pubDate>
-      
-      <guid>/post/2015-07-23-r-rmarkdown/</guid>
-      <description>R Markdown This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see http://rmarkdown.</description>
-    </item>
-    
   </channel>
 </rss>
