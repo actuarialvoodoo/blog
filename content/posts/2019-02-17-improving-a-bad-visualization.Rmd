@@ -147,7 +147,7 @@ ggplot(d, aes(py, delta, fill = scenario)) +
            label = paste0("$647k in capital invesment in the first\n", 
                           "68  months needed to generate returns")) +
   annotate("text", x = 2024.5, y = -100, 
-           label = paste0("TCOR breakeven at 68 momnths\n", 
+           label = paste0("Cashflow breakeven at 68 momnths\n", 
                           "Realize gain after 104 months")) +
   scale_x_continuous(breaks = 2018:2026, expand = c(0, 0),
                      sec.axis = sec_axis(~ 12*(. - 2017), 
@@ -188,7 +188,7 @@ ggplot(d, aes(py, delta, fill = scenario)) +
            y = 400, yend = 400, 
            color = "#8EE5EE") +
   annotate("text", x = 2024.5, y = 455, 
-           label = paste0("TCOR breakeven at 68 momnths\n", 
+           label = paste0("Cashflow breakeven at 68 momnths\n", 
                           "Realize gain after 104 months") )+
   scale_x_continuous(breaks = 2018:2026, expand = c(0, 0),
                      sec.axis = sec_axis(~ 12*(. - 2017), 

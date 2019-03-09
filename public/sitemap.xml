@@ -3,33 +3,33 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>/posts/</loc>
+    <loc>https://www.ryanthomasr.com/posts/</loc>
     <lastmod>2019-02-17T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/about/</loc>
+    <loc>https://www.ryanthomasr.com/about/</loc>
     <lastmod>2019-02-18T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/posts/iterating-to-a-better-visualization/</loc>
+    <loc>https://www.ryanthomasr.com/posts/iterating-to-a-better-visualization/</loc>
     <lastmod>2019-02-17T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/categories/</loc>
+    <loc>https://www.ryanthomasr.com/categories/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/</loc>
+    <loc>https://www.ryanthomasr.com/</loc>
     <lastmod>2019-02-18T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/</loc>
+    <loc>https://www.ryanthomasr.com/tags/</loc>
     <priority>0</priority>
   </url>
   
