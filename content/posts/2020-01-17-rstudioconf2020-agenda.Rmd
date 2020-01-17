@@ -1,0 +1,116 @@
+---
+title: Rstudioconf2020 Agenda
+author: Ryan
+date: '2020-01-17'
+slug: rstudioconf2020-agenda
+categories: []
+tags: []
+---
+
+I needed to put something together to be able decide what session to attend at
+the upcoming rstudioconf in San Francisco. 
+
+```{r echo=FALSE}
+suppressPackageStartupMessages({
+    library(gt)
+    library(dplyr)
+    library(tidyr)
+})
+
+tidy_data <- readRDS("post_data/agenda_data.rds")
+tidy_data[[1]] <- ungroup(tidy_data[[1]])
+```
+
+# Day 1
+
+```{r echo=FALSE}
+
+tidy_data[[1]] %>% 
+    filter(session == 1) %>%
+    select(TimeBlock, Program, Room, Title, Speaker, SpeakerInfo, Abstract) %>%
+    pivot_longer(
+        cols = c("Title", "Speaker", "SpeakerInfo", "Abstract"), 
+        names_to = "TalkInfoType", 
+        values_to = "TalkInfoValue"
+    ) %>%
+    select(-Room) %>%
+    pivot_wider(
+        id_cols = c("TimeBlock", "TalkInfoType"),
+        names_from = "Program",
+        values_from = "TalkInfoValue"
+        
+    ) %>%
+    group_by(TimeBlock) %>%
+    gt(rowname_col = c("TalkInfoType")) %>%
+    tab_header(
+        title = "Session 1"
+    ) %>%
+    tab_style(
+        style = cell_text( v_align = "top"),
+        locations = cells_body(
+            rows = TalkInfoType == "Abstract"
+        )
+    )
+    
+```
+
+```{r echo=FALSE}
+tidy_data[[1]] %>% 
+    filter(session == 2) %>%
+    select(TimeBlock, Program, Room, Title, Speaker, SpeakerInfo, Abstract) %>%
+    pivot_longer(
+        cols = c("Title", "Speaker", "SpeakerInfo", "Abstract"), 
+        names_to = "TalkInfoType", 
+        values_to = "TalkInfoValue"
+    ) %>%
+    select(-Room) %>%
+    pivot_wider(
+        id_cols = c("TimeBlock", "TalkInfoType"),
+        names_from = "Program",
+        values_from = "TalkInfoValue"
+        
+    ) %>%
+    group_by(TimeBlock) %>%
+    gt(rowname_col = c("TalkInfoType")) %>%
+    tab_header(
+        title = "Session 2"
+    ) %>%
+    tab_style(
+        style = cell_text( v_align = "top"),
+        locations = cells_body(
+            rows = TalkInfoType == "Abstract"
+        )
+    )
+
+```
+
+
+```{r echo=FALSE}
+tidy_data[[1]] %>% 
+    filter(session == 3) %>%
+    select(TimeBlock, Program, Room, Title, Speaker, SpeakerInfo, Abstract) %>%
+    pivot_longer(
+        cols = c("Title", "Speaker", "SpeakerInfo", "Abstract"), 
+        names_to = "TalkInfoType", 
+        values_to = "TalkInfoValue"
+    ) %>%
+    select(-Room) %>%
+    pivot_wider(
+        id_cols = c("TimeBlock", "TalkInfoType"),
+        names_from = "Program",
+        values_from = "TalkInfoValue"
+        
+    ) %>%
+    group_by(TimeBlock) %>%
+    gt(rowname_col = c("TalkInfoType")) %>%
+    tab_header(
+        title = "Session 3"
+    ) %>%
+    tab_style(
+        style = cell_text( v_align = "top"),
+        locations = cells_body(
+            rows = TalkInfoType == "Abstract"
+        )
+    )
+
+```
