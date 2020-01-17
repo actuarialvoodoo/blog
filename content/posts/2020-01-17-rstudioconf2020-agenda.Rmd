@@ -7,8 +7,11 @@ categories: []
 tags: []
 ---
 
-I needed to put something together to be able decide what session to attend at
-the upcoming rstudioconf in San Francisco. 
+I needed to put something together to be able decide what sessions to attend at
+the upcoming rstudioconf in San Francisco. I wanted to be able to see what was
+happening concurrently. 
+
+<!--more-->
 
 ```{r echo=FALSE}
 suppressPackageStartupMessages({
@@ -42,6 +45,7 @@ tidy_data[[1]] %>%
     ) %>%
     group_by(TimeBlock) %>%
     gt(rowname_col = c("TalkInfoType")) %>%
+    tab_options(table.width = px(700)) %>%
     tab_header(
         title = "Session 1"
     ) %>%
@@ -72,6 +76,7 @@ tidy_data[[1]] %>%
     ) %>%
     group_by(TimeBlock) %>%
     gt(rowname_col = c("TalkInfoType")) %>%
+    tab_options() %>%
     tab_header(
         title = "Session 2"
     ) %>%

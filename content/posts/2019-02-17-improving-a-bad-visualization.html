@@ -9,11 +9,23 @@ tags: []
 
 
 
-<p>A few months ago I was presented with a visualization at work by a colleague who was very excited about it. They were adamant that I add it to the analytics package I was working on. I thought there were several problems with the visualization. In this post, I recount the iterations I went through to create what I think is a better visualization.</p>
+<p>A few months ago I was presented with a visualization at work by a colleague
+who was very excited about it. They were adamant that I add it to the analytics
+package I was working on. I thought there were several problems with the
+visualization. In this post, I recount the iterations I went through to
+create what I think is a better visualization.</p>
 <div id="where-it-all-began" class="section level2">
 <h2>Where It All Began</h2>
-<p>All of the visualizations are trying to communicate the trade offs between two alternative set of projected cash flows. One, the baseline, is the set of cash flows which will occur if the client continues with their current policy unchanged. The alternative is the set of cash flows which is projected to occur if the client implements a new policy.</p>
-<p>In the d_raw table, the delta column is the difference in the aggregate annual cash flows for the alternative policy and the baseline policy. I’m starting with the differences because that was the only data I had in the original visualization. The data below are not the same as the original but are analogous.</p>
+<p>All of the visualizations are trying to communicate the trade offs
+between two alternative set of projected cash flows. One, the baseline, is the
+set of cash flows which will occur if the client continues with their current
+policy unchanged. The alternative is the set of cash flows which is projected to
+occur if the client implements a new policy.</p>
+<p>In the d_raw table, the delta column is the difference in the aggregate
+annual cash flows for the alternative policy and the baseline policy. I’m starting
+with the differences because that was the only data I had in the original
+visualization. The data below are not the same as the original but are
+analogous.</p>
 <pre class="r"><code>suppressPackageStartupMessages({
         library(tidyverse)
         library(glue)
@@ -43,13 +55,16 @@ gt(d)</code></pre>
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#lsdpufnygs .gt_table {
+#yayfvuyruf .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
+  /* table.margin.left */
   margin-right: auto;
-  color: #000000;
+  /* table.margin.right */
+  color: #333333;
   font-size: 16px;
+  /* table.font.size */
   background-color: #FFFFFF;
   /* table.background.color */
   width: auto;
@@ -60,285 +75,487 @@ gt(d)</code></pre>
   /* table.border.top.width */
   border-top-color: #A8A8A8;
   /* table.border.top.color */
+  border-bottom-style: solid;
+  /* table.border.bottom.style */
+  border-bottom-width: 2px;
+  /* table.border.bottom.width */
+  border-bottom-color: #A8A8A8;
+  /* table.border.bottom.color */
 }
 
-#lsdpufnygs .gt_heading {
+#yayfvuyruf .gt_heading {
   background-color: #FFFFFF;
   /* heading.background.color */
   border-bottom-color: #FFFFFF;
+  /* table.background.color */
+  border-left-style: hidden;
+  /* heading.border.lr.style */
+  border-left-width: 1px;
+  /* heading.border.lr.width */
+  border-left-color: #D3D3D3;
+  /* heading.border.lr.color */
+  border-right-style: hidden;
+  /* heading.border.lr.style */
+  border-right-width: 1px;
+  /* heading.border.lr.width */
+  border-right-color: #D3D3D3;
+  /* heading.border.lr.color */
 }
 
-#lsdpufnygs .gt_title {
-  color: #000000;
+#yayfvuyruf .gt_title {
+  color: #333333;
   font-size: 125%;
   /* heading.title.font.size */
+  font-weight: initial;
+  /* heading.title.font.weight */
   padding-top: 4px;
-  /* heading.top.padding */
-  padding-bottom: 1px;
+  /* heading.top.padding - not yet used */
+  padding-bottom: 4px;
   border-bottom-color: #FFFFFF;
+  /* table.background.color */
   border-bottom-width: 0;
 }
 
-#lsdpufnygs .gt_subtitle {
-  color: #000000;
+#yayfvuyruf .gt_subtitle {
+  color: #333333;
   font-size: 85%;
   /* heading.subtitle.font.size */
-  padding-top: 1px;
+  font-weight: initial;
+  /* heading.subtitle.font.weight */
+  padding-top: 0;
   padding-bottom: 4px;
-  /* heading.bottom.padding */
+  /* heading.bottom.padding - not yet used */
   border-top-color: #FFFFFF;
+  /* table.background.color */
   border-top-width: 0;
 }
 
-#lsdpufnygs .gt_bottom_border {
+#yayfvuyruf .gt_bottom_border {
   border-bottom-style: solid;
   /* heading.border.bottom.style */
   border-bottom-width: 2px;
   /* heading.border.bottom.width */
-  border-bottom-color: #A8A8A8;
+  border-bottom-color: #D3D3D3;
   /* heading.border.bottom.color */
 }
 
-#lsdpufnygs .gt_column_spanner {
+#yayfvuyruf .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
-  border-bottom-color: #A8A8A8;
+  border-bottom-color: #D3D3D3;
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#lsdpufnygs .gt_col_heading {
-  color: #000000;
+#yayfvuyruf .gt_col_headings {
+  border-top-style: solid;
+  /* column_labels.border.top.style */
+  border-top-width: 2px;
+  /* column_labels.border.top.width */
+  border-top-color: #D3D3D3;
+  /* column_labels.border.top.color */
+  border-bottom-style: solid;
+  /* column_labels.border.bottom.style */
+  border-bottom-width: 2px;
+  /* column_labels.border.bottom.width */
+  border-bottom-color: #D3D3D3;
+  /* column_labels.border.bottom.color */
+  border-left-style: none;
+  /* column_labels.border.lr.style */
+  border-left-width: 1px;
+  /* column_labels.border.lr.width */
+  border-left-color: #D3D3D3;
+  /* column_labels.border.lr.color */
+  border-right-style: none;
+  /* column_labels.border.lr.style */
+  border-right-width: 1px;
+  /* column_labels.border.lr.width */
+  border-right-color: #D3D3D3;
+  /* column_labels.border.lr.color */
+}
+
+#yayfvuyruf .gt_col_heading {
+  color: #333333;
   background-color: #FFFFFF;
   /* column_labels.background.color */
-  font-size: 16px;
+  font-size: 100%;
   /* column_labels.font.size */
   font-weight: initial;
   /* column_labels.font.weight */
+  text-transform: inherit;
+  /* column_labels.text_transform */
   vertical-align: middle;
-  padding: 10px;
+  padding: 5px;
   margin: 10px;
+  overflow-x: hidden;
 }
 
-#lsdpufnygs .gt_sep_right {
+#yayfvuyruf .gt_sep_right {
   border-right: 5px solid #FFFFFF;
 }
 
-#lsdpufnygs .gt_group_heading {
+#yayfvuyruf .gt_group_heading {
   padding: 8px;
-  color: #000000;
+  /* row_group.padding */
+  color: #333333;
   background-color: #FFFFFF;
-  /* stub_group.background.color */
-  font-size: 16px;
-  /* stub_group.font.size */
+  /* row_group.background.color */
+  font-size: 100%;
+  /* row_group.font.size */
   font-weight: initial;
-  /* stub_group.font.weight */
+  /* row_group.font.weight */
+  text-transform: inherit;
+  /* row_group.text_transform */
   border-top-style: solid;
-  /* stub_group.border.top.style */
+  /* row_group.border.top.style */
   border-top-width: 2px;
-  /* stub_group.border.top.width */
-  border-top-color: #A8A8A8;
-  /* stub_group.border.top.color */
+  /* row_group.border.top.width */
+  border-top-color: #D3D3D3;
+  /* row_group.border.top.color */
   border-bottom-style: solid;
-  /* stub_group.border.bottom.style */
+  /* row_group.border.bottom.style */
   border-bottom-width: 2px;
-  /* stub_group.border.bottom.width */
-  border-bottom-color: #A8A8A8;
-  /* stub_group.border.bottom.color */
+  /* row_group.border.bottom.width */
+  border-bottom-color: #D3D3D3;
+  /* row_group.border.bottom.color */
+  border-left-style: none;
+  /* row_group.border.left.style */
+  border-left-width: 1px;
+  /* row_group.border.left.width */
+  border-left-color: #D3D3D3;
+  /* row_group.border.left.color */
+  border-right-style: none;
+  /* row_group.border.right.style */
+  border-right-width: 1px;
+  /* row_group.border.right.width */
+  border-right-color: #D3D3D3;
+  /* row_group.border.right.color */
   vertical-align: middle;
 }
 
-#lsdpufnygs .gt_empty_group_heading {
+#yayfvuyruf .gt_empty_group_heading {
   padding: 0.5px;
-  color: #000000;
+  color: #333333;
   background-color: #FFFFFF;
-  /* stub_group.background.color */
-  font-size: 16px;
-  /* stub_group.font.size */
+  /* row_group.background.color */
+  font-size: 100%;
+  /* row_group.font.size */
   font-weight: initial;
-  /* stub_group.font.weight */
+  /* row_group.font.weight */
   border-top-style: solid;
-  /* stub_group.border.top.style */
+  /* row_group.border.top.style */
   border-top-width: 2px;
-  /* stub_group.border.top.width */
-  border-top-color: #A8A8A8;
-  /* stub_group.border.top.color */
+  /* row_group.border.top.width */
+  border-top-color: #D3D3D3;
+  /* row_group.border.top.color */
   border-bottom-style: solid;
-  /* stub_group.border.bottom.style */
+  /* row_group.border.bottom.style */
   border-bottom-width: 2px;
-  /* stub_group.border.bottom.width */
-  border-bottom-color: #A8A8A8;
-  /* stub_group.border.bottom.color */
+  /* row_group.border.bottom.width */
+  border-bottom-color: #D3D3D3;
+  /* row_group.border.bottom.color */
   vertical-align: middle;
 }
 
-#lsdpufnygs .gt_striped {
-  background-color: #f2f2f2;
+#yayfvuyruf .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+  /* row.striping.background_color */
 }
 
-#lsdpufnygs .gt_row {
-  padding: 10px;
-  /* row.padding */
+#yayfvuyruf .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#yayfvuyruf .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#yayfvuyruf .gt_row {
+  padding-top: 8px;
+  /* data_row.padding */
+  padding-bottom: 8px;
+  /* data_row.padding */
+  padding-left: 5px;
+  padding-right: 5px;
   margin: 10px;
+  border-top-style: solid;
+  /* table_body.hlines.style */
+  border-top-width: 1px;
+  /* table_body.hlines.width */
+  border-top-color: #D3D3D3;
+  /* table_body.hlines.color */
+  border-left-style: none;
+  /* table_body.vlines.style */
+  border-left-width: 1px;
+  /* table_body.vlines.width */
+  border-left-color: #D3D3D3;
+  /* table_body.vlines.color */
+  border-right-style: none;
+  /* table_body.vlines.style */
+  border-right-width: 1px;
+  /* table_body.vlines.width */
+  border-right-color: #D3D3D3;
+  /* table_body.vlines.color */
   vertical-align: middle;
+  overflow-x: hidden;
 }
 
-#lsdpufnygs .gt_stub {
+#yayfvuyruf .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  /* stub.background.color */
+  font-weight: initial;
+  /* stub.font.weight */
+  text-transform: inherit;
+  /* stub.text_transform */
   border-right-style: solid;
+  /* stub.border.style */
   border-right-width: 2px;
-  border-right-color: #A8A8A8;
+  /* stub.border.width */
+  border-right-color: #D3D3D3;
+  /* stub.border.color */
   padding-left: 12px;
 }
 
-#lsdpufnygs .gt_stub.gt_row {
-  background-color: #FFFFFF;
-}
-
-#lsdpufnygs .gt_summary_row {
+#yayfvuyruf .gt_summary_row {
+  color: #333333;
   background-color: #FFFFFF;
   /* summary_row.background.color */
-  padding: 6px;
-  /* summary_row.padding */
   text-transform: inherit;
   /* summary_row.text_transform */
+  padding-top: 8px;
+  /* summary_row.padding */
+  padding-bottom: 8px;
+  /* summary_row.padding */
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#lsdpufnygs .gt_first_summary_row {
+#yayfvuyruf .gt_first_summary_row {
+  padding-top: 8px;
+  /* summary_row.padding */
+  padding-bottom: 8px;
+  /* summary_row.padding */
+  padding-left: 5px;
+  padding-right: 5px;
   border-top-style: solid;
+  /* summary_row.border.style */
   border-top-width: 2px;
-  border-top-color: #A8A8A8;
+  /* summary_row.border.width */
+  border-top-color: #D3D3D3;
+  /* summary_row.border.color */
 }
 
-#lsdpufnygs .gt_table_body {
+#yayfvuyruf .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  /* grand_summary_row.background.color */
+  text-transform: inherit;
+  /* grand_summary_row.text_transform */
+  padding-top: 8px;
+  /* grand_summary_row.padding */
+  padding-bottom: 8px;
+  /* grand_summary_row.padding */
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#yayfvuyruf .gt_first_grand_summary_row {
+  padding-top: 8px;
+  /* grand_summary_row.padding */
+  padding-bottom: 8px;
+  /* grand_summary_row.padding */
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  /* grand_summary_row.border.style */
+  border-top-width: 6px;
+  /* grand_summary_row.border.width */
+  border-top-color: #D3D3D3;
+  /* grand_summary_row.border.color */
+}
+
+#yayfvuyruf .gt_table_body {
   border-top-style: solid;
-  /* field.border.top.style */
+  /* table_body.border.top.style */
   border-top-width: 2px;
-  /* field.border.top.width */
-  border-top-color: #A8A8A8;
-  /* field.border.top.color */
+  /* table_body.border.top.width */
+  border-top-color: #D3D3D3;
+  /* table_body.border.top.color */
   border-bottom-style: solid;
-  /* field.border.bottom.style */
+  /* table_body.border.bottom.style */
   border-bottom-width: 2px;
-  /* field.border.bottom.width */
-  border-bottom-color: #A8A8A8;
-  /* field.border.bottom.color */
+  /* table_body.border.bottom.width */
+  border-bottom-color: #D3D3D3;
+  /* table_body.border.bottom.color */
 }
 
-#lsdpufnygs .gt_footnote {
+#yayfvuyruf .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  /* footnotes.background.color */
+  border-bottom-style: none;
+  /* footnotes.border.bottom.style */
+  border-bottom-width: 2px;
+  /* footnotes.border.bottom.width */
+  border-bottom-color: #D3D3D3;
+  /* footnotes.border.bottom.color */
+  border-left-style: none;
+  /* footnotes.border.lr.color */
+  border-left-width: 2px;
+  /* footnotes.border.lr.color */
+  border-left-color: #D3D3D3;
+  /* footnotes.border.lr.color */
+  border-right-style: none;
+  /* footnotes.border.lr.color */
+  border-right-width: 2px;
+  /* footnotes.border.lr.color */
+  border-right-color: #D3D3D3;
+  /* footnotes.border.lr.color */
+}
+
+#yayfvuyruf .gt_footnote {
+  margin: 0px;
   font-size: 90%;
-  /* footnote.font.size */
+  /* footnotes.font.size */
   padding: 4px;
-  /* footnote.padding */
+  /* footnotes.padding */
 }
 
-#lsdpufnygs .gt_sourcenote {
+#yayfvuyruf .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  /* source_notes.background.color */
+  border-bottom-style: none;
+  /* source_notes.border.bottom.style */
+  border-bottom-width: 2px;
+  /* source_notes.border.bottom.width */
+  border-bottom-color: #D3D3D3;
+  /* source_notes.border.bottom.color */
+  border-left-style: none;
+  /* source_notes.border.lr.style */
+  border-left-width: 2px;
+  /* source_notes.border.lr.style */
+  border-left-color: #D3D3D3;
+  /* source_notes.border.lr.style */
+  border-right-style: none;
+  /* source_notes.border.lr.style */
+  border-right-width: 2px;
+  /* source_notes.border.lr.style */
+  border-right-color: #D3D3D3;
+  /* source_notes.border.lr.style */
+}
+
+#yayfvuyruf .gt_sourcenote {
   font-size: 90%;
-  /* sourcenote.font.size */
+  /* source_notes.font.size */
   padding: 4px;
-  /* sourcenote.padding */
+  /* source_notes.padding */
 }
 
-#lsdpufnygs .gt_center {
-  text-align: center;
-}
-
-#lsdpufnygs .gt_left {
+#yayfvuyruf .gt_left {
   text-align: left;
 }
 
-#lsdpufnygs .gt_right {
+#yayfvuyruf .gt_center {
+  text-align: center;
+}
+
+#yayfvuyruf .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#lsdpufnygs .gt_font_normal {
+#yayfvuyruf .gt_font_normal {
   font-weight: normal;
 }
 
-#lsdpufnygs .gt_font_bold {
+#yayfvuyruf .gt_font_bold {
   font-weight: bold;
 }
 
-#lsdpufnygs .gt_font_italic {
+#yayfvuyruf .gt_font_italic {
   font-style: italic;
 }
 
-#lsdpufnygs .gt_super {
+#yayfvuyruf .gt_super {
   font-size: 65%;
 }
 
-#lsdpufnygs .gt_footnote_glyph {
+#yayfvuyruf .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="lsdpufnygs" style="overflow-x:auto;"><!--gt table start-->
-<table class='gt_table'>
-<tr>
-<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>py</th>
-<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>delta</th>
-<th class='gt_col_heading gt_center' rowspan='1' colspan='1'>scenario</th>
-<th class='gt_col_heading gt_center' rowspan='1' colspan='1'>label</th>
-</tr>
-<tbody class='gt_table_body'>
-<tr>
-<td class='gt_row gt_right'>2018</td>
-<td class='gt_row gt_right'>-248</td>
-<td class='gt_row gt_center'>baseline</td>
-<td class='gt_row gt_center'>$248</td>
-</tr>
-<tr>
-<td class='gt_row gt_right gt_striped'>2019</td>
-<td class='gt_row gt_right gt_striped'>-193</td>
-<td class='gt_row gt_center gt_striped'>baseline</td>
-<td class='gt_row gt_center gt_striped'>$193</td>
-</tr>
-<tr>
-<td class='gt_row gt_right'>2020</td>
-<td class='gt_row gt_right'>-121</td>
-<td class='gt_row gt_center'>baseline</td>
-<td class='gt_row gt_center'>$121</td>
-</tr>
-<tr>
-<td class='gt_row gt_right gt_striped'>2021</td>
-<td class='gt_row gt_right gt_striped'>-53</td>
-<td class='gt_row gt_center gt_striped'>baseline</td>
-<td class='gt_row gt_center gt_striped'>$53</td>
-</tr>
-<tr>
-<td class='gt_row gt_right'>2022</td>
-<td class='gt_row gt_right'>-19</td>
-<td class='gt_row gt_center'>baseline</td>
-<td class='gt_row gt_center'>$19</td>
-</tr>
-<tr>
-<td class='gt_row gt_right gt_striped'>2023</td>
-<td class='gt_row gt_right gt_striped'>75</td>
-<td class='gt_row gt_center gt_striped'>alternative</td>
-<td class='gt_row gt_center gt_striped'>$75</td>
-</tr>
-<tr>
-<td class='gt_row gt_right'>2024</td>
-<td class='gt_row gt_right'>222</td>
-<td class='gt_row gt_center'>alternative</td>
-<td class='gt_row gt_center'>$222</td>
-</tr>
-<tr>
-<td class='gt_row gt_right gt_striped'>2025</td>
-<td class='gt_row gt_right gt_striped'>310</td>
-<td class='gt_row gt_center gt_striped'>alternative</td>
-<td class='gt_row gt_center gt_striped'>$310</td>
-</tr>
-<tr>
-<td class='gt_row gt_right'>2026</td>
-<td class='gt_row gt_right'>425</td>
-<td class='gt_row gt_center'>alternative</td>
-<td class='gt_row gt_center'>$425</td>
-</tr>
-</tbody>
-</table>
-<!--gt table end-->
-</div>
+<div id="yayfvuyruf" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">py</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">delta</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">scenario</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">label</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr>
+      <td class="gt_row gt_right">2018</td>
+      <td class="gt_row gt_right">-248</td>
+      <td class="gt_row gt_center">baseline</td>
+      <td class="gt_row gt_center">$248</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right gt_striped">2019</td>
+      <td class="gt_row gt_right gt_striped">-193</td>
+      <td class="gt_row gt_center gt_striped">baseline</td>
+      <td class="gt_row gt_center gt_striped">$193</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right">2020</td>
+      <td class="gt_row gt_right">-121</td>
+      <td class="gt_row gt_center">baseline</td>
+      <td class="gt_row gt_center">$121</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right gt_striped">2021</td>
+      <td class="gt_row gt_right gt_striped">-53</td>
+      <td class="gt_row gt_center gt_striped">baseline</td>
+      <td class="gt_row gt_center gt_striped">$53</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right">2022</td>
+      <td class="gt_row gt_right">-19</td>
+      <td class="gt_row gt_center">baseline</td>
+      <td class="gt_row gt_center">$19</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right gt_striped">2023</td>
+      <td class="gt_row gt_right gt_striped">75</td>
+      <td class="gt_row gt_center gt_striped">alternative</td>
+      <td class="gt_row gt_center gt_striped">$75</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right">2024</td>
+      <td class="gt_row gt_right">222</td>
+      <td class="gt_row gt_center">alternative</td>
+      <td class="gt_row gt_center">$222</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right gt_striped">2025</td>
+      <td class="gt_row gt_right gt_striped">310</td>
+      <td class="gt_row gt_center gt_striped">alternative</td>
+      <td class="gt_row gt_center gt_striped">$310</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right">2026</td>
+      <td class="gt_row gt_right">425</td>
+      <td class="gt_row gt_center">alternative</td>
+      <td class="gt_row gt_center">$425</td>
+    </tr>
+  </tbody>
+  
+  
+</table></div>
 <pre class="r"><code>ggplot(d, aes(x = py)) + 
         geom_point(aes(y = 1, size = abs(delta), color = scenario)) +
         scale_size(range = c(5, 22)) +
@@ -365,20 +582,49 @@ gt(d)</code></pre>
               axis.title.y = element_blank(), 
               axis.text.y = element_blank())</code></pre>
 <p><img src="/posts/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
-<p>The color indicates which scenario is the lowest cost scenario for a particular year. The magnitudes of the difference between the two cash flows is represented by the size of the bubble; negative values imply alternative scenario is more expensive. It is also used as the label at the center of each bubble. Two important points are called out on the annotation of the plot: the break even month (68) and the month where the cumulative cash flow differences becomes positive (104), that is when the the cumulative cash flows of the baseline policy exceed those of the alternative policy.</p>
+<p>The color indicates which scenario is the lowest cost scenario for a particular
+year. The magnitudes of the difference between the two cash flows is represented
+by the size of the bubble; negative values imply alternative scenario is more
+expensive. It is also used as the label at the center of each bubble. Two
+important points are called out on the annotation of the plot: the break even
+month (68) and the month where the cumulative cash flow differences becomes
+positive (104), that is when the the cumulative cash flows of the baseline policy
+exceed those of the alternative policy.</p>
 <div id="why-i-think-this-visualization-is-not-effective" class="section level3">
 <h3>Why I think this visualization is not effective</h3>
-<p>When I first saw this visualization, it was not clear to me what information it was trying to make it easier for me to understand. A good data visualization should reduce the mental load of the viewer to gain understanding. I was eventually able to decipher what it was trying to communicate after looking at it for a while and reading the accompanying explanatory notes.</p>
-<p>Two more specific issues with the visualization are the use of bubbles and the choice of colors. The area of the bubbles is used to convey the relative sizes in the cash flow differences. However, it is harder for humans to reason about relative areas (2d) than relative lengths (1d). The visualization unnecessarily projects one-dimensional data into two dimensions. For example, I know, because of the value labels, that the bubble for year 2025 is about 50% larger than the bubble for 2024, but I would not have guessed it from the size of the bubble.</p>
-<p>The color used in the visualization conveys important information. It’s the only graphical element which tells the user the sign of the differences in the two sets of cash flows. As such, choosing colors that help the viewer understand the direction of the cash flows would probably be better than choosing colors which make it look pretty.</p>
+<p>When I first saw this visualization, it was not clear to me what information it
+was trying to make it easier for me to understand. A good data visualization
+should reduce the mental load of the viewer to gain understanding. I was
+eventually able to decipher what it was trying to communicate after
+looking at it for a while and reading the accompanying explanatory notes.</p>
+<p>Two more specific issues with the visualization are the use of bubbles and the
+choice of colors. The area of the bubbles is used to convey the relative sizes
+in the cash flow differences. However, it is harder for humans to reason about
+relative areas (2d) than relative lengths (1d). The visualization unnecessarily
+projects one-dimensional data into two dimensions. For example, I know, because
+of the value labels, that the bubble for year 2025 is about 50% larger than the
+bubble for 2024, but I would not have guessed it from the size of the bubble.</p>
+<p>The color used in the visualization conveys important information. It’s the only
+graphical element which tells the user the sign of the differences in the two
+sets of cash flows. As such, choosing colors that help the viewer understand the
+direction of the cash flows would probably be better than choosing colors which
+make it look pretty.</p>
 </div>
 </div>
 <div id="so-what-would-be-better" class="section level2">
 <h2>So what would be better</h2>
-<p>I’ve highlighted a few things I think are issues with the original visualization. Next, I will try to address these issues to create what I think is a better visualization. I’ve seen Tufte and others compare visualizations found in the “wild”, with their own improved versions. Perhaps they can go straight from A to B, but I typically need to iterate. I thought it might be interesting or helpful to record the steps I went through.</p>
+<p>I’ve highlighted a few things I think are issues with the original visualization.
+Next, I will try to address these issues to create what I think is a better
+visualization. I’ve seen Tufte and others compare visualizations found in the
+“wild”, with their own improved versions. Perhaps they can go straight from
+A to B, but I typically need to iterate. I thought it might be interesting or
+helpful to record the steps I went through.</p>
 <div id="iteration-1---bursting-the-bubbles" class="section level3">
 <h3>Iteration 1 - Bursting the Bubbles</h3>
-<p>So my first thought was to get rid of the bubbles and use a column chart. I also wanted to give some context to the months which are highlighted in the call outs so I added a second x-axis. Important to note, this secondary x-axis has exactly the same scale as the primary one.</p>
+<p>So my first thought was to get rid of the bubbles and use a column chart.
+I also wanted to give some context to the months which are highlighted in the
+call outs so I added a second x-axis. Important to note, this secondary x-axis
+has exactly the same scale as the primary one.</p>
 <pre class="r"><code>ggplot(d, aes(py, delta, fill = scenario)) + 
   geom_bar(stat = &quot;identity&quot;, width = 0.3) +
   geom_hline(yintercept = 0) +
@@ -403,11 +649,15 @@ gt(d)</code></pre>
   theme(legend.position = &quot;none&quot;)+
   ylab(&quot;Annual Cashflow Difference (in thousands)&quot;) + xlab(&quot;projection year&quot;)</code></pre>
 <p><img src="/posts/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
-<p>I think this already much better. It now immediately obvious that about half way between 60 and 72 months the sign changes from a negative delta to a positive one.</p>
+<p>I think this already much better. It now immediately obvious that about half way
+between 60 and 72 months the sign changes from a negative delta to a positive one.</p>
 </div>
 <div id="iteration-2---clean-up-the-call-outs" class="section level3">
 <h3>Iteration 2 - Clean up the Call Outs</h3>
-<p>Next, I thought it was sort of visually jarring to have the call out for the first half of the chart above the 0 line and the other below. I also thought it might be good to try to tie the call outs to the relate regions of the chart with color.</p>
+<p>Next, I thought it was sort of visually jarring to have the call out for the
+first half of the chart above the 0 line and the other below. I also thought it
+might be good to try to tie the call outs to the relate regions of the chart
+with color.</p>
 <pre class="r"><code>ggplot(d, aes(py, delta, fill = scenario)) + 
   geom_bar(stat = &quot;identity&quot;, width = 0.3) +
   scale_fill_manual(values = c(&quot;#8EE5EE&quot;, &quot;#AB82FF&quot;)) +
@@ -439,7 +689,12 @@ gt(d)</code></pre>
 </div>
 <div id="iteration-3---concentrate-on-the-cumulative-cashflows" class="section level3">
 <h3>Iteration 3 - Concentrate on the Cumulative Cashflows</h3>
-<p>There are two “critical points” that are called out on the chart. 68 months is the point at which the difference between the cash flows of the two scenarios flips from negative to positive; 104 months is the point past which all of the positive differences in cash flows exceed all negative ones, but that is not something that can be seen in this version of the visualization. This led me to overlay the cumulative cash flows.</p>
+<p>There are two “critical points” that are called out on the chart. 68 months is
+the point at which the difference between the cash flows of the two scenarios
+flips from negative to positive; 104 months is the point past which all of the
+positive differences in cash flows exceed all negative ones, but that is not
+something that can be seen in this version of the visualization. This led me to
+overlay the cumulative cash flows.</p>
 <pre class="r"><code>d_cumulative &lt;- mutate(d, cumdelta = cumsum(delta), start = cumdelta - delta)
 
 ggplot(d_cumulative, aes(x = py, fill = scenario)) + 
@@ -461,11 +716,16 @@ ggplot(d_cumulative, aes(x = py, fill = scenario)) +
   theme(legend.position = &quot;none&quot;)+
   ylab(&quot;Annual Cashflow Difference (in thousands)&quot;) + xlab(&quot;projection year&quot;)</code></pre>
 <p><img src="/posts/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
-<p>Okay, now we’re getting somewhere. Plotting the cumulative data removes the need for any call outs since we can see clearly the two critical points in the cumulative data. The inflection point, the part where the curve bottoms out is the point where the cash flows change from negative to positive. And the place where the cumulative plot crosses the x-axis is visually near 104 months.</p>
+<p>Okay, now we’re getting somewhere. Plotting the cumulative data removes the need for
+any call outs since we can see clearly the two critical points in the
+cumulative data. The inflection point, the part where the curve bottoms out is
+the point where the cash flows change from negative to positive. And the place
+where the cumulative plot crosses the x-axis is visually near 104 months.</p>
 </div>
 <div id="iteration-4---what-about-a-waterfall" class="section level3">
 <h3>Iteration 4 - What about a Waterfall?</h3>
-<p>I want to emphasize both the incremental changes and the cumulative values. I first attemptted to accomplish this by using a waterfall chart.</p>
+<p>I want to emphasize both the incremental changes and the cumulative values.
+I first attemptted to accomplish this by using a waterfall chart.</p>
 <pre class="r"><code>ggplot(d_cumulative) +
         geom_rect(aes(xmin = py - 0.2, 
                   xmax = py + 0.2, 
@@ -488,17 +748,31 @@ ggplot(d_cumulative, aes(x = py, fill = scenario)) +
         ylab(&quot;Annual Cashflow Difference (in thousands)&quot;) + 
         xlab(&quot;projection year&quot;)</code></pre>
 <p><img src="/posts/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
-<p>Now I can see how each incremental value accumulates to the cumulative value. The two “critical points” jump out of the plot. So there are three things now that bother me about this plot.</p>
+<p>Now I can see how each incremental value accumulates to the cumulative value. The two
+“critical points” jump out of the plot. So there are three things now that bother me about
+this plot.</p>
 <ul>
-<li><p>Although if I read the chart left to right, I can easily follow the incremental movements, I find it a little confusing to understand the direction the waterfall is moving if I start by looking at the middle of the plot.</p></li>
-<li><p>I wonder if there is a way to make what’s happening here more “grok-able”. The values being plotted show the incremental and cumulative cost savings between the alternative scenario and the baseline scenario. Negative cost savings feels a little bit like a double negative.</p></li>
-<li><p>Now that the main feature of the plot calls out both the inflection point and the point at which the cumulative savings become positive, it’s clear that the analysis was done using more granular data then what we’re showing. If we could plot quarterly cash flows we could see the two critical points exactly.</p></li>
+<li><p>Although if I read the chart left to right, I can easily follow the incremental
+movements, I find it a little confusing to understand the direction the waterfall is moving
+if I start by looking at the middle of the plot.</p></li>
+<li><p>I wonder if there is a way to make what’s happening here more “grok-able”. The values being
+plotted show the incremental and cumulative cost savings between the alternative scenario
+and the baseline scenario. Negative cost savings feels a little bit like a double negative.</p></li>
+<li><p>Now that the main feature of the plot calls out both the inflection point and the point
+at which the cumulative savings become positive, it’s clear that the analysis was done
+using more granular data then what we’re showing. If we could plot quarterly cash flows we
+could see the two critical points exactly.</p></li>
 </ul>
-<p>I don’t actually have the quarterly data, so I will try to address the first two points above using the annual data and then extrapolate the quarterly data.</p>
+<p>I don’t actually have the quarterly data, so I will try to address the first two points
+above using the annual data and then extrapolate the quarterly data.</p>
 </div>
 <div id="iteration-5---changing-direction-and-color" class="section level3">
 <h3>Iteration 5 - Changing Direction and Color</h3>
-<p>I’m going to see if I can deal with the “grok-ableness” issue first. The baseline scenario is what will happen if the client continues their current policy; the alternative involves a change to that policy. I want to frame things in terms of costs and savings to the client relative to the baseline scenario. I’ll start by re-factoring the data slightly.</p>
+<p>I’m going to see if I can deal with the “grok-ableness” issue first. The baseline
+scenario is what will happen if the client continues their current policy; the
+alternative involves a change to that policy. I want to frame things in terms of
+costs and savings to the client relative to the baseline scenario. I’ll start by
+re-factoring the data slightly.</p>
 <pre class="r"><code>d_alt &lt;- mutate(d_raw, delta = -delta) %&gt;%
         rename(amt = delta) %&gt;%
         mutate(direction = as.factor(case_when(amt &gt;= 0 ~ &quot;cost&quot;, TRUE ~ &quot;savings&quot;)),
@@ -509,13 +783,16 @@ gt(d_alt)</code></pre>
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#uobudkrobv .gt_table {
+#jfifuddopc .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
+  /* table.margin.left */
   margin-right: auto;
-  color: #000000;
+  /* table.margin.right */
+  color: #333333;
   font-size: 16px;
+  /* table.font.size */
   background-color: #FFFFFF;
   /* table.background.color */
   width: auto;
@@ -526,295 +803,497 @@ gt(d_alt)</code></pre>
   /* table.border.top.width */
   border-top-color: #A8A8A8;
   /* table.border.top.color */
+  border-bottom-style: solid;
+  /* table.border.bottom.style */
+  border-bottom-width: 2px;
+  /* table.border.bottom.width */
+  border-bottom-color: #A8A8A8;
+  /* table.border.bottom.color */
 }
 
-#uobudkrobv .gt_heading {
+#jfifuddopc .gt_heading {
   background-color: #FFFFFF;
   /* heading.background.color */
   border-bottom-color: #FFFFFF;
+  /* table.background.color */
+  border-left-style: hidden;
+  /* heading.border.lr.style */
+  border-left-width: 1px;
+  /* heading.border.lr.width */
+  border-left-color: #D3D3D3;
+  /* heading.border.lr.color */
+  border-right-style: hidden;
+  /* heading.border.lr.style */
+  border-right-width: 1px;
+  /* heading.border.lr.width */
+  border-right-color: #D3D3D3;
+  /* heading.border.lr.color */
 }
 
-#uobudkrobv .gt_title {
-  color: #000000;
+#jfifuddopc .gt_title {
+  color: #333333;
   font-size: 125%;
   /* heading.title.font.size */
+  font-weight: initial;
+  /* heading.title.font.weight */
   padding-top: 4px;
-  /* heading.top.padding */
-  padding-bottom: 1px;
+  /* heading.top.padding - not yet used */
+  padding-bottom: 4px;
   border-bottom-color: #FFFFFF;
+  /* table.background.color */
   border-bottom-width: 0;
 }
 
-#uobudkrobv .gt_subtitle {
-  color: #000000;
+#jfifuddopc .gt_subtitle {
+  color: #333333;
   font-size: 85%;
   /* heading.subtitle.font.size */
-  padding-top: 1px;
+  font-weight: initial;
+  /* heading.subtitle.font.weight */
+  padding-top: 0;
   padding-bottom: 4px;
-  /* heading.bottom.padding */
+  /* heading.bottom.padding - not yet used */
   border-top-color: #FFFFFF;
+  /* table.background.color */
   border-top-width: 0;
 }
 
-#uobudkrobv .gt_bottom_border {
+#jfifuddopc .gt_bottom_border {
   border-bottom-style: solid;
   /* heading.border.bottom.style */
   border-bottom-width: 2px;
   /* heading.border.bottom.width */
-  border-bottom-color: #A8A8A8;
+  border-bottom-color: #D3D3D3;
   /* heading.border.bottom.color */
 }
 
-#uobudkrobv .gt_column_spanner {
+#jfifuddopc .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
-  border-bottom-color: #A8A8A8;
+  border-bottom-color: #D3D3D3;
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#uobudkrobv .gt_col_heading {
-  color: #000000;
+#jfifuddopc .gt_col_headings {
+  border-top-style: solid;
+  /* column_labels.border.top.style */
+  border-top-width: 2px;
+  /* column_labels.border.top.width */
+  border-top-color: #D3D3D3;
+  /* column_labels.border.top.color */
+  border-bottom-style: solid;
+  /* column_labels.border.bottom.style */
+  border-bottom-width: 2px;
+  /* column_labels.border.bottom.width */
+  border-bottom-color: #D3D3D3;
+  /* column_labels.border.bottom.color */
+  border-left-style: none;
+  /* column_labels.border.lr.style */
+  border-left-width: 1px;
+  /* column_labels.border.lr.width */
+  border-left-color: #D3D3D3;
+  /* column_labels.border.lr.color */
+  border-right-style: none;
+  /* column_labels.border.lr.style */
+  border-right-width: 1px;
+  /* column_labels.border.lr.width */
+  border-right-color: #D3D3D3;
+  /* column_labels.border.lr.color */
+}
+
+#jfifuddopc .gt_col_heading {
+  color: #333333;
   background-color: #FFFFFF;
   /* column_labels.background.color */
-  font-size: 16px;
+  font-size: 100%;
   /* column_labels.font.size */
   font-weight: initial;
   /* column_labels.font.weight */
+  text-transform: inherit;
+  /* column_labels.text_transform */
   vertical-align: middle;
-  padding: 10px;
+  padding: 5px;
   margin: 10px;
+  overflow-x: hidden;
 }
 
-#uobudkrobv .gt_sep_right {
+#jfifuddopc .gt_sep_right {
   border-right: 5px solid #FFFFFF;
 }
 
-#uobudkrobv .gt_group_heading {
+#jfifuddopc .gt_group_heading {
   padding: 8px;
-  color: #000000;
+  /* row_group.padding */
+  color: #333333;
   background-color: #FFFFFF;
-  /* stub_group.background.color */
-  font-size: 16px;
-  /* stub_group.font.size */
+  /* row_group.background.color */
+  font-size: 100%;
+  /* row_group.font.size */
   font-weight: initial;
-  /* stub_group.font.weight */
+  /* row_group.font.weight */
+  text-transform: inherit;
+  /* row_group.text_transform */
   border-top-style: solid;
-  /* stub_group.border.top.style */
+  /* row_group.border.top.style */
   border-top-width: 2px;
-  /* stub_group.border.top.width */
-  border-top-color: #A8A8A8;
-  /* stub_group.border.top.color */
+  /* row_group.border.top.width */
+  border-top-color: #D3D3D3;
+  /* row_group.border.top.color */
   border-bottom-style: solid;
-  /* stub_group.border.bottom.style */
+  /* row_group.border.bottom.style */
   border-bottom-width: 2px;
-  /* stub_group.border.bottom.width */
-  border-bottom-color: #A8A8A8;
-  /* stub_group.border.bottom.color */
+  /* row_group.border.bottom.width */
+  border-bottom-color: #D3D3D3;
+  /* row_group.border.bottom.color */
+  border-left-style: none;
+  /* row_group.border.left.style */
+  border-left-width: 1px;
+  /* row_group.border.left.width */
+  border-left-color: #D3D3D3;
+  /* row_group.border.left.color */
+  border-right-style: none;
+  /* row_group.border.right.style */
+  border-right-width: 1px;
+  /* row_group.border.right.width */
+  border-right-color: #D3D3D3;
+  /* row_group.border.right.color */
   vertical-align: middle;
 }
 
-#uobudkrobv .gt_empty_group_heading {
+#jfifuddopc .gt_empty_group_heading {
   padding: 0.5px;
-  color: #000000;
+  color: #333333;
   background-color: #FFFFFF;
-  /* stub_group.background.color */
-  font-size: 16px;
-  /* stub_group.font.size */
+  /* row_group.background.color */
+  font-size: 100%;
+  /* row_group.font.size */
   font-weight: initial;
-  /* stub_group.font.weight */
+  /* row_group.font.weight */
   border-top-style: solid;
-  /* stub_group.border.top.style */
+  /* row_group.border.top.style */
   border-top-width: 2px;
-  /* stub_group.border.top.width */
-  border-top-color: #A8A8A8;
-  /* stub_group.border.top.color */
+  /* row_group.border.top.width */
+  border-top-color: #D3D3D3;
+  /* row_group.border.top.color */
   border-bottom-style: solid;
-  /* stub_group.border.bottom.style */
+  /* row_group.border.bottom.style */
   border-bottom-width: 2px;
-  /* stub_group.border.bottom.width */
-  border-bottom-color: #A8A8A8;
-  /* stub_group.border.bottom.color */
+  /* row_group.border.bottom.width */
+  border-bottom-color: #D3D3D3;
+  /* row_group.border.bottom.color */
   vertical-align: middle;
 }
 
-#uobudkrobv .gt_striped {
-  background-color: #f2f2f2;
+#jfifuddopc .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+  /* row.striping.background_color */
 }
 
-#uobudkrobv .gt_row {
-  padding: 10px;
-  /* row.padding */
+#jfifuddopc .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#jfifuddopc .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#jfifuddopc .gt_row {
+  padding-top: 8px;
+  /* data_row.padding */
+  padding-bottom: 8px;
+  /* data_row.padding */
+  padding-left: 5px;
+  padding-right: 5px;
   margin: 10px;
+  border-top-style: solid;
+  /* table_body.hlines.style */
+  border-top-width: 1px;
+  /* table_body.hlines.width */
+  border-top-color: #D3D3D3;
+  /* table_body.hlines.color */
+  border-left-style: none;
+  /* table_body.vlines.style */
+  border-left-width: 1px;
+  /* table_body.vlines.width */
+  border-left-color: #D3D3D3;
+  /* table_body.vlines.color */
+  border-right-style: none;
+  /* table_body.vlines.style */
+  border-right-width: 1px;
+  /* table_body.vlines.width */
+  border-right-color: #D3D3D3;
+  /* table_body.vlines.color */
   vertical-align: middle;
+  overflow-x: hidden;
 }
 
-#uobudkrobv .gt_stub {
+#jfifuddopc .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  /* stub.background.color */
+  font-weight: initial;
+  /* stub.font.weight */
+  text-transform: inherit;
+  /* stub.text_transform */
   border-right-style: solid;
+  /* stub.border.style */
   border-right-width: 2px;
-  border-right-color: #A8A8A8;
+  /* stub.border.width */
+  border-right-color: #D3D3D3;
+  /* stub.border.color */
   padding-left: 12px;
 }
 
-#uobudkrobv .gt_stub.gt_row {
-  background-color: #FFFFFF;
-}
-
-#uobudkrobv .gt_summary_row {
+#jfifuddopc .gt_summary_row {
+  color: #333333;
   background-color: #FFFFFF;
   /* summary_row.background.color */
-  padding: 6px;
-  /* summary_row.padding */
   text-transform: inherit;
   /* summary_row.text_transform */
+  padding-top: 8px;
+  /* summary_row.padding */
+  padding-bottom: 8px;
+  /* summary_row.padding */
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#uobudkrobv .gt_first_summary_row {
+#jfifuddopc .gt_first_summary_row {
+  padding-top: 8px;
+  /* summary_row.padding */
+  padding-bottom: 8px;
+  /* summary_row.padding */
+  padding-left: 5px;
+  padding-right: 5px;
   border-top-style: solid;
+  /* summary_row.border.style */
   border-top-width: 2px;
-  border-top-color: #A8A8A8;
+  /* summary_row.border.width */
+  border-top-color: #D3D3D3;
+  /* summary_row.border.color */
 }
 
-#uobudkrobv .gt_table_body {
+#jfifuddopc .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  /* grand_summary_row.background.color */
+  text-transform: inherit;
+  /* grand_summary_row.text_transform */
+  padding-top: 8px;
+  /* grand_summary_row.padding */
+  padding-bottom: 8px;
+  /* grand_summary_row.padding */
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jfifuddopc .gt_first_grand_summary_row {
+  padding-top: 8px;
+  /* grand_summary_row.padding */
+  padding-bottom: 8px;
+  /* grand_summary_row.padding */
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  /* grand_summary_row.border.style */
+  border-top-width: 6px;
+  /* grand_summary_row.border.width */
+  border-top-color: #D3D3D3;
+  /* grand_summary_row.border.color */
+}
+
+#jfifuddopc .gt_table_body {
   border-top-style: solid;
-  /* field.border.top.style */
+  /* table_body.border.top.style */
   border-top-width: 2px;
-  /* field.border.top.width */
-  border-top-color: #A8A8A8;
-  /* field.border.top.color */
+  /* table_body.border.top.width */
+  border-top-color: #D3D3D3;
+  /* table_body.border.top.color */
   border-bottom-style: solid;
-  /* field.border.bottom.style */
+  /* table_body.border.bottom.style */
   border-bottom-width: 2px;
-  /* field.border.bottom.width */
-  border-bottom-color: #A8A8A8;
-  /* field.border.bottom.color */
+  /* table_body.border.bottom.width */
+  border-bottom-color: #D3D3D3;
+  /* table_body.border.bottom.color */
 }
 
-#uobudkrobv .gt_footnote {
+#jfifuddopc .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  /* footnotes.background.color */
+  border-bottom-style: none;
+  /* footnotes.border.bottom.style */
+  border-bottom-width: 2px;
+  /* footnotes.border.bottom.width */
+  border-bottom-color: #D3D3D3;
+  /* footnotes.border.bottom.color */
+  border-left-style: none;
+  /* footnotes.border.lr.color */
+  border-left-width: 2px;
+  /* footnotes.border.lr.color */
+  border-left-color: #D3D3D3;
+  /* footnotes.border.lr.color */
+  border-right-style: none;
+  /* footnotes.border.lr.color */
+  border-right-width: 2px;
+  /* footnotes.border.lr.color */
+  border-right-color: #D3D3D3;
+  /* footnotes.border.lr.color */
+}
+
+#jfifuddopc .gt_footnote {
+  margin: 0px;
   font-size: 90%;
-  /* footnote.font.size */
+  /* footnotes.font.size */
   padding: 4px;
-  /* footnote.padding */
+  /* footnotes.padding */
 }
 
-#uobudkrobv .gt_sourcenote {
+#jfifuddopc .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  /* source_notes.background.color */
+  border-bottom-style: none;
+  /* source_notes.border.bottom.style */
+  border-bottom-width: 2px;
+  /* source_notes.border.bottom.width */
+  border-bottom-color: #D3D3D3;
+  /* source_notes.border.bottom.color */
+  border-left-style: none;
+  /* source_notes.border.lr.style */
+  border-left-width: 2px;
+  /* source_notes.border.lr.style */
+  border-left-color: #D3D3D3;
+  /* source_notes.border.lr.style */
+  border-right-style: none;
+  /* source_notes.border.lr.style */
+  border-right-width: 2px;
+  /* source_notes.border.lr.style */
+  border-right-color: #D3D3D3;
+  /* source_notes.border.lr.style */
+}
+
+#jfifuddopc .gt_sourcenote {
   font-size: 90%;
-  /* sourcenote.font.size */
+  /* source_notes.font.size */
   padding: 4px;
-  /* sourcenote.padding */
+  /* source_notes.padding */
 }
 
-#uobudkrobv .gt_center {
-  text-align: center;
-}
-
-#uobudkrobv .gt_left {
+#jfifuddopc .gt_left {
   text-align: left;
 }
 
-#uobudkrobv .gt_right {
+#jfifuddopc .gt_center {
+  text-align: center;
+}
+
+#jfifuddopc .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#uobudkrobv .gt_font_normal {
+#jfifuddopc .gt_font_normal {
   font-weight: normal;
 }
 
-#uobudkrobv .gt_font_bold {
+#jfifuddopc .gt_font_bold {
   font-weight: bold;
 }
 
-#uobudkrobv .gt_font_italic {
+#jfifuddopc .gt_font_italic {
   font-style: italic;
 }
 
-#uobudkrobv .gt_super {
+#jfifuddopc .gt_super {
   font-size: 65%;
 }
 
-#uobudkrobv .gt_footnote_glyph {
+#jfifuddopc .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="uobudkrobv" style="overflow-x:auto;"><!--gt table start-->
-<table class='gt_table'>
-<tr>
-<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>py</th>
-<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>amt</th>
-<th class='gt_col_heading gt_center' rowspan='1' colspan='1'>direction</th>
-<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>cumamt</th>
-<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>start</th>
-</tr>
-<tbody class='gt_table_body'>
-<tr>
-<td class='gt_row gt_right'>2018</td>
-<td class='gt_row gt_right'>248</td>
-<td class='gt_row gt_center'>cost</td>
-<td class='gt_row gt_right'>248</td>
-<td class='gt_row gt_right'>0</td>
-</tr>
-<tr>
-<td class='gt_row gt_right gt_striped'>2019</td>
-<td class='gt_row gt_right gt_striped'>193</td>
-<td class='gt_row gt_center gt_striped'>cost</td>
-<td class='gt_row gt_right gt_striped'>441</td>
-<td class='gt_row gt_right gt_striped'>248</td>
-</tr>
-<tr>
-<td class='gt_row gt_right'>2020</td>
-<td class='gt_row gt_right'>121</td>
-<td class='gt_row gt_center'>cost</td>
-<td class='gt_row gt_right'>562</td>
-<td class='gt_row gt_right'>441</td>
-</tr>
-<tr>
-<td class='gt_row gt_right gt_striped'>2021</td>
-<td class='gt_row gt_right gt_striped'>53</td>
-<td class='gt_row gt_center gt_striped'>cost</td>
-<td class='gt_row gt_right gt_striped'>615</td>
-<td class='gt_row gt_right gt_striped'>562</td>
-</tr>
-<tr>
-<td class='gt_row gt_right'>2022</td>
-<td class='gt_row gt_right'>19</td>
-<td class='gt_row gt_center'>cost</td>
-<td class='gt_row gt_right'>634</td>
-<td class='gt_row gt_right'>615</td>
-</tr>
-<tr>
-<td class='gt_row gt_right gt_striped'>2023</td>
-<td class='gt_row gt_right gt_striped'>-75</td>
-<td class='gt_row gt_center gt_striped'>savings</td>
-<td class='gt_row gt_right gt_striped'>559</td>
-<td class='gt_row gt_right gt_striped'>634</td>
-</tr>
-<tr>
-<td class='gt_row gt_right'>2024</td>
-<td class='gt_row gt_right'>-222</td>
-<td class='gt_row gt_center'>savings</td>
-<td class='gt_row gt_right'>337</td>
-<td class='gt_row gt_right'>559</td>
-</tr>
-<tr>
-<td class='gt_row gt_right gt_striped'>2025</td>
-<td class='gt_row gt_right gt_striped'>-310</td>
-<td class='gt_row gt_center gt_striped'>savings</td>
-<td class='gt_row gt_right gt_striped'>27</td>
-<td class='gt_row gt_right gt_striped'>337</td>
-</tr>
-<tr>
-<td class='gt_row gt_right'>2026</td>
-<td class='gt_row gt_right'>-425</td>
-<td class='gt_row gt_center'>savings</td>
-<td class='gt_row gt_right'>-398</td>
-<td class='gt_row gt_right'>27</td>
-</tr>
-</tbody>
-</table>
-<!--gt table end-->
-</div>
+<div id="jfifuddopc" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">py</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">amt</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">direction</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">cumamt</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">start</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr>
+      <td class="gt_row gt_right">2018</td>
+      <td class="gt_row gt_right">248</td>
+      <td class="gt_row gt_center">cost</td>
+      <td class="gt_row gt_right">248</td>
+      <td class="gt_row gt_right">0</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right gt_striped">2019</td>
+      <td class="gt_row gt_right gt_striped">193</td>
+      <td class="gt_row gt_center gt_striped">cost</td>
+      <td class="gt_row gt_right gt_striped">441</td>
+      <td class="gt_row gt_right gt_striped">248</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right">2020</td>
+      <td class="gt_row gt_right">121</td>
+      <td class="gt_row gt_center">cost</td>
+      <td class="gt_row gt_right">562</td>
+      <td class="gt_row gt_right">441</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right gt_striped">2021</td>
+      <td class="gt_row gt_right gt_striped">53</td>
+      <td class="gt_row gt_center gt_striped">cost</td>
+      <td class="gt_row gt_right gt_striped">615</td>
+      <td class="gt_row gt_right gt_striped">562</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right">2022</td>
+      <td class="gt_row gt_right">19</td>
+      <td class="gt_row gt_center">cost</td>
+      <td class="gt_row gt_right">634</td>
+      <td class="gt_row gt_right">615</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right gt_striped">2023</td>
+      <td class="gt_row gt_right gt_striped">-75</td>
+      <td class="gt_row gt_center gt_striped">savings</td>
+      <td class="gt_row gt_right gt_striped">559</td>
+      <td class="gt_row gt_right gt_striped">634</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right">2024</td>
+      <td class="gt_row gt_right">-222</td>
+      <td class="gt_row gt_center">savings</td>
+      <td class="gt_row gt_right">337</td>
+      <td class="gt_row gt_right">559</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right gt_striped">2025</td>
+      <td class="gt_row gt_right gt_striped">-310</td>
+      <td class="gt_row gt_center gt_striped">savings</td>
+      <td class="gt_row gt_right gt_striped">27</td>
+      <td class="gt_row gt_right gt_striped">337</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right">2026</td>
+      <td class="gt_row gt_right">-425</td>
+      <td class="gt_row gt_center">savings</td>
+      <td class="gt_row gt_right">-398</td>
+      <td class="gt_row gt_right">27</td>
+    </tr>
+  </tbody>
+  
+  
+</table></div>
 <pre class="r"><code>ggplot(d_alt) +
         geom_rect(aes(xmin = py - 0.2, 
                   xmax = py + 0.2, 
@@ -836,11 +1315,14 @@ gt(d_alt)</code></pre>
                 paste0(&quot;Additional Annual Cost/(Savings) from switching &quot;, 
                        &quot;from the baseline to alternative scenario&quot;)) </code></pre>
 <p><img src="/posts/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
-<p>So now, I think this gels with my intuition, the direction, labels, and color all point in the same direction: increasing expense is an increase and is showing in red (bad); decreasing expense is a decrease and is showing green (good).</p>
+<p>So now, I think this gels with my intuition, the direction, labels, and color all point in
+the same direction: increasing expense is an increase and is showing in red (bad);
+decreasing expense is a decrease and is showing green (good).</p>
 </div>
 <div id="iteration-6---clear-directions" class="section level3">
 <h3>Iteration 6 - Clear Directions</h3>
-<p>The choice of colors which indicate direction is helpful, but it doesn’t completely address my concern with being able to easily see the direction of each incremental change.</p>
+<p>The choice of colors which indicate direction is helpful, but it doesn’t completely address
+my concern with being able to easily see the direction of each incremental change.</p>
 <p>One idea is to make the width of each column wider and add data labels.</p>
 <pre class="r"><code>ggplot(d_alt) +
         geom_rect(aes(xmin = py - 0.35, 
@@ -890,11 +1372,13 @@ gt(d_alt)</code></pre>
                 paste0(&quot;Additional Annual Cost/(Savings) from switching &quot;, 
                        &quot;from the baseline to alternative scenario&quot;)) </code></pre>
 <p><img src="/posts/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
-<p>Okay, I like that even better than I thought I would. I don’t think the legend is necessary with this version.</p>
+<p>Okay, I like that even better than I thought I would. I don’t think the legend
+is necessary with this version.</p>
 </div>
 <div id="iteration-7---extrapolating-the-quarterly-data" class="section level3">
 <h3>Iteration 7 - Extrapolating the quarterly data</h3>
-<p>If we take a look at the annual cumulative data again, I think it’s clear we can get a pretty good fit with a quadratic or cubic fit.</p>
+<p>If we take a look at the annual cumulative data again, I think it’s clear we can get a pretty
+good fit with a quadratic or cubic fit.</p>
 <pre class="r"><code>d_model &lt;- select(d_alt, py, cumamt) %&gt;%
         mutate(py = py + 1) %&gt;%
         bind_rows(tibble(py = 2018, cumamt = 0)) %&gt;%
@@ -955,13 +1439,16 @@ gt(d_qtr)</code></pre>
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#kswvcfyuzf .gt_table {
+#mkwmfbtuml .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
+  /* table.margin.left */
   margin-right: auto;
-  color: #000000;
+  /* table.margin.right */
+  color: #333333;
   font-size: 16px;
+  /* table.font.size */
   background-color: #FFFFFF;
   /* table.background.color */
   width: auto;
@@ -972,529 +1459,731 @@ gt(d_qtr)</code></pre>
   /* table.border.top.width */
   border-top-color: #A8A8A8;
   /* table.border.top.color */
+  border-bottom-style: solid;
+  /* table.border.bottom.style */
+  border-bottom-width: 2px;
+  /* table.border.bottom.width */
+  border-bottom-color: #A8A8A8;
+  /* table.border.bottom.color */
 }
 
-#kswvcfyuzf .gt_heading {
+#mkwmfbtuml .gt_heading {
   background-color: #FFFFFF;
   /* heading.background.color */
   border-bottom-color: #FFFFFF;
+  /* table.background.color */
+  border-left-style: hidden;
+  /* heading.border.lr.style */
+  border-left-width: 1px;
+  /* heading.border.lr.width */
+  border-left-color: #D3D3D3;
+  /* heading.border.lr.color */
+  border-right-style: hidden;
+  /* heading.border.lr.style */
+  border-right-width: 1px;
+  /* heading.border.lr.width */
+  border-right-color: #D3D3D3;
+  /* heading.border.lr.color */
 }
 
-#kswvcfyuzf .gt_title {
-  color: #000000;
+#mkwmfbtuml .gt_title {
+  color: #333333;
   font-size: 125%;
   /* heading.title.font.size */
+  font-weight: initial;
+  /* heading.title.font.weight */
   padding-top: 4px;
-  /* heading.top.padding */
-  padding-bottom: 1px;
+  /* heading.top.padding - not yet used */
+  padding-bottom: 4px;
   border-bottom-color: #FFFFFF;
+  /* table.background.color */
   border-bottom-width: 0;
 }
 
-#kswvcfyuzf .gt_subtitle {
-  color: #000000;
+#mkwmfbtuml .gt_subtitle {
+  color: #333333;
   font-size: 85%;
   /* heading.subtitle.font.size */
-  padding-top: 1px;
+  font-weight: initial;
+  /* heading.subtitle.font.weight */
+  padding-top: 0;
   padding-bottom: 4px;
-  /* heading.bottom.padding */
+  /* heading.bottom.padding - not yet used */
   border-top-color: #FFFFFF;
+  /* table.background.color */
   border-top-width: 0;
 }
 
-#kswvcfyuzf .gt_bottom_border {
+#mkwmfbtuml .gt_bottom_border {
   border-bottom-style: solid;
   /* heading.border.bottom.style */
   border-bottom-width: 2px;
   /* heading.border.bottom.width */
-  border-bottom-color: #A8A8A8;
+  border-bottom-color: #D3D3D3;
   /* heading.border.bottom.color */
 }
 
-#kswvcfyuzf .gt_column_spanner {
+#mkwmfbtuml .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
-  border-bottom-color: #A8A8A8;
+  border-bottom-color: #D3D3D3;
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#kswvcfyuzf .gt_col_heading {
-  color: #000000;
+#mkwmfbtuml .gt_col_headings {
+  border-top-style: solid;
+  /* column_labels.border.top.style */
+  border-top-width: 2px;
+  /* column_labels.border.top.width */
+  border-top-color: #D3D3D3;
+  /* column_labels.border.top.color */
+  border-bottom-style: solid;
+  /* column_labels.border.bottom.style */
+  border-bottom-width: 2px;
+  /* column_labels.border.bottom.width */
+  border-bottom-color: #D3D3D3;
+  /* column_labels.border.bottom.color */
+  border-left-style: none;
+  /* column_labels.border.lr.style */
+  border-left-width: 1px;
+  /* column_labels.border.lr.width */
+  border-left-color: #D3D3D3;
+  /* column_labels.border.lr.color */
+  border-right-style: none;
+  /* column_labels.border.lr.style */
+  border-right-width: 1px;
+  /* column_labels.border.lr.width */
+  border-right-color: #D3D3D3;
+  /* column_labels.border.lr.color */
+}
+
+#mkwmfbtuml .gt_col_heading {
+  color: #333333;
   background-color: #FFFFFF;
   /* column_labels.background.color */
-  font-size: 16px;
+  font-size: 100%;
   /* column_labels.font.size */
   font-weight: initial;
   /* column_labels.font.weight */
+  text-transform: inherit;
+  /* column_labels.text_transform */
   vertical-align: middle;
-  padding: 10px;
+  padding: 5px;
   margin: 10px;
+  overflow-x: hidden;
 }
 
-#kswvcfyuzf .gt_sep_right {
+#mkwmfbtuml .gt_sep_right {
   border-right: 5px solid #FFFFFF;
 }
 
-#kswvcfyuzf .gt_group_heading {
+#mkwmfbtuml .gt_group_heading {
   padding: 8px;
-  color: #000000;
+  /* row_group.padding */
+  color: #333333;
   background-color: #FFFFFF;
-  /* stub_group.background.color */
-  font-size: 16px;
-  /* stub_group.font.size */
+  /* row_group.background.color */
+  font-size: 100%;
+  /* row_group.font.size */
   font-weight: initial;
-  /* stub_group.font.weight */
+  /* row_group.font.weight */
+  text-transform: inherit;
+  /* row_group.text_transform */
   border-top-style: solid;
-  /* stub_group.border.top.style */
+  /* row_group.border.top.style */
   border-top-width: 2px;
-  /* stub_group.border.top.width */
-  border-top-color: #A8A8A8;
-  /* stub_group.border.top.color */
+  /* row_group.border.top.width */
+  border-top-color: #D3D3D3;
+  /* row_group.border.top.color */
   border-bottom-style: solid;
-  /* stub_group.border.bottom.style */
+  /* row_group.border.bottom.style */
   border-bottom-width: 2px;
-  /* stub_group.border.bottom.width */
-  border-bottom-color: #A8A8A8;
-  /* stub_group.border.bottom.color */
+  /* row_group.border.bottom.width */
+  border-bottom-color: #D3D3D3;
+  /* row_group.border.bottom.color */
+  border-left-style: none;
+  /* row_group.border.left.style */
+  border-left-width: 1px;
+  /* row_group.border.left.width */
+  border-left-color: #D3D3D3;
+  /* row_group.border.left.color */
+  border-right-style: none;
+  /* row_group.border.right.style */
+  border-right-width: 1px;
+  /* row_group.border.right.width */
+  border-right-color: #D3D3D3;
+  /* row_group.border.right.color */
   vertical-align: middle;
 }
 
-#kswvcfyuzf .gt_empty_group_heading {
+#mkwmfbtuml .gt_empty_group_heading {
   padding: 0.5px;
-  color: #000000;
+  color: #333333;
   background-color: #FFFFFF;
-  /* stub_group.background.color */
-  font-size: 16px;
-  /* stub_group.font.size */
+  /* row_group.background.color */
+  font-size: 100%;
+  /* row_group.font.size */
   font-weight: initial;
-  /* stub_group.font.weight */
+  /* row_group.font.weight */
   border-top-style: solid;
-  /* stub_group.border.top.style */
+  /* row_group.border.top.style */
   border-top-width: 2px;
-  /* stub_group.border.top.width */
-  border-top-color: #A8A8A8;
-  /* stub_group.border.top.color */
+  /* row_group.border.top.width */
+  border-top-color: #D3D3D3;
+  /* row_group.border.top.color */
   border-bottom-style: solid;
-  /* stub_group.border.bottom.style */
+  /* row_group.border.bottom.style */
   border-bottom-width: 2px;
-  /* stub_group.border.bottom.width */
-  border-bottom-color: #A8A8A8;
-  /* stub_group.border.bottom.color */
+  /* row_group.border.bottom.width */
+  border-bottom-color: #D3D3D3;
+  /* row_group.border.bottom.color */
   vertical-align: middle;
 }
 
-#kswvcfyuzf .gt_striped {
-  background-color: #f2f2f2;
+#mkwmfbtuml .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+  /* row.striping.background_color */
 }
 
-#kswvcfyuzf .gt_row {
-  padding: 10px;
-  /* row.padding */
+#mkwmfbtuml .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#mkwmfbtuml .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#mkwmfbtuml .gt_row {
+  padding-top: 8px;
+  /* data_row.padding */
+  padding-bottom: 8px;
+  /* data_row.padding */
+  padding-left: 5px;
+  padding-right: 5px;
   margin: 10px;
+  border-top-style: solid;
+  /* table_body.hlines.style */
+  border-top-width: 1px;
+  /* table_body.hlines.width */
+  border-top-color: #D3D3D3;
+  /* table_body.hlines.color */
+  border-left-style: none;
+  /* table_body.vlines.style */
+  border-left-width: 1px;
+  /* table_body.vlines.width */
+  border-left-color: #D3D3D3;
+  /* table_body.vlines.color */
+  border-right-style: none;
+  /* table_body.vlines.style */
+  border-right-width: 1px;
+  /* table_body.vlines.width */
+  border-right-color: #D3D3D3;
+  /* table_body.vlines.color */
   vertical-align: middle;
+  overflow-x: hidden;
 }
 
-#kswvcfyuzf .gt_stub {
+#mkwmfbtuml .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  /* stub.background.color */
+  font-weight: initial;
+  /* stub.font.weight */
+  text-transform: inherit;
+  /* stub.text_transform */
   border-right-style: solid;
+  /* stub.border.style */
   border-right-width: 2px;
-  border-right-color: #A8A8A8;
+  /* stub.border.width */
+  border-right-color: #D3D3D3;
+  /* stub.border.color */
   padding-left: 12px;
 }
 
-#kswvcfyuzf .gt_stub.gt_row {
-  background-color: #FFFFFF;
-}
-
-#kswvcfyuzf .gt_summary_row {
+#mkwmfbtuml .gt_summary_row {
+  color: #333333;
   background-color: #FFFFFF;
   /* summary_row.background.color */
-  padding: 6px;
-  /* summary_row.padding */
   text-transform: inherit;
   /* summary_row.text_transform */
+  padding-top: 8px;
+  /* summary_row.padding */
+  padding-bottom: 8px;
+  /* summary_row.padding */
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#kswvcfyuzf .gt_first_summary_row {
+#mkwmfbtuml .gt_first_summary_row {
+  padding-top: 8px;
+  /* summary_row.padding */
+  padding-bottom: 8px;
+  /* summary_row.padding */
+  padding-left: 5px;
+  padding-right: 5px;
   border-top-style: solid;
+  /* summary_row.border.style */
   border-top-width: 2px;
-  border-top-color: #A8A8A8;
+  /* summary_row.border.width */
+  border-top-color: #D3D3D3;
+  /* summary_row.border.color */
 }
 
-#kswvcfyuzf .gt_table_body {
+#mkwmfbtuml .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  /* grand_summary_row.background.color */
+  text-transform: inherit;
+  /* grand_summary_row.text_transform */
+  padding-top: 8px;
+  /* grand_summary_row.padding */
+  padding-bottom: 8px;
+  /* grand_summary_row.padding */
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#mkwmfbtuml .gt_first_grand_summary_row {
+  padding-top: 8px;
+  /* grand_summary_row.padding */
+  padding-bottom: 8px;
+  /* grand_summary_row.padding */
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  /* grand_summary_row.border.style */
+  border-top-width: 6px;
+  /* grand_summary_row.border.width */
+  border-top-color: #D3D3D3;
+  /* grand_summary_row.border.color */
+}
+
+#mkwmfbtuml .gt_table_body {
   border-top-style: solid;
-  /* field.border.top.style */
+  /* table_body.border.top.style */
   border-top-width: 2px;
-  /* field.border.top.width */
-  border-top-color: #A8A8A8;
-  /* field.border.top.color */
+  /* table_body.border.top.width */
+  border-top-color: #D3D3D3;
+  /* table_body.border.top.color */
   border-bottom-style: solid;
-  /* field.border.bottom.style */
+  /* table_body.border.bottom.style */
   border-bottom-width: 2px;
-  /* field.border.bottom.width */
-  border-bottom-color: #A8A8A8;
-  /* field.border.bottom.color */
+  /* table_body.border.bottom.width */
+  border-bottom-color: #D3D3D3;
+  /* table_body.border.bottom.color */
 }
 
-#kswvcfyuzf .gt_footnote {
+#mkwmfbtuml .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  /* footnotes.background.color */
+  border-bottom-style: none;
+  /* footnotes.border.bottom.style */
+  border-bottom-width: 2px;
+  /* footnotes.border.bottom.width */
+  border-bottom-color: #D3D3D3;
+  /* footnotes.border.bottom.color */
+  border-left-style: none;
+  /* footnotes.border.lr.color */
+  border-left-width: 2px;
+  /* footnotes.border.lr.color */
+  border-left-color: #D3D3D3;
+  /* footnotes.border.lr.color */
+  border-right-style: none;
+  /* footnotes.border.lr.color */
+  border-right-width: 2px;
+  /* footnotes.border.lr.color */
+  border-right-color: #D3D3D3;
+  /* footnotes.border.lr.color */
+}
+
+#mkwmfbtuml .gt_footnote {
+  margin: 0px;
   font-size: 90%;
-  /* footnote.font.size */
+  /* footnotes.font.size */
   padding: 4px;
-  /* footnote.padding */
+  /* footnotes.padding */
 }
 
-#kswvcfyuzf .gt_sourcenote {
+#mkwmfbtuml .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  /* source_notes.background.color */
+  border-bottom-style: none;
+  /* source_notes.border.bottom.style */
+  border-bottom-width: 2px;
+  /* source_notes.border.bottom.width */
+  border-bottom-color: #D3D3D3;
+  /* source_notes.border.bottom.color */
+  border-left-style: none;
+  /* source_notes.border.lr.style */
+  border-left-width: 2px;
+  /* source_notes.border.lr.style */
+  border-left-color: #D3D3D3;
+  /* source_notes.border.lr.style */
+  border-right-style: none;
+  /* source_notes.border.lr.style */
+  border-right-width: 2px;
+  /* source_notes.border.lr.style */
+  border-right-color: #D3D3D3;
+  /* source_notes.border.lr.style */
+}
+
+#mkwmfbtuml .gt_sourcenote {
   font-size: 90%;
-  /* sourcenote.font.size */
+  /* source_notes.font.size */
   padding: 4px;
-  /* sourcenote.padding */
+  /* source_notes.padding */
 }
 
-#kswvcfyuzf .gt_center {
-  text-align: center;
-}
-
-#kswvcfyuzf .gt_left {
+#mkwmfbtuml .gt_left {
   text-align: left;
 }
 
-#kswvcfyuzf .gt_right {
+#mkwmfbtuml .gt_center {
+  text-align: center;
+}
+
+#mkwmfbtuml .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#kswvcfyuzf .gt_font_normal {
+#mkwmfbtuml .gt_font_normal {
   font-weight: normal;
 }
 
-#kswvcfyuzf .gt_font_bold {
+#mkwmfbtuml .gt_font_bold {
   font-weight: bold;
 }
 
-#kswvcfyuzf .gt_font_italic {
+#mkwmfbtuml .gt_font_italic {
   font-style: italic;
 }
 
-#kswvcfyuzf .gt_super {
+#mkwmfbtuml .gt_super {
   font-size: 65%;
 }
 
-#kswvcfyuzf .gt_footnote_glyph {
+#mkwmfbtuml .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="kswvcfyuzf" style="overflow-x:auto;"><!--gt table start-->
-<table class='gt_table'>
-<tr>
-<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>py</th>
-<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>cumamt</th>
-<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>month</th>
-<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>amt</th>
-<th class='gt_col_heading gt_center' rowspan='1' colspan='1'>direction</th>
-<th class='gt_col_heading gt_right' rowspan='1' colspan='1'>start</th>
-</tr>
-<tbody class='gt_table_body'>
-<tr>
-<td class='gt_row gt_right'>2018.00</td>
-<td class='gt_row gt_right'>0.00000</td>
-<td class='gt_row gt_right'>4</td>
-<td class='gt_row gt_right'>NA</td>
-<td class='gt_row gt_center'>savings</td>
-<td class='gt_row gt_right'>NA</td>
-</tr>
-<tr>
-<td class='gt_row gt_right gt_striped'>2018.25</td>
-<td class='gt_row gt_right gt_striped'>68.32398</td>
-<td class='gt_row gt_right gt_striped'>8</td>
-<td class='gt_row gt_right gt_striped'>68.323982</td>
-<td class='gt_row gt_center gt_striped'>cost</td>
-<td class='gt_row gt_right gt_striped'>0.00000</td>
-</tr>
-<tr>
-<td class='gt_row gt_right'>2018.50</td>
-<td class='gt_row gt_right'>127.63250</td>
-<td class='gt_row gt_right'>12</td>
-<td class='gt_row gt_right'>59.308521</td>
-<td class='gt_row gt_center'>cost</td>
-<td class='gt_row gt_right'>68.32398</td>
-</tr>
-<tr>
-<td class='gt_row gt_right gt_striped'>2018.75</td>
-<td class='gt_row gt_right gt_striped'>184.69237</td>
-<td class='gt_row gt_right gt_striped'>16</td>
-<td class='gt_row gt_right gt_striped'>57.059869</td>
-<td class='gt_row gt_center gt_striped'>cost</td>
-<td class='gt_row gt_right gt_striped'>127.63250</td>
-</tr>
-<tr>
-<td class='gt_row gt_right'>2019.00</td>
-<td class='gt_row gt_right'>239.31935</td>
-<td class='gt_row gt_right'>20</td>
-<td class='gt_row gt_right'>54.626976</td>
-<td class='gt_row gt_center'>cost</td>
-<td class='gt_row gt_right'>184.69237</td>
-</tr>
-<tr>
-<td class='gt_row gt_right gt_striped'>2019.25</td>
-<td class='gt_row gt_right gt_striped'>291.32919</td>
-<td class='gt_row gt_right gt_striped'>24</td>
-<td class='gt_row gt_right gt_striped'>52.009843</td>
-<td class='gt_row gt_center gt_striped'>cost</td>
-<td class='gt_row gt_right gt_striped'>239.31935</td>
-</tr>
-<tr>
-<td class='gt_row gt_right'>2019.50</td>
-<td class='gt_row gt_right'>340.53766</td>
-<td class='gt_row gt_right'>28</td>
-<td class='gt_row gt_right'>49.208470</td>
-<td class='gt_row gt_center'>cost</td>
-<td class='gt_row gt_right'>291.32919</td>
-</tr>
-<tr>
-<td class='gt_row gt_right gt_striped'>2019.75</td>
-<td class='gt_row gt_right gt_striped'>386.76052</td>
-<td class='gt_row gt_right gt_striped'>32</td>
-<td class='gt_row gt_right gt_striped'>46.222857</td>
-<td class='gt_row gt_center gt_striped'>cost</td>
-<td class='gt_row gt_right gt_striped'>340.53766</td>
-</tr>
-<tr>
-<td class='gt_row gt_right'>2020.00</td>
-<td class='gt_row gt_right'>429.81352</td>
-<td class='gt_row gt_right'>36</td>
-<td class='gt_row gt_right'>43.053003</td>
-<td class='gt_row gt_center'>cost</td>
-<td class='gt_row gt_right'>386.76052</td>
-</tr>
-<tr>
-<td class='gt_row gt_right gt_striped'>2020.25</td>
-<td class='gt_row gt_right gt_striped'>469.51243</td>
-<td class='gt_row gt_right gt_striped'>40</td>
-<td class='gt_row gt_right gt_striped'>39.698909</td>
-<td class='gt_row gt_center gt_striped'>cost</td>
-<td class='gt_row gt_right gt_striped'>429.81352</td>
-</tr>
-<tr>
-<td class='gt_row gt_right'>2020.50</td>
-<td class='gt_row gt_right'>505.67300</td>
-<td class='gt_row gt_right'>44</td>
-<td class='gt_row gt_right'>36.160575</td>
-<td class='gt_row gt_center'>cost</td>
-<td class='gt_row gt_right'>469.51243</td>
-</tr>
-<tr>
-<td class='gt_row gt_right gt_striped'>2020.75</td>
-<td class='gt_row gt_right gt_striped'>538.11100</td>
-<td class='gt_row gt_right gt_striped'>48</td>
-<td class='gt_row gt_right gt_striped'>32.438001</td>
-<td class='gt_row gt_center gt_striped'>cost</td>
-<td class='gt_row gt_right gt_striped'>505.67300</td>
-</tr>
-<tr>
-<td class='gt_row gt_right'>2021.00</td>
-<td class='gt_row gt_right'>566.64219</td>
-<td class='gt_row gt_right'>52</td>
-<td class='gt_row gt_right'>28.531186</td>
-<td class='gt_row gt_center'>cost</td>
-<td class='gt_row gt_right'>538.11100</td>
-</tr>
-<tr>
-<td class='gt_row gt_right gt_striped'>2021.25</td>
-<td class='gt_row gt_right gt_striped'>591.08232</td>
-<td class='gt_row gt_right gt_striped'>56</td>
-<td class='gt_row gt_right gt_striped'>24.440131</td>
-<td class='gt_row gt_center gt_striped'>cost</td>
-<td class='gt_row gt_right gt_striped'>566.64219</td>
-</tr>
-<tr>
-<td class='gt_row gt_right'>2021.50</td>
-<td class='gt_row gt_right'>611.24716</td>
-<td class='gt_row gt_right'>60</td>
-<td class='gt_row gt_right'>20.164836</td>
-<td class='gt_row gt_center'>cost</td>
-<td class='gt_row gt_right'>591.08232</td>
-</tr>
-<tr>
-<td class='gt_row gt_right gt_striped'>2021.75</td>
-<td class='gt_row gt_right gt_striped'>626.95246</td>
-<td class='gt_row gt_right gt_striped'>64</td>
-<td class='gt_row gt_right gt_striped'>15.705301</td>
-<td class='gt_row gt_center gt_striped'>cost</td>
-<td class='gt_row gt_right gt_striped'>611.24716</td>
-</tr>
-<tr>
-<td class='gt_row gt_right'>2022.00</td>
-<td class='gt_row gt_right'>638.01399</td>
-<td class='gt_row gt_right'>68</td>
-<td class='gt_row gt_right'>11.061526</td>
-<td class='gt_row gt_center'>cost</td>
-<td class='gt_row gt_right'>626.95246</td>
-</tr>
-<tr>
-<td class='gt_row gt_right gt_striped'>2022.25</td>
-<td class='gt_row gt_right gt_striped'>644.24750</td>
-<td class='gt_row gt_right gt_striped'>72</td>
-<td class='gt_row gt_right gt_striped'>6.233510</td>
-<td class='gt_row gt_center gt_striped'>cost</td>
-<td class='gt_row gt_right gt_striped'>638.01399</td>
-</tr>
-<tr>
-<td class='gt_row gt_right'>2022.50</td>
-<td class='gt_row gt_right'>645.46875</td>
-<td class='gt_row gt_right'>76</td>
-<td class='gt_row gt_right'>1.221254</td>
-<td class='gt_row gt_center'>cost</td>
-<td class='gt_row gt_right'>644.24750</td>
-</tr>
-<tr>
-<td class='gt_row gt_right gt_striped'>2022.75</td>
-<td class='gt_row gt_right gt_striped'>641.49351</td>
-<td class='gt_row gt_right gt_striped'>80</td>
-<td class='gt_row gt_right gt_striped'>-3.975242</td>
-<td class='gt_row gt_center gt_striped'>savings</td>
-<td class='gt_row gt_right gt_striped'>645.46875</td>
-</tr>
-<tr>
-<td class='gt_row gt_right'>2023.00</td>
-<td class='gt_row gt_right'>632.13753</td>
-<td class='gt_row gt_right'>84</td>
-<td class='gt_row gt_right'>-9.355979</td>
-<td class='gt_row gt_center'>savings</td>
-<td class='gt_row gt_right'>641.49351</td>
-</tr>
-<tr>
-<td class='gt_row gt_right gt_striped'>2023.25</td>
-<td class='gt_row gt_right gt_striped'>617.21657</td>
-<td class='gt_row gt_right gt_striped'>88</td>
-<td class='gt_row gt_right gt_striped'>-14.920955</td>
-<td class='gt_row gt_center gt_striped'>savings</td>
-<td class='gt_row gt_right gt_striped'>632.13753</td>
-</tr>
-<tr>
-<td class='gt_row gt_right'>2023.50</td>
-<td class='gt_row gt_right'>596.54640</td>
-<td class='gt_row gt_right'>92</td>
-<td class='gt_row gt_right'>-20.670172</td>
-<td class='gt_row gt_center'>savings</td>
-<td class='gt_row gt_right'>617.21657</td>
-</tr>
-<tr>
-<td class='gt_row gt_right gt_striped'>2023.75</td>
-<td class='gt_row gt_right gt_striped'>569.94277</td>
-<td class='gt_row gt_right gt_striped'>96</td>
-<td class='gt_row gt_right gt_striped'>-26.603629</td>
-<td class='gt_row gt_center gt_striped'>savings</td>
-<td class='gt_row gt_right gt_striped'>596.54640</td>
-</tr>
-<tr>
-<td class='gt_row gt_right'>2024.00</td>
-<td class='gt_row gt_right'>537.22145</td>
-<td class='gt_row gt_right'>100</td>
-<td class='gt_row gt_right'>-32.721327</td>
-<td class='gt_row gt_center'>savings</td>
-<td class='gt_row gt_right'>569.94277</td>
-</tr>
-<tr>
-<td class='gt_row gt_right gt_striped'>2024.25</td>
-<td class='gt_row gt_right gt_striped'>498.19818</td>
-<td class='gt_row gt_right gt_striped'>104</td>
-<td class='gt_row gt_right gt_striped'>-39.023264</td>
-<td class='gt_row gt_center gt_striped'>savings</td>
-<td class='gt_row gt_right gt_striped'>537.22145</td>
-</tr>
-<tr>
-<td class='gt_row gt_right'>2024.50</td>
-<td class='gt_row gt_right'>452.68874</td>
-<td class='gt_row gt_right'>108</td>
-<td class='gt_row gt_right'>-45.509442</td>
-<td class='gt_row gt_center'>savings</td>
-<td class='gt_row gt_right'>498.19818</td>
-</tr>
-<tr>
-<td class='gt_row gt_right gt_striped'>2024.75</td>
-<td class='gt_row gt_right gt_striped'>400.50888</td>
-<td class='gt_row gt_right gt_striped'>112</td>
-<td class='gt_row gt_right gt_striped'>-52.179861</td>
-<td class='gt_row gt_center gt_striped'>savings</td>
-<td class='gt_row gt_right gt_striped'>452.68874</td>
-</tr>
-<tr>
-<td class='gt_row gt_right'>2025.00</td>
-<td class='gt_row gt_right'>341.47436</td>
-<td class='gt_row gt_right'>116</td>
-<td class='gt_row gt_right'>-59.034519</td>
-<td class='gt_row gt_center'>savings</td>
-<td class='gt_row gt_right'>400.50888</td>
-</tr>
-<tr>
-<td class='gt_row gt_right gt_striped'>2025.25</td>
-<td class='gt_row gt_right gt_striped'>275.40094</td>
-<td class='gt_row gt_right gt_striped'>120</td>
-<td class='gt_row gt_right gt_striped'>-66.073417</td>
-<td class='gt_row gt_center gt_striped'>savings</td>
-<td class='gt_row gt_right gt_striped'>341.47436</td>
-</tr>
-<tr>
-<td class='gt_row gt_right'>2025.50</td>
-<td class='gt_row gt_right'>202.10439</td>
-<td class='gt_row gt_right'>124</td>
-<td class='gt_row gt_right'>-73.296556</td>
-<td class='gt_row gt_center'>savings</td>
-<td class='gt_row gt_right'>275.40094</td>
-</tr>
-<tr>
-<td class='gt_row gt_right gt_striped'>2025.75</td>
-<td class='gt_row gt_right gt_striped'>121.40045</td>
-<td class='gt_row gt_right gt_striped'>128</td>
-<td class='gt_row gt_right gt_striped'>-80.703935</td>
-<td class='gt_row gt_center gt_striped'>savings</td>
-<td class='gt_row gt_right gt_striped'>202.10439</td>
-</tr>
-<tr>
-<td class='gt_row gt_right'>2026.00</td>
-<td class='gt_row gt_right'>33.10490</td>
-<td class='gt_row gt_right'>132</td>
-<td class='gt_row gt_right'>-88.295555</td>
-<td class='gt_row gt_center'>savings</td>
-<td class='gt_row gt_right'>121.40045</td>
-</tr>
-<tr>
-<td class='gt_row gt_right gt_striped'>2026.25</td>
-<td class='gt_row gt_right gt_striped'>-62.96652</td>
-<td class='gt_row gt_right gt_striped'>136</td>
-<td class='gt_row gt_right gt_striped'>-96.071414</td>
-<td class='gt_row gt_center gt_striped'>savings</td>
-<td class='gt_row gt_right gt_striped'>33.10490</td>
-</tr>
-<tr>
-<td class='gt_row gt_right'>2026.50</td>
-<td class='gt_row gt_right'>-166.99803</td>
-<td class='gt_row gt_right'>140</td>
-<td class='gt_row gt_right'>-104.031514</td>
-<td class='gt_row gt_center'>savings</td>
-<td class='gt_row gt_right'>-62.96652</td>
-</tr>
-<tr>
-<td class='gt_row gt_right gt_striped'>2026.75</td>
-<td class='gt_row gt_right gt_striped'>-279.17389</td>
-<td class='gt_row gt_right gt_striped'>144</td>
-<td class='gt_row gt_right gt_striped'>-112.175854</td>
-<td class='gt_row gt_center gt_striped'>savings</td>
-<td class='gt_row gt_right gt_striped'>-166.99803</td>
-</tr>
-<tr>
-<td class='gt_row gt_right'>2027.00</td>
-<td class='gt_row gt_right'>-399.67832</td>
-<td class='gt_row gt_right'>148</td>
-<td class='gt_row gt_right'>-120.504434</td>
-<td class='gt_row gt_center'>savings</td>
-<td class='gt_row gt_right'>-279.17389</td>
-</tr>
-</tbody>
-</table>
-<!--gt table end-->
-</div>
+<div id="mkwmfbtuml" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">py</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">cumamt</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">month</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">amt</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">direction</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">start</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr>
+      <td class="gt_row gt_right">2018.00</td>
+      <td class="gt_row gt_right">0.00000</td>
+      <td class="gt_row gt_right">4</td>
+      <td class="gt_row gt_right">NA</td>
+      <td class="gt_row gt_center">savings</td>
+      <td class="gt_row gt_right">NA</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right gt_striped">2018.25</td>
+      <td class="gt_row gt_right gt_striped">68.32398</td>
+      <td class="gt_row gt_right gt_striped">8</td>
+      <td class="gt_row gt_right gt_striped">68.323982</td>
+      <td class="gt_row gt_center gt_striped">cost</td>
+      <td class="gt_row gt_right gt_striped">0.00000</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right">2018.50</td>
+      <td class="gt_row gt_right">127.63250</td>
+      <td class="gt_row gt_right">12</td>
+      <td class="gt_row gt_right">59.308521</td>
+      <td class="gt_row gt_center">cost</td>
+      <td class="gt_row gt_right">68.32398</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right gt_striped">2018.75</td>
+      <td class="gt_row gt_right gt_striped">184.69237</td>
+      <td class="gt_row gt_right gt_striped">16</td>
+      <td class="gt_row gt_right gt_striped">57.059869</td>
+      <td class="gt_row gt_center gt_striped">cost</td>
+      <td class="gt_row gt_right gt_striped">127.63250</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right">2019.00</td>
+      <td class="gt_row gt_right">239.31935</td>
+      <td class="gt_row gt_right">20</td>
+      <td class="gt_row gt_right">54.626976</td>
+      <td class="gt_row gt_center">cost</td>
+      <td class="gt_row gt_right">184.69237</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right gt_striped">2019.25</td>
+      <td class="gt_row gt_right gt_striped">291.32919</td>
+      <td class="gt_row gt_right gt_striped">24</td>
+      <td class="gt_row gt_right gt_striped">52.009843</td>
+      <td class="gt_row gt_center gt_striped">cost</td>
+      <td class="gt_row gt_right gt_striped">239.31935</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right">2019.50</td>
+      <td class="gt_row gt_right">340.53766</td>
+      <td class="gt_row gt_right">28</td>
+      <td class="gt_row gt_right">49.208470</td>
+      <td class="gt_row gt_center">cost</td>
+      <td class="gt_row gt_right">291.32919</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right gt_striped">2019.75</td>
+      <td class="gt_row gt_right gt_striped">386.76052</td>
+      <td class="gt_row gt_right gt_striped">32</td>
+      <td class="gt_row gt_right gt_striped">46.222857</td>
+      <td class="gt_row gt_center gt_striped">cost</td>
+      <td class="gt_row gt_right gt_striped">340.53766</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right">2020.00</td>
+      <td class="gt_row gt_right">429.81352</td>
+      <td class="gt_row gt_right">36</td>
+      <td class="gt_row gt_right">43.053003</td>
+      <td class="gt_row gt_center">cost</td>
+      <td class="gt_row gt_right">386.76052</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right gt_striped">2020.25</td>
+      <td class="gt_row gt_right gt_striped">469.51243</td>
+      <td class="gt_row gt_right gt_striped">40</td>
+      <td class="gt_row gt_right gt_striped">39.698909</td>
+      <td class="gt_row gt_center gt_striped">cost</td>
+      <td class="gt_row gt_right gt_striped">429.81352</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right">2020.50</td>
+      <td class="gt_row gt_right">505.67300</td>
+      <td class="gt_row gt_right">44</td>
+      <td class="gt_row gt_right">36.160575</td>
+      <td class="gt_row gt_center">cost</td>
+      <td class="gt_row gt_right">469.51243</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right gt_striped">2020.75</td>
+      <td class="gt_row gt_right gt_striped">538.11100</td>
+      <td class="gt_row gt_right gt_striped">48</td>
+      <td class="gt_row gt_right gt_striped">32.438001</td>
+      <td class="gt_row gt_center gt_striped">cost</td>
+      <td class="gt_row gt_right gt_striped">505.67300</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right">2021.00</td>
+      <td class="gt_row gt_right">566.64219</td>
+      <td class="gt_row gt_right">52</td>
+      <td class="gt_row gt_right">28.531186</td>
+      <td class="gt_row gt_center">cost</td>
+      <td class="gt_row gt_right">538.11100</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right gt_striped">2021.25</td>
+      <td class="gt_row gt_right gt_striped">591.08232</td>
+      <td class="gt_row gt_right gt_striped">56</td>
+      <td class="gt_row gt_right gt_striped">24.440131</td>
+      <td class="gt_row gt_center gt_striped">cost</td>
+      <td class="gt_row gt_right gt_striped">566.64219</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right">2021.50</td>
+      <td class="gt_row gt_right">611.24716</td>
+      <td class="gt_row gt_right">60</td>
+      <td class="gt_row gt_right">20.164836</td>
+      <td class="gt_row gt_center">cost</td>
+      <td class="gt_row gt_right">591.08232</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right gt_striped">2021.75</td>
+      <td class="gt_row gt_right gt_striped">626.95246</td>
+      <td class="gt_row gt_right gt_striped">64</td>
+      <td class="gt_row gt_right gt_striped">15.705301</td>
+      <td class="gt_row gt_center gt_striped">cost</td>
+      <td class="gt_row gt_right gt_striped">611.24716</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right">2022.00</td>
+      <td class="gt_row gt_right">638.01399</td>
+      <td class="gt_row gt_right">68</td>
+      <td class="gt_row gt_right">11.061526</td>
+      <td class="gt_row gt_center">cost</td>
+      <td class="gt_row gt_right">626.95246</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right gt_striped">2022.25</td>
+      <td class="gt_row gt_right gt_striped">644.24750</td>
+      <td class="gt_row gt_right gt_striped">72</td>
+      <td class="gt_row gt_right gt_striped">6.233510</td>
+      <td class="gt_row gt_center gt_striped">cost</td>
+      <td class="gt_row gt_right gt_striped">638.01399</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right">2022.50</td>
+      <td class="gt_row gt_right">645.46875</td>
+      <td class="gt_row gt_right">76</td>
+      <td class="gt_row gt_right">1.221254</td>
+      <td class="gt_row gt_center">cost</td>
+      <td class="gt_row gt_right">644.24750</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right gt_striped">2022.75</td>
+      <td class="gt_row gt_right gt_striped">641.49351</td>
+      <td class="gt_row gt_right gt_striped">80</td>
+      <td class="gt_row gt_right gt_striped">-3.975242</td>
+      <td class="gt_row gt_center gt_striped">savings</td>
+      <td class="gt_row gt_right gt_striped">645.46875</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right">2023.00</td>
+      <td class="gt_row gt_right">632.13753</td>
+      <td class="gt_row gt_right">84</td>
+      <td class="gt_row gt_right">-9.355979</td>
+      <td class="gt_row gt_center">savings</td>
+      <td class="gt_row gt_right">641.49351</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right gt_striped">2023.25</td>
+      <td class="gt_row gt_right gt_striped">617.21657</td>
+      <td class="gt_row gt_right gt_striped">88</td>
+      <td class="gt_row gt_right gt_striped">-14.920955</td>
+      <td class="gt_row gt_center gt_striped">savings</td>
+      <td class="gt_row gt_right gt_striped">632.13753</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right">2023.50</td>
+      <td class="gt_row gt_right">596.54640</td>
+      <td class="gt_row gt_right">92</td>
+      <td class="gt_row gt_right">-20.670172</td>
+      <td class="gt_row gt_center">savings</td>
+      <td class="gt_row gt_right">617.21657</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right gt_striped">2023.75</td>
+      <td class="gt_row gt_right gt_striped">569.94277</td>
+      <td class="gt_row gt_right gt_striped">96</td>
+      <td class="gt_row gt_right gt_striped">-26.603629</td>
+      <td class="gt_row gt_center gt_striped">savings</td>
+      <td class="gt_row gt_right gt_striped">596.54640</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right">2024.00</td>
+      <td class="gt_row gt_right">537.22145</td>
+      <td class="gt_row gt_right">100</td>
+      <td class="gt_row gt_right">-32.721327</td>
+      <td class="gt_row gt_center">savings</td>
+      <td class="gt_row gt_right">569.94277</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right gt_striped">2024.25</td>
+      <td class="gt_row gt_right gt_striped">498.19818</td>
+      <td class="gt_row gt_right gt_striped">104</td>
+      <td class="gt_row gt_right gt_striped">-39.023264</td>
+      <td class="gt_row gt_center gt_striped">savings</td>
+      <td class="gt_row gt_right gt_striped">537.22145</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right">2024.50</td>
+      <td class="gt_row gt_right">452.68874</td>
+      <td class="gt_row gt_right">108</td>
+      <td class="gt_row gt_right">-45.509442</td>
+      <td class="gt_row gt_center">savings</td>
+      <td class="gt_row gt_right">498.19818</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right gt_striped">2024.75</td>
+      <td class="gt_row gt_right gt_striped">400.50888</td>
+      <td class="gt_row gt_right gt_striped">112</td>
+      <td class="gt_row gt_right gt_striped">-52.179861</td>
+      <td class="gt_row gt_center gt_striped">savings</td>
+      <td class="gt_row gt_right gt_striped">452.68874</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right">2025.00</td>
+      <td class="gt_row gt_right">341.47436</td>
+      <td class="gt_row gt_right">116</td>
+      <td class="gt_row gt_right">-59.034519</td>
+      <td class="gt_row gt_center">savings</td>
+      <td class="gt_row gt_right">400.50888</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right gt_striped">2025.25</td>
+      <td class="gt_row gt_right gt_striped">275.40094</td>
+      <td class="gt_row gt_right gt_striped">120</td>
+      <td class="gt_row gt_right gt_striped">-66.073417</td>
+      <td class="gt_row gt_center gt_striped">savings</td>
+      <td class="gt_row gt_right gt_striped">341.47436</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right">2025.50</td>
+      <td class="gt_row gt_right">202.10439</td>
+      <td class="gt_row gt_right">124</td>
+      <td class="gt_row gt_right">-73.296556</td>
+      <td class="gt_row gt_center">savings</td>
+      <td class="gt_row gt_right">275.40094</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right gt_striped">2025.75</td>
+      <td class="gt_row gt_right gt_striped">121.40045</td>
+      <td class="gt_row gt_right gt_striped">128</td>
+      <td class="gt_row gt_right gt_striped">-80.703935</td>
+      <td class="gt_row gt_center gt_striped">savings</td>
+      <td class="gt_row gt_right gt_striped">202.10439</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right">2026.00</td>
+      <td class="gt_row gt_right">33.10490</td>
+      <td class="gt_row gt_right">132</td>
+      <td class="gt_row gt_right">-88.295555</td>
+      <td class="gt_row gt_center">savings</td>
+      <td class="gt_row gt_right">121.40045</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right gt_striped">2026.25</td>
+      <td class="gt_row gt_right gt_striped">-62.96652</td>
+      <td class="gt_row gt_right gt_striped">136</td>
+      <td class="gt_row gt_right gt_striped">-96.071414</td>
+      <td class="gt_row gt_center gt_striped">savings</td>
+      <td class="gt_row gt_right gt_striped">33.10490</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right">2026.50</td>
+      <td class="gt_row gt_right">-166.99803</td>
+      <td class="gt_row gt_right">140</td>
+      <td class="gt_row gt_right">-104.031514</td>
+      <td class="gt_row gt_center">savings</td>
+      <td class="gt_row gt_right">-62.96652</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right gt_striped">2026.75</td>
+      <td class="gt_row gt_right gt_striped">-279.17389</td>
+      <td class="gt_row gt_right gt_striped">144</td>
+      <td class="gt_row gt_right gt_striped">-112.175854</td>
+      <td class="gt_row gt_center gt_striped">savings</td>
+      <td class="gt_row gt_right gt_striped">-166.99803</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_right">2027.00</td>
+      <td class="gt_row gt_right">-399.67832</td>
+      <td class="gt_row gt_right">148</td>
+      <td class="gt_row gt_right">-120.504434</td>
+      <td class="gt_row gt_center">savings</td>
+      <td class="gt_row gt_right">-279.17389</td>
+    </tr>
+  </tbody>
+  
+  
+</table></div>
 <pre class="r"><code>ggplot(d_qtr) +
         geom_segment(aes(x = py, 
                   xend = py, 
@@ -1518,10 +2207,18 @@ gt(d_qtr)</code></pre>
                        &quot;from the baseline to alternative scenario&quot;)) </code></pre>
 <pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
 <p><img src="/posts/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
-<p>Although the quarterly data doesn’t line up exactly with the critical points, this is due to approximating the data.</p>
+<p>Although the quarterly data doesn’t line up exactly with the critical points, this
+is due to approximating the data.</p>
 </div>
 </div>
 <div id="final-verdict" class="section level2">
 <h2>Final Verdict</h2>
-<p>After going through this process, I think the either of the alternatives from iteration 6 would be good choices for the final version of this visualization. I think the quarterly data version is inferior for two reasons. First, now that there are so many points it really looks like a line graph, similar to what I created to show the polynomial fit and it feels “crowded”. Secondly, as I have thought more about the cash flows we’re describing in this visualization, and, more importantly, the consumers of the visualization, I think they might more naturally think of these cash flows as annual.</p>
+<p>After going through this process, I think the either of the alternatives from
+iteration 6 would be good choices for the final version of this visualization. I
+think the quarterly data version is inferior for two reasons. First, now that
+there are so many points it really looks like a line graph, similar to what I
+created to show the polynomial fit and it feels “crowded”. Secondly, as I have
+thought more about the cash flows we’re describing in this visualization, and,
+more importantly, the consumers of the visualization, I think they might more
+naturally think of these cash flows as annual.</p>
 </div>
