@@ -1,22 +1,42 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on Ryan Thomas</title>
-    <link>https://www.ryanthomasr.com/posts/</link>
+    <link>/posts/</link>
     <description>Recent content in Posts on Ryan Thomas</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>Copyright &amp;copy; 2019 - Ryan Thomas</copyright>
-    <lastBuildDate>Sun, 17 Feb 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 17 Jan 2020 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://www.ryanthomasr.com/posts/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/posts/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>Rstudioconf2020 Agenda</title>
+      <link>/posts/rstudioconf2020-agenda/</link>
+      <pubDate>Fri, 17 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/rstudioconf2020-agenda/</guid>
+      <description>I needed to put something together to be able decide what session to attend at the upcoming rstudioconf in San Francisco.
+Day 1 html { font-family: -apple-system, BlinkMacSystemFont, &#39;Segoe UI&#39;, Roboto, Oxygen, Ubuntu, Cantarell, &#39;Helvetica Neue&#39;, &#39;Fira Sans&#39;, &#39;Droid Sans&#39;, Arial, sans-serif; } #nktalxgulx .</description>
+    </item>
+    
+    <item>
+      <title>Aspirations for 2020</title>
+      <link>/posts/aspirations-for-2020/</link>
+      <pubDate>Tue, 07 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/aspirations-for-2020/</guid>
+      <description> A lot of folks on twitter are posting retrospectives on the year (or decade) and laying out goals for 2020. I wanted to do the same for myself.
+Technical Goals Build a shiny app Read datascienceatthecommandline Contribute more to open source Learn more about machine learning   Professional/Non-technical goals Write more blog posts/more work in public Speak at least two conferences   Non-technical Goals Workout once a week Go to bed earlier Read at least one fiction book a quarter Drink (a little) less   </description>
+    </item>
+    
+    <item>
       <title>Iterating to a Better Visualization</title>
-      <link>https://www.ryanthomasr.com/posts/iterating-to-a-better-visualization/</link>
+      <link>/posts/iterating-to-a-better-visualization/</link>
       <pubDate>Sun, 17 Feb 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://www.ryanthomasr.com/posts/iterating-to-a-better-visualization/</guid>
+      <guid>/posts/iterating-to-a-better-visualization/</guid>
       <description>A few months ago I was presented with a visualization at work by a colleague who was very excited about it. They were adamant that I add it to the analytics package I was working on.</description>
     </item>
     

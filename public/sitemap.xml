@@ -1,36 +1,43 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://www.ryanthomasr.com/posts/</loc>
-    <lastmod>2019-02-17T00:00:00+00:00</lastmod>
+    <loc>/posts/</loc>
+    <lastmod>2020-01-17T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://www.ryanthomasr.com/about/</loc>
+    <loc>/about/</loc>
     <lastmod>2019-02-18T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://www.ryanthomasr.com/posts/iterating-to-a-better-visualization/</loc>
+    <loc>/posts/rstudioconf2020-agenda/</loc>
+    <lastmod>2020-01-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/</loc>
+    <lastmod>2020-01-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/posts/aspirations-for-2020/</loc>
+    <lastmod>2020-01-07T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/posts/iterating-to-a-better-visualization/</loc>
     <lastmod>2019-02-17T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://www.ryanthomasr.com/categories/</loc>
-    <priority>0</priority>
+    <loc>/categories/</loc>
   </url>
   
   <url>
-    <loc>https://www.ryanthomasr.com/</loc>
-    <lastmod>2019-02-18T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.ryanthomasr.com/tags/</loc>
-    <priority>0</priority>
+    <loc>/tags/</loc>
   </url>
   
 </urlset>

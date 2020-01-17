@@ -8,13 +8,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="The HTML5 Herald" />
   <meta name="author" content="Ryan Thomas" />
-  <meta name="generator" content="Hugo 0.53" />
+  <meta name="generator" content="Hugo 0.62.2" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab|Ruda" />
-  <link rel="stylesheet" type="text/css" href="https://www.ryanthomasr.com/css/styles.css" />
-  <link rel="stylesheet" href="https://www.ryanthomasr.com/css/github.css" rel="stylesheet" id="theme-stylesheet">
-  <script src="https://www.ryanthomasr.com/js/highlight.pack.js"></script>
+  <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+  <link rel="stylesheet" href="/css/github.css" rel="stylesheet" id="theme-stylesheet">
+  <script src="/js/highlight.pack.js"></script>
   <script>hljs.initHighlightingOnLoad();</script>
   </head>
 
@@ -22,7 +22,7 @@
   <div id="container">
     <header>
       <h1>
-                <a href="https://www.ryanthomasr.com/">Ryan Thomas</a>
+                <a href="/">Ryan Thomas</a>
             </h1>
 
       <ul id="social-media">
@@ -44,13 +44,13 @@
     <ul>
         
         <li>
-            <a class="" href="https://www.ryanthomasr.com/posts/">
+            <a class="" href="/posts/">
                 <i class="fa-li fa  fa-lg"></i><span>Posts</span>
             </a>
         </li>
         
         <li>
-            <a class="" href="https://www.ryanthomasr.com/about/">
+            <a class="" href="/about/">
                 <i class="fa-li fa  fa-lg"></i><span>About</span>
             </a>
         </li>
@@ -441,7 +441,7 @@ gt(d)</code></pre>
         theme(legend.position = &quot;bottom&quot;, 
               axis.title.y = element_blank(), 
               axis.text.y = element_blank())</code></pre>
-<p><img src="https://www.ryanthomasr.com/posts/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p><img src="/posts/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <p>The color indicates which scenario is the lowest cost scenario for a particular year. The magnitudes of the difference between the two cash flows is represented by the size of the bubble; negative values imply alternative scenario is more expensive. It is also used as the label at the center of each bubble. Two important points are called out on the annotation of the plot: the break even month (68) and the month where the cumulative cash flow differences becomes positive (104), that is when the the cumulative cash flows of the baseline policy exceed those of the alternative policy.</p>
 <div id="why-i-think-this-visualization-is-not-effective" class="section level3">
 <h3>Why I think this visualization is not effective</h3>
@@ -479,7 +479,7 @@ gt(d)</code></pre>
   theme_classic() + 
   theme(legend.position = &quot;none&quot;)+
   ylab(&quot;Annual Cashflow Difference (in thousands)&quot;) + xlab(&quot;projection year&quot;)</code></pre>
-<p><img src="https://www.ryanthomasr.com/posts/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p><img src="/posts/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <p>I think this already much better. It now immediately obvious that about half way between 60 and 72 months the sign changes from a negative delta to a positive one.</p>
 </div>
 <div id="iteration-2---clean-up-the-call-outs" class="section level3">
@@ -512,7 +512,7 @@ gt(d)</code></pre>
   theme_classic() + 
   theme(legend.position = &quot;none&quot;)+
   ylab(&quot;Annual Cashflow Difference (in thousands)&quot;) + xlab(&quot;projection year&quot;)</code></pre>
-<p><img src="https://www.ryanthomasr.com/posts/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p><img src="/posts/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 </div>
 <div id="iteration-3---concentrate-on-the-cumulative-cashflows" class="section level3">
 <h3>Iteration 3 - Concentrate on the Cumulative Cashflows</h3>
@@ -537,7 +537,7 @@ ggplot(d_cumulative, aes(x = py, fill = scenario)) +
   theme_classic() + 
   theme(legend.position = &quot;none&quot;)+
   ylab(&quot;Annual Cashflow Difference (in thousands)&quot;) + xlab(&quot;projection year&quot;)</code></pre>
-<p><img src="https://www.ryanthomasr.com/posts/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="/posts/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>Okay, now we’re getting somewhere. Plotting the cumulative data removes the need for any call outs since we can see clearly the two critical points in the cumulative data. The inflection point, the part where the curve bottoms out is the point where the cash flows change from negative to positive. And the place where the cumulative plot crosses the x-axis is visually near 104 months.</p>
 </div>
 <div id="iteration-4---what-about-a-waterfall" class="section level3">
@@ -564,7 +564,7 @@ ggplot(d_cumulative, aes(x = py, fill = scenario)) +
                        &quot;baseline scenario and alternative scenario&quot;)) +
         ylab(&quot;Annual Cashflow Difference (in thousands)&quot;) + 
         xlab(&quot;projection year&quot;)</code></pre>
-<p><img src="https://www.ryanthomasr.com/posts/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="/posts/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <p>Now I can see how each incremental value accumulates to the cumulative value. The two “critical points” jump out of the plot. So there are three things now that bother me about this plot.</p>
 <ul>
 <li><p>Although if I read the chart left to right, I can easily follow the incremental movements, I find it a little confusing to understand the direction the waterfall is moving if I start by looking at the middle of the plot.</p></li>
@@ -912,7 +912,7 @@ gt(d_alt)</code></pre>
         ggtitle(&quot;Projection of Future Cost: Baseline vs Alternative&quot;, 
                 paste0(&quot;Additional Annual Cost/(Savings) from switching &quot;, 
                        &quot;from the baseline to alternative scenario&quot;)) </code></pre>
-<p><img src="https://www.ryanthomasr.com/posts/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="/posts/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <p>So now, I think this gels with my intuition, the direction, labels, and color all point in the same direction: increasing expense is an increase and is showing in red (bad); decreasing expense is a decrease and is showing green (good).</p>
 </div>
 <div id="iteration-6---clear-directions" class="section level3">
@@ -941,7 +941,7 @@ gt(d_alt)</code></pre>
         ggtitle(&quot;Projection of Future Cost: Baseline vs Alternative&quot;, 
                 paste0(&quot;Additional Annual Cost/(Savings) from switching &quot;, 
                        &quot;from the baseline to alternative scenario&quot;)) </code></pre>
-<p><img src="https://www.ryanthomasr.com/posts/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="/posts/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 <p>Another option would be to use something inherently directional like an arrow.</p>
 <pre class="r"><code>ggplot(d_alt) +
         geom_segment(aes(x = py, 
@@ -966,7 +966,7 @@ gt(d_alt)</code></pre>
         ggtitle(&quot;Projection of Future Cost: Baseline vs Alternative&quot;, 
                 paste0(&quot;Additional Annual Cost/(Savings) from switching &quot;, 
                        &quot;from the baseline to alternative scenario&quot;)) </code></pre>
-<p><img src="https://www.ryanthomasr.com/posts/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p><img src="/posts/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <p>Okay, I like that even better than I thought I would. I don’t think the legend is necessary with this version.</p>
 </div>
 <div id="iteration-7---extrapolating-the-quarterly-data" class="section level3">
@@ -1006,7 +1006,7 @@ summary(model)</code></pre>
 ggplot(d_model, aes(x = py, y = cumamt)) + 
         geom_point() +
         geom_line(aes(x = py, y = amt), data = predicted_data, color = &quot;blue&quot;)</code></pre>
-<p><img src="https://www.ryanthomasr.com/posts/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="/posts/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 <p>So I’ll now use this model to create simulated quarterly data.</p>
 <pre class="r"><code>years &lt;- 2018:2026
 num_years &lt;- length(years)
@@ -1594,7 +1594,7 @@ gt(d_qtr)</code></pre>
                 paste0(&quot;Additional Quarterly Cost/(Savings) from switching &quot;, 
                        &quot;from the baseline to alternative scenario&quot;)) </code></pre>
 <pre><code>## Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
-<p><img src="https://www.ryanthomasr.com/posts/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p><img src="/posts/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 <p>Although the quarterly data doesn’t line up exactly with the critical points, this is due to approximating the data.</p>
 </div>
 </div>
@@ -1611,6 +1611,10 @@ gt(d_qtr)</code></pre>
     <ul>
         
         
+        <li>
+            <a href="/posts/aspirations-for-2020/">Aspirations for 2020 <i class="fa fa-chevron-circle-right"></i> </a>
+        </li>
+        
     </ul>
 </section>
     
@@ -1621,12 +1625,12 @@ gt(d_qtr)</code></pre>
 
 </main>
     <footer>
-        <h6>Copyright &copy; 2019 - Ryan Thomas | 
+        <h6>Copyright © 2019 - Ryan Thomas | 
             Rendered by <a href="https://gohugo.io" title="Hugo">Hugo</a> |
-            <a href="https://www.ryanthomasr.comindex.xml">Subscribe</a></h6>
+            <a href="/index.xml">Subscribe</a></h6>
     </footer>
 </div>
-<script src="https://www.ryanthomasr.com/js/scripts.js"></script>
+<script src="/js/scripts.js"></script>
 </body>
 
 </html>
