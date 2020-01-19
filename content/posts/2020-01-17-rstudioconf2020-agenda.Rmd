@@ -26,6 +26,7 @@ tidy_data[[1]] <- ungroup(tidy_data[[1]])
 
 # Day 1
 
+
 ```{r echo=FALSE}
 
 tidy_data[[1]] %>% 
@@ -58,6 +59,10 @@ tidy_data[[1]] %>%
     
 ```
 
+
+### Break For Lunch
+
+
 ```{r echo=FALSE}
 tidy_data[[1]] %>% 
     filter(session == 2) %>%
@@ -88,6 +93,9 @@ tidy_data[[1]] %>%
     )
 
 ```
+
+
+### Break for Snack
 
 
 ```{r echo=FALSE}
