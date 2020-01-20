@@ -24,10 +24,6 @@ tidy_data <- readRDS("post_data/agenda_data.rds")
 tidy_data[[1]] <- ungroup(tidy_data[[1]])
 ```
 
-I needed to put something together to be able decide what sessions to attend at
-the upcoming rstudioconf in San Francisco. I wanted to be able to see what was
-happening concurrently. 
-
 Apologies for some of the tables needing to be horizontally scrolled. My hugo
 theme has a fixed width and I don't know enough css to adjust this in short order.
 Hopefully, folks will find this helpful. You can access the script I used to 
