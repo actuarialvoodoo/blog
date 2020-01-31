@@ -5,15 +5,19 @@ canonifyurls = true
 theme = "hugo-kiera"
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$", "post_data$"]
 paginate = 3
-menu = "main"
-meta = "false"
+#menu = "main"
+#meta = "false"
 
 summaryLength = 30
 enableEmoji = true
 pygmentsCodeFences = false
 pygmentsUseClasses = false
+#sectionPagesMenu = "Slides"
 
-
+[[menu.main]]
+    name = "Talks"
+    url = "/talks/"
+    weight = -100
 
 
 [author]
