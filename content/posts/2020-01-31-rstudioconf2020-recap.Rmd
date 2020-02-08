@@ -1,0 +1,120 @@
+---
+title: Rstudioconf2020 Recap
+author: Ryan
+date: '2020-01-31'
+slug: rstudioconf2020-recap
+categories: []
+tags: []
+---
+
+I just wrapped up rstudio::conf(2020) in San Francisco. It was a busy week. I 
+got to interact with my twitter feed in meatspace, attend some amazing talks 
+(and I actually gave one too), and eat some phenomenal food. Here's my recap of
+the week.
+
+<!-- more -->
+
+## Day 1 & 2 (Shiny from Start to Finish)
+[github](https://github.com/rstudio-conf-2020/shiny-start-finish)
+
+I took the intro to Shiny workshop on Monday and Tuesday. I'm not sure exactly,
+how I'd rate it. I feel like there was a lot of material I new, and I didn't get
+enough time to "play" with the material that was new to me. In some ways I feel 
+like this is probably indicative of where I am in my R journey. I'm at a plateau
+where I've got the basic stuff, but I'm still a bit overwhelmed with some of the 
+advanced material. 
+
+I'm planning on trying to apply some of the things I learned to some personal
+projects. Working on my own and getting my hands dirty is how I learn best anyway.
+
+## Day 3
+#### Keynote 1 JJ Altaire
+
+#### Keynote 2 Googlers in Viz
+
+#### Session 1
+Deploying End-To-End Data Science with Shiny, Plumber, and Pins
+Alex Gold
+
+We’re hitting R a million times a day so we made a talk about it
+Heather Nolis Machine Learning Engineer T-Mobile 
+Dr. Jacqueline Nolis Principal Data Scientist Nolis, LLC
+
+#### Skipped Half of Session 1 and Session 2
+
+
+#### Session 3
+Technical debt is a social problem
+Mr. Gordon Shotwell
+
+Parallel computing with R using foreach, future, and other packages
+Bryan Lewis
+
+
+
+## Day 4
+
+#### Keynote 3 Jenny Bryan "Object of type 'closure' is not subsettable"
+[link to slides](https://rstd.io/debugging)
+
+I love Jenny Bryan. I have learned so much from her over the last 5-6 years. In 
+her keynote, she talked about the four levels of debugging:
+
+1. Reset (Restart R and see if you still get the error)
+2. Reprex (Value of creating a minimal **repr**oducible **ex**ample for both yourself and others)
+3. Debug (Strategies for debugging)
+4. Deter (How to write unit tests so that fixed bugs stay fixed.)
+
+The first three section concisly summarize her great book/website/course "What they forgot to teach you about R", which you can find at [https://rstats.wtf](https://rstats.wtf/). 
+
+*Let's take a moment to appreciate that WTF top-level domain*
+
+#### Session 4
+The Glamour of Graphics
+William Chase, University of Pennsylvania 
+
+Don’t repeat yourself, talk to yourself! Repeated reporting in the R universe.
+Sharla Gelfand, R and Shiny Developer
+
+Designing Effective Visualizations
+Miriah Meyer, University of Utah
+
+Tidyverse 2019-2020
+Hadley Wickham, RStudio
+
+#### Insurance Birds of a Feather (lunch)
+
+I gave a [talk](/talks/rethinking-actuarial-workflows) during the birds of a 
+feather session about how I want to modernize actuarial workflows. I had some 
+interesting follow up conversations with folks at my table after the talk. The 
+slides can be found [here](/talks/rethinking-actuarial-workflows).
+
+#### Session 5
+
+MLOps for R with Azure Machine Learning
+David Smith, Microsoft
+
+Totally Tidy Tuning Techniques
+Max Kuhn, RStudio
+
+Neural Networks for Longitudinal Data Analysis
+Dr. Sydeaka Watson, Korelasi Data Insights; Elicit Insights
+
+Extending your ability to extend ggplot2
+Thomas Lin Pedersen, RStudio
+
+#### Session 6
+Lightning Talks
+
+Dr. Amelia McNamara, University of St Thomas
+Javier Luraschi, RStudio
+Rebecca Barter, UC Berkeley
+
+#### Keynote 4 Hilary Parker & Roger Peng "NSSD Episode 100"
+
+#### Dinner
+
+We had intended to go to another place, but the kitchen was closed. We ended up
+going to [Gracias Madre](https://www.gracias-madre.com/) instead. We didn't know
+it was a vegetarian only place until we saw the menu. I had butternut squash 
+flautas, refried black beans, and chips and gauc. It was great; I would go again.

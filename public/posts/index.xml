@@ -6,10 +6,19 @@
     <description>Recent content in Posts on Ryan Thomas</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>Copyright &amp;copy; 2019 - Ryan Thomas</copyright>
-    <lastBuildDate>Fri, 17 Jan 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 31 Jan 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Rstudioconf2020 Recap</title>
+      <link>/posts/rstudioconf2020-recap/</link>
+      <pubDate>Fri, 31 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/rstudioconf2020-recap/</guid>
+      <description>I just wrapped up rstudio::conf(2020) in San Francisco. It was a busy week. I got to interact with my twitter feed in meatspace, attend some amazing talks (and I actually gave one too), and eat some phenomenal food.</description>
+    </item>
     
     <item>
       <title>Rstudioconf2020 Agenda</title>
