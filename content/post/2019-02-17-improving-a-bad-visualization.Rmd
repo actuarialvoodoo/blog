@@ -29,7 +29,7 @@ with the differences because that was the only data I had in the original
 visualization. The data below are not the same as the original but are 
 analogous. 
 
-```{r}
+```{r, warning=FALSE}
 suppressPackageStartupMessages({
         library(tidyverse)
         library(glue)
