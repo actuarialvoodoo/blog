@@ -1,0 +1,1934 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>data visualization | Ryan Thomas</title>
+    <link>/tag/data-visualization/</link>
+      <atom:link href="/tag/data-visualization/index.xml" rel="self" type="application/rss+xml" />
+    <description>data visualization</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Sun, 17 Feb 2019 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <title>data visualization</title>
+      <link>/tag/data-visualization/</link>
+    </image>
+    
+    <item>
+      <title>Iterating to a Better Visualization</title>
+      <link>/post/iterating-to-a-better-visualization/</link>
+      <pubDate>Sun, 17 Feb 2019 00:00:00 +0000</pubDate>
+      <guid>/post/iterating-to-a-better-visualization/</guid>
+      <description>
+
+
+&lt;p&gt;A few months ago I was presented with a visualization at work by a colleague
+who was very excited about it. They were adamant that I add it to the analytics
+package I was working on. I thought there were several problems with the
+visualization. In this post, I recount the iterations I went through to
+create what I think is a better visualization.&lt;/p&gt;
+&lt;div id=&#34;where-it-all-began&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Where It All Began&lt;/h2&gt;
+&lt;p&gt;All of the visualizations are trying to communicate the trade offs
+between two alternative set of projected cash flows. One, the baseline, is the
+set of cash flows which will occur if the client continues with their current
+policy unchanged. The alternative is the set of cash flows which is projected to
+occur if the client implements a new policy.&lt;/p&gt;
+&lt;p&gt;In the d_raw table, the delta column is the difference in the aggregate
+annual cash flows for the alternative policy and the baseline policy. I’m starting
+with the differences because that was the only data I had in the original
+visualization. The data below are not the same as the original but are
+analogous.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;suppressPackageStartupMessages({
+        library(tidyverse)
+        library(glue)
+        library(gt)
+        })
+
+d_raw &amp;lt;- tribble(
+  ~py, ~delta,
+  2018,  -248,
+  2019,  -193,
+  2020,  -121,
+  2021,   -53,
+  2022,   -19,
+  2023,    75,
+  2024,   222,
+  2025,   310,
+  2026,   425
+)
+
+d &amp;lt;- mutate(d_raw, 
+            scenario = as.factor(case_when(delta &amp;gt; 0 ~ &amp;quot;alternative&amp;quot;, 
+                                           TRUE ~ &amp;quot;baseline&amp;quot;)),
+            label = glue(&amp;quot;${abs(delta)}&amp;quot;)
+)
+gt(d)&lt;/code&gt;&lt;/pre&gt;
+&lt;style&gt;html {
+  font-family: -apple-system, BlinkMacSystemFont, &#39;Segoe UI&#39;, Roboto, Oxygen, Ubuntu, Cantarell, &#39;Helvetica Neue&#39;, &#39;Fira Sans&#39;, &#39;Droid Sans&#39;, Arial, sans-serif;
+}
+
+#ntzjewtwtv .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#ntzjewtwtv .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#ntzjewtwtv .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#ntzjewtwtv .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 4px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#ntzjewtwtv .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ntzjewtwtv .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#ntzjewtwtv .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#ntzjewtwtv .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#ntzjewtwtv .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#ntzjewtwtv .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#ntzjewtwtv .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#ntzjewtwtv .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#ntzjewtwtv .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#ntzjewtwtv .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#ntzjewtwtv .gt_from_md &gt; :first-child {
+  margin-top: 0;
+}
+
+#ntzjewtwtv .gt_from_md &gt; :last-child {
+  margin-bottom: 0;
+}
+
+#ntzjewtwtv .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#ntzjewtwtv .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#ntzjewtwtv .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ntzjewtwtv .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#ntzjewtwtv .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ntzjewtwtv .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#ntzjewtwtv .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ntzjewtwtv .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#ntzjewtwtv .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#ntzjewtwtv .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#ntzjewtwtv .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#ntzjewtwtv .gt_left {
+  text-align: left;
+}
+
+#ntzjewtwtv .gt_center {
+  text-align: center;
+}
+
+#ntzjewtwtv .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#ntzjewtwtv .gt_font_normal {
+  font-weight: normal;
+}
+
+#ntzjewtwtv .gt_font_bold {
+  font-weight: bold;
+}
+
+#ntzjewtwtv .gt_font_italic {
+  font-style: italic;
+}
+
+#ntzjewtwtv .gt_super {
+  font-size: 65%;
+}
+
+#ntzjewtwtv .gt_footnote_marks {
+  font-style: italic;
+  font-size: 65%;
+}
+&lt;/style&gt;
+&lt;div id=&#34;ntzjewtwtv&#34; style=&#34;overflow-x:auto;overflow-y:auto;width:auto;height:auto;&#34;&gt;&lt;table class=&#34;gt_table&#34;&gt;
+  
+  &lt;thead class=&#34;gt_col_headings&#34;&gt;
+    &lt;tr&gt;
+      &lt;th class=&#34;gt_col_heading gt_columns_bottom_border gt_right&#34; rowspan=&#34;1&#34; colspan=&#34;1&#34;&gt;py&lt;/th&gt;
+      &lt;th class=&#34;gt_col_heading gt_columns_bottom_border gt_right&#34; rowspan=&#34;1&#34; colspan=&#34;1&#34;&gt;delta&lt;/th&gt;
+      &lt;th class=&#34;gt_col_heading gt_columns_bottom_border gt_center&#34; rowspan=&#34;1&#34; colspan=&#34;1&#34;&gt;scenario&lt;/th&gt;
+      &lt;th class=&#34;gt_col_heading gt_columns_bottom_border gt_center&#34; rowspan=&#34;1&#34; colspan=&#34;1&#34;&gt;label&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody class=&#34;gt_table_body&#34;&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2018&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;-248&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;baseline&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;$248&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2019&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;-193&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;baseline&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;$193&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2020&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;-121&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;baseline&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;$121&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2021&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;-53&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;baseline&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;$53&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2022&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;-19&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;baseline&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;$19&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2023&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;75&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;alternative&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;$75&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2024&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;222&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;alternative&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;$222&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2025&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;310&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;alternative&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;$310&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2026&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;425&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;alternative&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;$425&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+  
+  
+&lt;/table&gt;&lt;/div&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(d, aes(x = py)) + 
+        geom_point(aes(y = 1, size = abs(delta), color = scenario)) +
+        scale_size(range = c(5, 22)) +
+        geom_text(aes(y = 1, label = label)) + 
+        scale_color_manual(values = c(&amp;quot;#8EE5EE&amp;quot;, &amp;quot;#AB82FF&amp;quot;)) +
+        geom_vline(xintercept = c(2022 + 2/3, 2025 + 2/3), 
+                   linetype = &amp;quot;dashed&amp;quot;) +
+        geom_label(aes(x = 2022, y = 1.45, label = &amp;quot;Breakeven 68\nmonths&amp;quot;)) +
+        geom_label(aes(x = 2024.9, y = 1.45, 
+                       label = &amp;quot;Realized gains\nbegin month 104&amp;quot;)) +
+        geom_segment(aes(x = 2017.5, xend = 2022.5, y = 1.2, yend = 1.2), 
+                     color = &amp;quot;blue&amp;quot;) +
+        geom_text(aes(x = 2020, y = 1.27), 
+                  label = paste0(&amp;quot;$647k in capital invesment in the first\n&amp;quot;, 
+                                 &amp;quot;68  months needed to generate returns&amp;quot;)) +
+        scale_x_continuous(breaks = 2018:2026, name = &amp;quot;projection year&amp;quot;) +
+        scale_y_continuous(limits = c(0.5, 1.5)) +
+        ggtitle(&amp;quot;Projection of Future Cost: Baseline vs Alternative&amp;quot;, 
+                paste0(&amp;quot;Annual difference in cost between &amp;quot;, 
+                       &amp;quot;baseline scenario and alternative scenario&amp;quot;)) +
+        theme_classic() +
+        guides(size = FALSE) +
+        theme(legend.position = &amp;quot;bottom&amp;quot;, 
+              axis.title.y = element_blank(), 
+              axis.text.y = element_blank())&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;The color indicates which scenario is the lowest cost scenario for a particular
+year. The magnitudes of the difference between the two cash flows is represented
+by the size of the bubble; negative values imply alternative scenario is more
+expensive. It is also used as the label at the center of each bubble. Two
+important points are called out on the annotation of the plot: the break even
+month (68) and the month where the cumulative cash flow differences becomes
+positive (104), that is when the the cumulative cash flows of the baseline policy
+exceed those of the alternative policy.&lt;/p&gt;
+&lt;div id=&#34;why-i-think-this-visualization-is-not-effective&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Why I think this visualization is not effective&lt;/h3&gt;
+&lt;p&gt;When I first saw this visualization, it was not clear to me what information it
+was trying to make it easier for me to understand. A good data visualization
+should reduce the mental load of the viewer to gain understanding. I was
+eventually able to decipher what it was trying to communicate after
+looking at it for a while and reading the accompanying explanatory notes.&lt;/p&gt;
+&lt;p&gt;Two more specific issues with the visualization are the use of bubbles and the
+choice of colors. The area of the bubbles is used to convey the relative sizes
+in the cash flow differences. However, it is harder for humans to reason about
+relative areas (2d) than relative lengths (1d). The visualization unnecessarily
+projects one-dimensional data into two dimensions. For example, I know, because
+of the value labels, that the bubble for year 2025 is about 50% larger than the
+bubble for 2024, but I would not have guessed it from the size of the bubble.&lt;/p&gt;
+&lt;p&gt;The color used in the visualization conveys important information. It’s the only
+graphical element which tells the user the sign of the differences in the two
+sets of cash flows. As such, choosing colors that help the viewer understand the
+direction of the cash flows would probably be better than choosing colors which
+make it look pretty.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;so-what-would-be-better&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;So what would be better&lt;/h2&gt;
+&lt;p&gt;I’ve highlighted a few things I think are issues with the original visualization.
+Next, I will try to address these issues to create what I think is a better
+visualization. I’ve seen Tufte and others compare visualizations found in the
+“wild”, with their own improved versions. Perhaps they can go straight from
+A to B, but I typically need to iterate. I thought it might be interesting or
+helpful to record the steps I went through.&lt;/p&gt;
+&lt;div id=&#34;iteration-1---bursting-the-bubbles&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Iteration 1 - Bursting the Bubbles&lt;/h3&gt;
+&lt;p&gt;So my first thought was to get rid of the bubbles and use a column chart.
+I also wanted to give some context to the months which are highlighted in the
+call outs so I added a second x-axis. Important to note, this secondary x-axis
+has exactly the same scale as the primary one.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(d, aes(py, delta, fill = scenario)) + 
+  geom_bar(stat = &amp;quot;identity&amp;quot;, width = 0.3) +
+  geom_hline(yintercept = 0) +
+  scale_fill_manual(values = c(&amp;quot;#8EE5EE&amp;quot;, &amp;quot;#AB82FF&amp;quot;)) +
+  annotate(&amp;quot;segment&amp;quot;, x = 2017.5, xend = 2022.5, 
+           y = 100, yend = 100, 
+           color = &amp;quot;blue&amp;quot;) +
+  annotate(&amp;quot;text&amp;quot;, x = 2020, y = 175, 
+           label = paste0(&amp;quot;$647k in capital invesment in the first\n&amp;quot;, 
+                          &amp;quot;68  months needed to generate returns&amp;quot;)) +
+  annotate(&amp;quot;text&amp;quot;, x = 2024.5, y = -100, 
+           label = paste0(&amp;quot;Cashflow breakeven at 68 momnths\n&amp;quot;, 
+                          &amp;quot;Realize gain after 104 months&amp;quot;)) +
+  scale_x_continuous(breaks = 2018:2026, expand = c(0, 0),
+                     sec.axis = sec_axis(~ 12*(. - 2017), 
+                                         name = &amp;quot;Months into Future&amp;quot;, 
+                                         breaks = 12*(1:9))) +
+  ggtitle(&amp;quot;Projection of Future Cost: Baseline vs Alternative&amp;quot;, 
+                paste0(&amp;quot;Annual difference in cost between &amp;quot;, 
+                       &amp;quot;baseline scenario and alternative scenario&amp;quot;)) +
+  theme_classic() + 
+  theme(legend.position = &amp;quot;none&amp;quot;)+
+  ylab(&amp;quot;Annual Cashflow Difference (in thousands)&amp;quot;) + xlab(&amp;quot;projection year&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;I think this already much better. It now immediately obvious that about half way
+between 60 and 72 months the sign changes from a negative delta to a positive one.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;iteration-2---clean-up-the-call-outs&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Iteration 2 - Clean up the Call Outs&lt;/h3&gt;
+&lt;p&gt;Next, I thought it was sort of visually jarring to have the call out for the
+first half of the chart above the 0 line and the other below. I also thought it
+might be good to try to tie the call outs to the relate regions of the chart
+with color.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(d, aes(py, delta, fill = scenario)) + 
+  geom_bar(stat = &amp;quot;identity&amp;quot;, width = 0.3) +
+  scale_fill_manual(values = c(&amp;quot;#8EE5EE&amp;quot;, &amp;quot;#AB82FF&amp;quot;)) +
+  geom_hline(yintercept = 0) +
+  annotate(&amp;quot;segment&amp;quot;, x = 2017.5, xend = 2022.5, 
+           y = 400, yend = 400, 
+           color = &amp;quot;#AB82FF&amp;quot;) +
+  annotate(&amp;quot;text&amp;quot;, x = 2020, y = 455, 
+           label = paste0(&amp;quot;$647k in capital invesment in the first\n&amp;quot;, 
+                          &amp;quot;68  months needed to generate returns&amp;quot;)) +
+  annotate(&amp;quot;segment&amp;quot;, x = 2022.5, xend = 2026.5, 
+           y = 400, yend = 400, 
+           color = &amp;quot;#8EE5EE&amp;quot;) +
+  annotate(&amp;quot;text&amp;quot;, x = 2024.5, y = 455, 
+           label = paste0(&amp;quot;Cashflow breakeven at 68 momnths\n&amp;quot;, 
+                          &amp;quot;Realize gain after 104 months&amp;quot;) )+
+  scale_x_continuous(breaks = 2018:2026, expand = c(0, 0),
+                     sec.axis = sec_axis(~ 12*(. - 2017), 
+                                         name = &amp;quot;Months into Future&amp;quot;, 
+                                         breaks = c(12*(1:9), 68, 104))) +
+  scale_y_continuous(limits = c(-260, 475)) +
+  ggtitle(&amp;quot;Projection of Future Cost: Baseline vs Alternative&amp;quot;, 
+                paste0(&amp;quot;Annual difference in cost between &amp;quot;, 
+                       &amp;quot;baseline scenario and alternative scenario&amp;quot;)) +
+  theme_classic() + 
+  theme(legend.position = &amp;quot;none&amp;quot;)+
+  ylab(&amp;quot;Annual Cashflow Difference (in thousands)&amp;quot;) + xlab(&amp;quot;projection year&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;iteration-3---concentrate-on-the-cumulative-cashflows&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Iteration 3 - Concentrate on the Cumulative Cashflows&lt;/h3&gt;
+&lt;p&gt;There are two “critical points” that are called out on the chart. 68 months is
+the point at which the difference between the cash flows of the two scenarios
+flips from negative to positive; 104 months is the point past which all of the
+positive differences in cash flows exceed all negative ones, but that is not
+something that can be seen in this version of the visualization. This led me to
+overlay the cumulative cash flows.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;d_cumulative &amp;lt;- mutate(d, cumdelta = cumsum(delta), start = cumdelta - delta)
+
+ggplot(d_cumulative, aes(x = py, fill = scenario)) + 
+    geom_col(aes(y = delta), width = 0.3) + 
+    scale_fill_manual(values = c(&amp;quot;#8EE5EE&amp;quot;, &amp;quot;#AB82FF&amp;quot;)) +
+    geom_point(aes(y = cumdelta)) + 
+        geom_line(aes(y = cumdelta), color = &amp;quot;black&amp;quot;) +
+    scale_x_continuous(breaks = 2018:2026, expand = c(0, 0),
+                     sec.axis = sec_axis(~ 12*(. - 2017), 
+                                         name = &amp;quot;Months into Future&amp;quot;,
+                                         breaks = sort(c(12*(1:9), 68, 104)))) +
+    scale_y_continuous(breaks = c(-647, -500, -250, 0, 250, 500)) +
+    geom_hline(yintercept = 0) +         
+    theme_classic() + 
+  ggtitle(&amp;quot;Projection of Future Cost: Baseline vs Alternative&amp;quot;, 
+                paste0(&amp;quot;Annual difference in cost between &amp;quot;, 
+                       &amp;quot;baseline scenario and alternative scenario&amp;quot;)) +
+  theme_classic() + 
+  theme(legend.position = &amp;quot;none&amp;quot;)+
+  ylab(&amp;quot;Annual Cashflow Difference (in thousands)&amp;quot;) + xlab(&amp;quot;projection year&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Okay, now we’re getting somewhere. Plotting the cumulative data removes the need for
+any call outs since we can see clearly the two critical points in the
+cumulative data. The inflection point, the part where the curve bottoms out is
+the point where the cash flows change from negative to positive. And the place
+where the cumulative plot crosses the x-axis is visually near 104 months.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;iteration-4---what-about-a-waterfall&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Iteration 4 - What about a Waterfall?&lt;/h3&gt;
+&lt;p&gt;I want to emphasize both the incremental changes and the cumulative values.
+I first attemptted to accomplish this by using a waterfall chart.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(d_cumulative) +
+        geom_rect(aes(xmin = py - 0.2, 
+                  xmax = py + 0.2, 
+                  ymin = start, 
+                  ymax = cumdelta,
+                  fill = scenario)) +
+        scale_fill_manual(values = c(&amp;quot;#8EE5EE&amp;quot;, &amp;quot;#AB82FF&amp;quot;)) +
+        geom_hline(yintercept = 0) +
+        geom_hline(yintercept = -647) +
+        scale_x_continuous(breaks = 2018:2026, expand = c(0, 0),
+                     sec.axis = sec_axis(~ 12*(. - 2017), 
+                                         name = &amp;quot;Months into Future&amp;quot;, 
+                                         breaks = sort(c(12*(1:9), 68, 104)))) +
+        scale_y_continuous(breaks = c(-647, -500, -250, 0, 250, 500)) +
+        theme_classic() + 
+        theme(legend.position = &amp;quot;none&amp;quot;) +
+        ggtitle(&amp;quot;Projection of Future Cost: Baseline vs Alternative&amp;quot;, 
+                paste0(&amp;quot;Annual difference in cost between &amp;quot;, 
+                       &amp;quot;baseline scenario and alternative scenario&amp;quot;)) +
+        ylab(&amp;quot;Annual Cashflow Difference (in thousands)&amp;quot;) + 
+        xlab(&amp;quot;projection year&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-6-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Now I can see how each incremental value accumulates to the cumulative value. The two
+“critical points” jump out of the plot. So there are three things now that bother me about
+this plot.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Although if I read the chart left to right, I can easily follow the incremental
+movements, I find it a little confusing to understand the direction the waterfall is moving
+if I start by looking at the middle of the plot.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;I wonder if there is a way to make what’s happening here more “grok-able”. The values being
+plotted show the incremental and cumulative cost savings between the alternative scenario
+and the baseline scenario. Negative cost savings feels a little bit like a double negative.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Now that the main feature of the plot calls out both the inflection point and the point
+at which the cumulative savings become positive, it’s clear that the analysis was done
+using more granular data then what we’re showing. If we could plot quarterly cash flows we
+could see the two critical points exactly.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;I don’t actually have the quarterly data, so I will try to address the first two points
+above using the annual data and then extrapolate the quarterly data.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;iteration-5---changing-direction-and-color&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Iteration 5 - Changing Direction and Color&lt;/h3&gt;
+&lt;p&gt;I’m going to see if I can deal with the “grok-ableness” issue first. The baseline
+scenario is what will happen if the client continues their current policy; the
+alternative involves a change to that policy. I want to frame things in terms of
+costs and savings to the client relative to the baseline scenario. I’ll start by
+re-factoring the data slightly.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;d_alt &amp;lt;- mutate(d_raw, delta = -delta) %&amp;gt;%
+        rename(amt = delta) %&amp;gt;%
+        mutate(direction = as.factor(case_when(amt &amp;gt;= 0 ~ &amp;quot;cost&amp;quot;, TRUE ~ &amp;quot;savings&amp;quot;)),
+               cumamt = cumsum(amt),
+               start = cumamt - amt)
+gt(d_alt)&lt;/code&gt;&lt;/pre&gt;
+&lt;style&gt;html {
+  font-family: -apple-system, BlinkMacSystemFont, &#39;Segoe UI&#39;, Roboto, Oxygen, Ubuntu, Cantarell, &#39;Helvetica Neue&#39;, &#39;Fira Sans&#39;, &#39;Droid Sans&#39;, Arial, sans-serif;
+}
+
+#uimiptzaje .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#uimiptzaje .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#uimiptzaje .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#uimiptzaje .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 4px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#uimiptzaje .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#uimiptzaje .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#uimiptzaje .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#uimiptzaje .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#uimiptzaje .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#uimiptzaje .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#uimiptzaje .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#uimiptzaje .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#uimiptzaje .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#uimiptzaje .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#uimiptzaje .gt_from_md &gt; :first-child {
+  margin-top: 0;
+}
+
+#uimiptzaje .gt_from_md &gt; :last-child {
+  margin-bottom: 0;
+}
+
+#uimiptzaje .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#uimiptzaje .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#uimiptzaje .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#uimiptzaje .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#uimiptzaje .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#uimiptzaje .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#uimiptzaje .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#uimiptzaje .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#uimiptzaje .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#uimiptzaje .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#uimiptzaje .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#uimiptzaje .gt_left {
+  text-align: left;
+}
+
+#uimiptzaje .gt_center {
+  text-align: center;
+}
+
+#uimiptzaje .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#uimiptzaje .gt_font_normal {
+  font-weight: normal;
+}
+
+#uimiptzaje .gt_font_bold {
+  font-weight: bold;
+}
+
+#uimiptzaje .gt_font_italic {
+  font-style: italic;
+}
+
+#uimiptzaje .gt_super {
+  font-size: 65%;
+}
+
+#uimiptzaje .gt_footnote_marks {
+  font-style: italic;
+  font-size: 65%;
+}
+&lt;/style&gt;
+&lt;div id=&#34;uimiptzaje&#34; style=&#34;overflow-x:auto;overflow-y:auto;width:auto;height:auto;&#34;&gt;&lt;table class=&#34;gt_table&#34;&gt;
+  
+  &lt;thead class=&#34;gt_col_headings&#34;&gt;
+    &lt;tr&gt;
+      &lt;th class=&#34;gt_col_heading gt_columns_bottom_border gt_right&#34; rowspan=&#34;1&#34; colspan=&#34;1&#34;&gt;py&lt;/th&gt;
+      &lt;th class=&#34;gt_col_heading gt_columns_bottom_border gt_right&#34; rowspan=&#34;1&#34; colspan=&#34;1&#34;&gt;amt&lt;/th&gt;
+      &lt;th class=&#34;gt_col_heading gt_columns_bottom_border gt_center&#34; rowspan=&#34;1&#34; colspan=&#34;1&#34;&gt;direction&lt;/th&gt;
+      &lt;th class=&#34;gt_col_heading gt_columns_bottom_border gt_right&#34; rowspan=&#34;1&#34; colspan=&#34;1&#34;&gt;cumamt&lt;/th&gt;
+      &lt;th class=&#34;gt_col_heading gt_columns_bottom_border gt_right&#34; rowspan=&#34;1&#34; colspan=&#34;1&#34;&gt;start&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody class=&#34;gt_table_body&#34;&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2018&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;248&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;cost&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;248&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2019&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;193&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;cost&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;441&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;248&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2020&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;121&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;cost&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;562&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;441&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2021&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;53&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;cost&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;615&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;562&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2022&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;19&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;cost&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;634&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;615&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2023&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;-75&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;savings&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;559&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;634&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2024&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;-222&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;savings&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;337&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;559&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2025&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;-310&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;savings&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;27&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;337&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2026&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;-425&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;savings&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;-398&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;27&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+  
+  
+&lt;/table&gt;&lt;/div&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(d_alt) +
+        geom_rect(aes(xmin = py - 0.2, 
+                  xmax = py + 0.2, 
+                  ymin = start, 
+                  ymax = cumamt,
+                  fill = direction)) +
+        scale_fill_manual(values = c(&amp;quot;#FF6A6A&amp;quot;, &amp;quot;#00CD66&amp;quot;)) + 
+        geom_hline(yintercept = 0) +
+        scale_x_continuous(breaks = 2018:2026, expand = c(0, 0),
+                     sec.axis = sec_axis(~ 12*(. - 2017), 
+                                         name = &amp;quot;Months into Future&amp;quot;, 
+                                         breaks = sort(c(12*(1:9), 68, 104)))) +
+        scale_y_continuous(breaks = c(-500, -250, 0, 250, 500, 647)) +
+        theme_classic() + 
+        theme(legend.position = &amp;quot;right&amp;quot;, legend.justification = &amp;quot;top&amp;quot;)+
+        ylab(&amp;quot;Additional Cost/(Savings) (in thousands)&amp;quot;) + 
+        xlab(&amp;quot;projection year&amp;quot;) +
+        ggtitle(&amp;quot;Projection of Future Cost: Baseline vs Alternative&amp;quot;, 
+                paste0(&amp;quot;Additional Annual Cost/(Savings) from switching &amp;quot;, 
+                       &amp;quot;from the baseline to alternative scenario&amp;quot;)) &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-8-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;So now, I think this gels with my intuition, the direction, labels, and color all point in
+the same direction: increasing expense is an increase and is showing in red (bad);
+decreasing expense is a decrease and is showing green (good).&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;iteration-6---clear-directions&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Iteration 6 - Clear Directions&lt;/h3&gt;
+&lt;p&gt;The choice of colors which indicate direction is helpful, but it doesn’t completely address
+my concern with being able to easily see the direction of each incremental change.&lt;/p&gt;
+&lt;p&gt;One idea is to make the width of each column wider and add data labels.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(d_alt) +
+        geom_rect(aes(xmin = py - 0.35, 
+                  xmax = py + 0.35, 
+                  ymin = start, 
+                  ymax = cumamt,
+                  fill = direction)) +
+        scale_fill_manual(values = c(&amp;quot;#FF6A6A&amp;quot;, &amp;quot;#00CD66&amp;quot;)) +
+        geom_text(aes(x = py, y = cumamt - sign(amt) * 25, 
+                      label = ifelse(abs(amt) &amp;lt; 50, &amp;quot;&amp;quot;, amt))) +
+        geom_hline(yintercept = 0) +
+        scale_x_continuous(breaks = 2018:2026, expand = c(0, 0),
+                     sec.axis = sec_axis(~ 12*(. - 2017), 
+                                         name = &amp;quot;Months into Future&amp;quot;, 
+                                         breaks = sort(c(12*(1:9), 68, 104)))) +
+        scale_y_continuous(breaks = c(-500, -250, 0, 250, 500, 647)) +
+        theme_classic() + 
+        theme(legend.position = &amp;quot;right&amp;quot;, legend.justification = &amp;quot;top&amp;quot;) +
+        ylab(&amp;quot;Additional Cost/(Savings) (in thousands)&amp;quot;) + 
+        xlab(&amp;quot;projection year&amp;quot;) +
+        ggtitle(&amp;quot;Projection of Future Cost: Baseline vs Alternative&amp;quot;, 
+                paste0(&amp;quot;Additional Annual Cost/(Savings) from switching &amp;quot;, 
+                       &amp;quot;from the baseline to alternative scenario&amp;quot;)) &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-9-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Another option would be to use something inherently directional like an arrow.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(d_alt) +
+        geom_segment(aes(x = py, 
+                  xend = py, 
+                  y = start, 
+                  yend = cumamt,
+                  color = direction), 
+                  arrow = arrow(length = unit(0.25, &amp;quot;cm&amp;quot;), type = &amp;quot;closed&amp;quot;)) +
+        scale_color_manual(values = c(&amp;quot;#FF6A6A&amp;quot;, &amp;quot;#00CD66&amp;quot;)) +
+        geom_text(aes(x = py - 0.28, y = (start + cumamt)/2, 
+                      label = ifelse(abs(amt) &amp;lt; 50, &amp;quot;&amp;quot;, amt))) +
+        geom_hline(yintercept = 0) +
+        scale_x_continuous(breaks = 2018:2026,
+                     sec.axis = sec_axis(~ 12*(. - 2017), 
+                                         name = &amp;quot;Months into Future&amp;quot;, 
+                                         breaks = sort(c(12*(1:9), 68, 104)))) +
+        scale_y_continuous(breaks = c(-500, -250, 0, 250, 500, 647)) +
+        theme_classic() + 
+        theme(legend.position = &amp;quot;none&amp;quot;) +
+        ylab(&amp;quot;Additional Cost/(Savings) (in thousands)&amp;quot;) + 
+        xlab(&amp;quot;projection year&amp;quot;) +
+        ggtitle(&amp;quot;Projection of Future Cost: Baseline vs Alternative&amp;quot;, 
+                paste0(&amp;quot;Additional Annual Cost/(Savings) from switching &amp;quot;, 
+                       &amp;quot;from the baseline to alternative scenario&amp;quot;)) &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-10-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Okay, I like that even better than I thought I would. I don’t think the legend
+is necessary with this version.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;iteration-7---extrapolating-the-quarterly-data&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Iteration 7 - Extrapolating the quarterly data&lt;/h3&gt;
+&lt;p&gt;If we take a look at the annual cumulative data again, I think it’s clear we can get a pretty
+good fit with a quadratic or cubic fit.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;d_model &amp;lt;- select(d_alt, py, cumamt) %&amp;gt;%
+        mutate(py = py + 1) %&amp;gt;%
+        bind_rows(tibble(py = 2018, cumamt = 0)) %&amp;gt;%
+        arrange(py)
+
+model &amp;lt;- lm( cumamt ~ poly(py, 3), data = d_model)
+
+summary(model)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Call:
+## lm(formula = cumamt ~ poly(py, 3), data = d_model)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -23.014  -5.739  -1.398   6.976  21.779 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&amp;gt;|t|)    
+## (Intercept)   302.500      4.722  64.061 9.73e-10 ***
+## poly(py, 3)1 -310.417     14.933 -20.788 8.07e-07 ***
+## poly(py, 3)2 -955.251     14.933 -63.971 9.81e-10 ***
+## poly(py, 3)3 -109.221     14.933  -7.314 0.000333 ***
+## ---
+## Signif. codes:  0 &amp;#39;***&amp;#39; 0.001 &amp;#39;**&amp;#39; 0.01 &amp;#39;*&amp;#39; 0.05 &amp;#39;.&amp;#39; 0.1 &amp;#39; &amp;#39; 1
+## 
+## Residual standard error: 14.93 on 6 degrees of freedom
+## Multiple R-squared:  0.9987, Adjusted R-squared:  0.998 
+## F-statistic:  1526 on 3 and 6 DF,  p-value: 4.903e-09&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;predicted_data &amp;lt;- data.frame(py = 2018:2027) %&amp;gt;%
+        mutate(amt = predict(model, .))
+
+ggplot(d_model, aes(x = py, y = cumamt)) + 
+        geom_point() +
+        geom_line(aes(x = py, y = amt), data = predicted_data, color = &amp;quot;blue&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-11-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;So I’ll now use this model to create simulated quarterly data.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;years &amp;lt;- 2018:2026
+num_years &amp;lt;- length(years)
+d_qtr &amp;lt;- data.frame(py = c(rep(years, 4), 2027), 
+                    qtr = c(rep(0, num_years), 
+                            rep(0.25, num_years), 
+                            rep(0.5, num_years), 
+                            rep(0.75, num_years), 0)) %&amp;gt;%
+        mutate(py = py + qtr) %&amp;gt;%
+        select(py) %&amp;gt;% 
+        arrange(py) %&amp;gt;%
+        mutate(cumamt = predict(model, .), month = 4 * row_number())
+
+d_qtr$cumamt[1] &amp;lt;- 0
+d_qtr &amp;lt;- mutate(d_qtr, 
+                amt = cumamt - lag(cumamt),
+                direction = as.factor(case_when(amt &amp;gt;= 0 ~ &amp;quot;cost&amp;quot;, 
+                                                TRUE ~ &amp;quot;savings&amp;quot;)),
+                start = cumamt - amt)
+
+gt(d_qtr)&lt;/code&gt;&lt;/pre&gt;
+&lt;style&gt;html {
+  font-family: -apple-system, BlinkMacSystemFont, &#39;Segoe UI&#39;, Roboto, Oxygen, Ubuntu, Cantarell, &#39;Helvetica Neue&#39;, &#39;Fira Sans&#39;, &#39;Droid Sans&#39;, Arial, sans-serif;
+}
+
+#knomnuqldf .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#knomnuqldf .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#knomnuqldf .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#knomnuqldf .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 4px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#knomnuqldf .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#knomnuqldf .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#knomnuqldf .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#knomnuqldf .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#knomnuqldf .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#knomnuqldf .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#knomnuqldf .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#knomnuqldf .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#knomnuqldf .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#knomnuqldf .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#knomnuqldf .gt_from_md &gt; :first-child {
+  margin-top: 0;
+}
+
+#knomnuqldf .gt_from_md &gt; :last-child {
+  margin-bottom: 0;
+}
+
+#knomnuqldf .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#knomnuqldf .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#knomnuqldf .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#knomnuqldf .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#knomnuqldf .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#knomnuqldf .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#knomnuqldf .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#knomnuqldf .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#knomnuqldf .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#knomnuqldf .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#knomnuqldf .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#knomnuqldf .gt_left {
+  text-align: left;
+}
+
+#knomnuqldf .gt_center {
+  text-align: center;
+}
+
+#knomnuqldf .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#knomnuqldf .gt_font_normal {
+  font-weight: normal;
+}
+
+#knomnuqldf .gt_font_bold {
+  font-weight: bold;
+}
+
+#knomnuqldf .gt_font_italic {
+  font-style: italic;
+}
+
+#knomnuqldf .gt_super {
+  font-size: 65%;
+}
+
+#knomnuqldf .gt_footnote_marks {
+  font-style: italic;
+  font-size: 65%;
+}
+&lt;/style&gt;
+&lt;div id=&#34;knomnuqldf&#34; style=&#34;overflow-x:auto;overflow-y:auto;width:auto;height:auto;&#34;&gt;&lt;table class=&#34;gt_table&#34;&gt;
+  
+  &lt;thead class=&#34;gt_col_headings&#34;&gt;
+    &lt;tr&gt;
+      &lt;th class=&#34;gt_col_heading gt_columns_bottom_border gt_right&#34; rowspan=&#34;1&#34; colspan=&#34;1&#34;&gt;py&lt;/th&gt;
+      &lt;th class=&#34;gt_col_heading gt_columns_bottom_border gt_right&#34; rowspan=&#34;1&#34; colspan=&#34;1&#34;&gt;cumamt&lt;/th&gt;
+      &lt;th class=&#34;gt_col_heading gt_columns_bottom_border gt_right&#34; rowspan=&#34;1&#34; colspan=&#34;1&#34;&gt;month&lt;/th&gt;
+      &lt;th class=&#34;gt_col_heading gt_columns_bottom_border gt_right&#34; rowspan=&#34;1&#34; colspan=&#34;1&#34;&gt;amt&lt;/th&gt;
+      &lt;th class=&#34;gt_col_heading gt_columns_bottom_border gt_center&#34; rowspan=&#34;1&#34; colspan=&#34;1&#34;&gt;direction&lt;/th&gt;
+      &lt;th class=&#34;gt_col_heading gt_columns_bottom_border gt_right&#34; rowspan=&#34;1&#34; colspan=&#34;1&#34;&gt;start&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody class=&#34;gt_table_body&#34;&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2018.00&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;0.00000&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;4&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;NA&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;savings&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;NA&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2018.25&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;68.32398&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;8&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;68.323982&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;cost&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;0.00000&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2018.50&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;127.63250&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;12&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;59.308521&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;cost&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;68.32398&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2018.75&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;184.69237&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;16&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;57.059869&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;cost&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;127.63250&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2019.00&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;239.31935&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;20&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;54.626976&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;cost&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;184.69237&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2019.25&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;291.32919&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;24&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;52.009843&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;cost&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;239.31935&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2019.50&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;340.53766&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;28&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;49.208470&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;cost&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;291.32919&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2019.75&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;386.76052&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;32&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;46.222857&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;cost&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;340.53766&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2020.00&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;429.81352&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;36&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;43.053003&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;cost&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;386.76052&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2020.25&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;469.51243&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;40&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;39.698909&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;cost&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;429.81352&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2020.50&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;505.67300&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;44&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;36.160575&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;cost&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;469.51243&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2020.75&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;538.11100&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;48&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;32.438001&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;cost&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;505.67300&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2021.00&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;566.64219&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;52&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;28.531186&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;cost&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;538.11100&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2021.25&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;591.08232&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;56&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;24.440131&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;cost&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;566.64219&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2021.50&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;611.24716&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;60&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;20.164836&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;cost&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;591.08232&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2021.75&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;626.95246&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;64&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;15.705301&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;cost&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;611.24716&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2022.00&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;638.01399&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;68&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;11.061526&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;cost&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;626.95246&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2022.25&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;644.24750&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;72&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;6.233510&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;cost&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;638.01399&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2022.50&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;645.46875&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;76&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;1.221254&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;cost&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;644.24750&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2022.75&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;641.49351&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;80&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;-3.975242&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;savings&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;645.46875&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2023.00&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;632.13753&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;84&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;-9.355979&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;savings&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;641.49351&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2023.25&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;617.21657&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;88&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;-14.920955&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;savings&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;632.13753&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2023.50&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;596.54640&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;92&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;-20.670172&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;savings&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;617.21657&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2023.75&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;569.94277&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;96&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;-26.603629&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;savings&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;596.54640&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2024.00&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;537.22145&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;100&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;-32.721327&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;savings&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;569.94277&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2024.25&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;498.19818&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;104&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;-39.023264&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;savings&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;537.22145&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2024.50&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;452.68874&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;108&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;-45.509442&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;savings&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;498.19818&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2024.75&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;400.50888&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;112&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;-52.179861&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;savings&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;452.68874&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2025.00&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;341.47436&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;116&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;-59.034519&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;savings&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;400.50888&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2025.25&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;275.40094&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;120&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;-66.073417&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;savings&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;341.47436&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2025.50&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;202.10439&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;124&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;-73.296556&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;savings&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;275.40094&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2025.75&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;121.40045&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;128&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;-80.703935&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;savings&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;202.10439&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2026.00&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;33.10490&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;132&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;-88.295555&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;savings&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;121.40045&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2026.25&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;-62.96652&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;136&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;-96.071414&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;savings&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;33.10490&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2026.50&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;-166.99803&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;140&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;-104.031514&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;savings&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;-62.96652&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2026.75&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;-279.17389&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;144&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;-112.175854&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;savings&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;-166.99803&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;2027.00&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;-399.67832&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;148&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;-120.504434&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_center&#34;&gt;savings&lt;/td&gt;
+      &lt;td class=&#34;gt_row gt_right&#34;&gt;-279.17389&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+  
+  
+&lt;/table&gt;&lt;/div&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(d_qtr) +
+        geom_segment(aes(x = py, 
+                  xend = py, 
+                  y = start, 
+                  yend = cumamt,
+                  color = direction), 
+                  arrow = arrow(length = unit(0.15, &amp;quot;cm&amp;quot;), type = &amp;quot;closed&amp;quot;)) +
+        scale_color_manual(values = c(&amp;quot;#FF6A6A&amp;quot;, &amp;quot;#00CD66&amp;quot;)) +
+        geom_hline(yintercept = 0) +
+        scale_x_continuous(breaks = 2018:2027,
+                     sec.axis = sec_axis(~ 12*(. - 2017),
+                                         name = &amp;quot;Months into Future&amp;quot;, 
+                                         breaks = sort(c(12*(1:10), 68, 104)))) +
+        scale_y_continuous(breaks = c(-500, -250, 0, 250, 500, 647)) +
+        theme_classic() + 
+        theme(legend.position = &amp;quot;none&amp;quot;) +
+        ylab(&amp;quot;Additional Cost/(Savings) (in thousands)&amp;quot;) + 
+        xlab(&amp;quot;projection year&amp;quot;) +
+        ggtitle(&amp;quot;Projection of Future Cost: Baseline vs Alternative&amp;quot;, 
+                paste0(&amp;quot;Additional Quarterly Cost/(Savings) from switching &amp;quot;, 
+                       &amp;quot;from the baseline to alternative scenario&amp;quot;)) &lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Warning: Removed 1 rows containing missing values (geom_segment).&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2019-02-17-improving-a-bad-visualization_files/figure-html/unnamed-chunk-13-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Although the quarterly data doesn’t line up exactly with the critical points, this
+is due to approximating the data.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;final-verdict&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Final Verdict&lt;/h2&gt;
+&lt;p&gt;After going through this process, I think the either of the alternatives from
+iteration 6 would be good choices for the final version of this visualization. I
+think the quarterly data version is inferior for two reasons. First, now that
+there are so many points it really looks like a line graph, similar to what I
+created to show the polynomial fit and it feels “crowded”. Secondly, as I have
+thought more about the cash flows we’re describing in this visualization, and,
+more importantly, the consumers of the visualization, I think they might more
+naturally think of these cash flows as annual.&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

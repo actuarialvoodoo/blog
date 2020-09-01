@@ -3,36 +3,197 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>/posts/</loc>
-    <lastmod>2020-01-17T00:00:00+00:00</lastmod>
+    <loc>/courses/example/example1/</loc>
+    <lastmod>2020-08-28T00:10:32-04:00</lastmod>
   </url>
   
   <url>
-    <loc>/about/</loc>
-    <lastmod>2019-02-18T00:00:00+00:00</lastmod>
+    <loc>/courses/example/</loc>
+    <lastmod>2020-08-28T00:10:32-04:00</lastmod>
   </url>
   
   <url>
-    <loc>/posts/rstudioconf2020-agenda/</loc>
-    <lastmod>2020-01-17T00:00:00+00:00</lastmod>
+    <loc>/courses/example/example2/</loc>
+    <lastmod>2020-08-28T00:10:32-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/talk/example/</loc>
+    <lastmod>2020-08-28T00:10:32-04:00</lastmod>
   </url>
   
   <url>
     <loc>/</loc>
-    <lastmod>2020-01-17T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/posts/iterating-to-a-better-visualization/</loc>
-    <lastmod>2019-02-17T00:00:00+00:00</lastmod>
+    <lastmod>2020-08-31T00:24:33-04:00</lastmod>
   </url>
   
   <url>
     <loc>/categories/</loc>
+    <lastmod>2020-08-31T00:24:33-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tag/gt/</loc>
+    <lastmod>2020-01-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/category/r/</loc>
+    <lastmod>2020-08-31T00:24:33-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tag/rstudioconf/</loc>
+    <lastmod>2020-01-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/rstudioconf2020-agenda/rstudioconf2020-agenda/</loc>
+    <lastmod>2020-01-17T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/tags/</loc>
+    <lastmod>2020-08-31T00:24:33-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/publication-type/3/</loc>
+    <lastmod>2020-08-28T00:10:32-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/publication/preprint/</loc>
+    <lastmod>2020-08-28T00:10:32-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/authors/</loc>
+    <lastmod>2020-08-30T15:43:00-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/publication_types/</loc>
+    <lastmod>2020-08-28T00:10:32-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tag/source-themes/</loc>
+    <lastmod>2020-08-28T00:10:32-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tag/data-visualization/</loc>
+    <lastmod>2020-08-31T00:24:33-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tag/ggplot2/</loc>
+    <lastmod>2020-08-31T00:24:33-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/iterating-to-a-better-visualization/</loc>
+    <lastmod>2020-08-31T00:24:33-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/slides/</loc>
+    <lastmod>2020-08-28T00:10:32-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/slides/example/</loc>
+    <lastmod>2020-08-28T00:10:32-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/privacy/</loc>
+    <lastmod>2020-08-28T00:10:32-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/terms/</loc>
+    <lastmod>2020-08-28T00:10:32-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tag/deep-learning/</loc>
+    <lastmod>2020-08-28T00:10:32-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tag/demo/</loc>
+    <lastmod>2020-08-28T00:10:32-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/project/external-project/</loc>
+    <lastmod>2020-08-28T00:10:32-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/project/internal-project/</loc>
+    <lastmod>2020-08-28T00:10:32-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/project/</loc>
+    <lastmod>2020-08-28T00:10:32-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/publication-type/2/</loc>
+    <lastmod>2020-08-28T00:10:32-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/publication/journal-article/</loc>
+    <lastmod>2020-08-28T00:10:32-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/author/robert-ford/</loc>
+    <lastmod>2020-08-28T00:10:32-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/publication-type/1/</loc>
+    <lastmod>2020-08-28T00:10:32-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/publication/conference-paper/</loc>
+    <lastmod>2020-08-28T00:10:32-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/author/</loc>
+    <lastmod>2020-08-30T15:43:00-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/courses/</loc>
+    <lastmod>2020-08-28T00:10:32-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/</loc>
+    <lastmod>2020-08-28T00:10:32-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/publication/</loc>
+    <lastmod>2020-08-28T00:10:32-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/talk/</loc>
+    <lastmod>2020-08-28T00:10:32-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/author/%E5%90%B3%E6%81%A9%E9%81%94/</loc>
   </url>
   
 </urlset>
