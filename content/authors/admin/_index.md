@@ -10,7 +10,7 @@ I'm an actuary at Willis Towers Watson who is currently based in New York City. 
 
 Before joining Willis Tower Watson, I worked in more traditional actuarial roles at several different insurance companies. In all those previous positions I was drawn toward the more technical tasks and projects. I always enjoyed automating workflows with SQL and VBA, and I would often be sought out to help implement an algorithm from an actuarial paper in Excel/VBA.
 
-In 2014, I started a love affair with R. I blame ggplot2. There was something about the logic of [grammar of graphics](http://vita.had.co.nz/papers/layered-grammar.pdf) framework it allowed me to access that really captured my imagination. Since that time I've looked for more opportunities to use R in my work. Now, I'm passionate about shifting actuarial work out of the spreadsheet into scripted and reproducible code.
+In 2014, I really started to get excited about R. I blame ggplot2. There was something about the logic of [grammar of graphics](http://vita.had.co.nz/papers/layered-grammar.pdf) framework it allowed me to access that really captured my imagination. Since that time I've looked for more opportunities to use R in my work. Now, I'm passionate about shifting actuarial work out of the spreadsheet into scripted and reproducible code.
 
 <!-- Grew up in Texas, Texas A&M, moved to NYC 
 Although my degree from Texas A&M University is in applied mathematics, I spent my first two years as a computer science major.  
