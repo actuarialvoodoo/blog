@@ -1,0 +1,55 @@
+---
+title: My Backup Plan
+author: Ryan Thomas
+date: '2020-09-09'
+slug: my-backup-plan
+categories:
+  - Projects
+tags:
+  - Linux
+  - RaspberryPi
+  - Backup
+subtitle: ''
+summary: ''
+authors: []
+lastmod: '2020-09-09T18:01:11-04:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+## TLDR
+
+I created a new backup plan making use of a Raspberry Pi NAS; fun was had.
+
+## Motivation
+
+
+I had been hitting some snags with my backup plan for a while.
+
+## The Plan
+
+## Pi Unboxing
+
+## Pi setup
+
+### Securing the Pi
+
+### Setup External Harddrive
+
+### Samba
+
+## Client Setup
+
+### Linux
+
+### MacOS
+
+## Offsite
+
+### Rclone
+
+### Cron
