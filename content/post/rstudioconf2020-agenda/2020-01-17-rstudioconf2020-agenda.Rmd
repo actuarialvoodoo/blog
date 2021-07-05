@@ -3,7 +3,6 @@ title: Rstudioconf2020 Agenda
 author: Ryan
 date: '2020-01-17'
 slug: rstudioconf2020-agenda
-css: ["css/rstudioconf2020-agenda.css"]
 categories: ["R"]
 tags: ["Rstudio::conf", "gt"]
 ---
